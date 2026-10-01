@@ -94,7 +94,8 @@
       var meta = document.querySelector('meta[name="ga-measurement-id"]');
       if (!meta) return;
       var id = (meta.getAttribute("content") || "").trim();
-      if (!/^G-[A-Z0-9]{6,}$/.test(id)) return;             // placeholder or invalid
+      if (!id || id === "G-XXXXXXXXXX") return;             // placeholder
+      if (!/^G-[A-Z0-9]{6,}$/.test(id)) return;              // invalid format
       if (navigator.doNotTrack === "1" || window.doNotTrack === "1") return;
       var s = document.createElement("script");
       s.async = true;
