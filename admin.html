@@ -791,9 +791,11 @@
           const domain = parts.slice(1).join("@");
           el.setAttribute("data-user", user);
           el.setAttribute("data-domain", domain);
+          if (el.classList.contains("obf-email")) el.textContent = "";
           el.querySelectorAll(".obf-email").forEach((inner) => {
             inner.setAttribute("data-user", user);
             inner.setAttribute("data-domain", domain);
+            inner.textContent = "";
           });
           return;
         }

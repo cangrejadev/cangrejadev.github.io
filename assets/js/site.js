@@ -101,9 +101,10 @@
     return u + " (at) " + d.replace(/\./g, " (dot) ");
   }
   document.querySelectorAll(".obf-email").forEach(function (el) {
-    var u = el.getAttribute("data-user") || "";
-    var d = el.getAttribute("data-domain") || "";
-    if (u && d) el.textContent = obfuscateDisplay(u, d);
+    // The CSS ::before pseudo-element paints user@domain from the data
+    // attributes, so the DOM text content stays empty and the string
+    // never appears in copy, in textContent, or in find-in-page.
+    if (el.textContent.trim()) el.textContent = "";
   });
   document.querySelectorAll(".obf-email-link").forEach(function (a) {
     function build() {

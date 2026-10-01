@@ -1567,3 +1567,19 @@ main {
     padding: 5px 7px;
   }
 }
+
+
+/* Email obfuscation: the real address is rendered via CSS pseudo-elements
+   so it never lives in the DOM text, and user-select prevents copying it. */
+.obf-email {
+  -webkit-user-select: none;
+  user-select: none;
+}
+.obf-email::before {
+  content: attr(data-user) "\0040" attr(data-domain);
+}
+.obf-email::selection,
+.obf-email::-moz-selection {
+  background: transparent;
+  color: inherit;
+}
