@@ -224,13 +224,10 @@ p {
   border-radius: 12px;
 }
 .brand-icon {
-  width: 48px;
+  width: auto;
   height: 48px;
-  border-radius: 12px;
-  border: 2px solid var(--border);
-  box-shadow: 3px 3px 0 var(--shadow);
-  object-fit: cover;
-  background: var(--plum-soft);
+  max-width: 72px;
+  object-fit: contain;
   transition: transform 0.15s;
 }
 .brand:hover .brand-icon {
@@ -1407,9 +1404,9 @@ main {
   color: var(--on-plum-muted);
 }
 .footer-logo {
-  height: 52px;
+  height: 60px;
   width: auto;
-  padding: 6px 10px;
+  padding: 8px 14px;
   border-radius: 10px;
   background: #ffffff;
 }
