@@ -1648,3 +1648,37 @@ main {
 @media (max-width: 520px) {
   .wd-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ---- Hero notes: dark-mode-only fixes ---- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .note-dark {
+    color: #e6d6df;
+  }
+  :root:not([data-theme="light"]) .note-dark .note-kicker {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  :root:not([data-theme="light"]) .note-dark .note-old {
+    color: rgba(255, 255, 255, 0.45);
+  }
+  :root:not([data-theme="light"]) .note-dark .note-by {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  :root:not([data-theme="light"]) .note-code {
+    color: var(--brand-tint);
+  }
+}
+:root[data-theme="dark"] .note-dark {
+  color: #e6d6df;
+}
+:root[data-theme="dark"] .note-dark .note-kicker {
+  color: rgba(255, 255, 255, 0.55);
+}
+:root[data-theme="dark"] .note-dark .note-old {
+  color: rgba(255, 255, 255, 0.45);
+}
+:root[data-theme="dark"] .note-dark .note-by {
+  color: rgba(255, 255, 255, 0.55);
+}
+:root[data-theme="dark"] .note-code {
+  color: var(--brand-tint);
+}
