@@ -107,15 +107,19 @@
     if (el.textContent.trim()) el.textContent = "";
   });
   document.querySelectorAll(".obf-email-link").forEach(function (a) {
-    function build() {
-      if (a.dataset.resolved === "1") return;
+    // Keep href="#" permanently so "Copy link address" and the browser's
+    // status bar never expose the email. The real mailto: is opened only
+    // when the visitor clicks, via window.location.
+    a.addEventListener("click", function (ev) {
       var e = emailAt(a);
       if (!e) return;
-      a.setAttribute("href", "mailto:" + e);
-      a.dataset.resolved = "1";
-    }
-    ["mouseenter", "focus", "touchstart", "click"].forEach(function (ev) {
-      a.addEventListener(ev, build, { passive: true });
+      ev.preventDefault();
+      window.location.href = "mailto:" + e;
+    });
+    // Block the context menu on these links so right-click → copy link
+    // can't leak anything either.
+    a.addEventListener("contextmenu", function (ev) {
+      ev.preventDefault();
     });
   });
 
