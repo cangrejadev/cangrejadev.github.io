@@ -9,11 +9,11 @@
   --rule: rgba(99, 14, 83, 0.065);
   --surface: #ffffff;
   --surface-2: #f8eef3;
-  --ink: #2b0d26;
-  --border: #2b0d26;
-  --shadow: #2b0d26;
+  --ink: #33093E;
+  --border: #33093E;
+  --shadow: #33093E;
   --text: #333333;
-  --text-strong: #2b0d26;
+  --text-strong: #33093E;
   --muted: #7a6573;
   --faint: #b9a6b2;
   --line: rgba(77, 19, 63, 0.14);
@@ -22,22 +22,22 @@
   --brand-hover: #2f8a9e;
   --brand-ink: #ffffff;
   --brand-soft: #ddf1f5;
-  --brand-soft-line: #a8d8e2;
-  --brand-tint: #7fcedd;
+  --brand-soft-line: #3cabc1cc;
+  --brand-tint: #3caac1;
 
-  --plum: #4d133f;
-  --plum-2: #630e53;
+  --plum: #7D5392;
+  --plum-2: #7d539266;
   --plum-soft: #f2e3ee;
-  --plum-ink: #4d133f;
-  --on-plum: #f7eaf2;
-  --on-plum-muted: #d3b8c9;
+  --plum-ink: #7D5392;
+  --on-plum: #33093E;
+  --on-plum-muted: #33093E;
 
-  --green: #71c02d;
-  --green-soft: #e9f5dd;
-  --green-ink: #2f5a0c;
+  --green: #84ba40;
+  --green-soft: #83ba403a;
+  --green-ink: #4b6b25;
   --teal: #3caac1;
-  --teal-soft: #ddf1f5;
-  --teal-ink: #145564;
+  --teal-soft: #3cabc180;
+  --teal-ink: #225d69;
 
   --soft-shadow: 0 12px 28px rgba(77, 19, 63, 0.12);
 
@@ -521,7 +521,7 @@ p {
 /* Highlighted name: each wrapped line gets its own box */
 .hl {
   display: inline;
-  background: var(--plum);
+  background: var(--plum-2);
   color: var(--on-plum);
   padding: 0 0.14em 0.04em;
   border-radius: 6px;
@@ -574,7 +574,7 @@ p {
 
 /* Terminal / dark blocks */
 .term {
-  background: var(--plum);
+  background: var(--plum-2);
   color: var(--on-plum);
   border-radius: 14px;
   font-family: var(--f-mono);
@@ -589,7 +589,7 @@ p {
 }
 .term-line {
   font-size: 13px;
-  color: #ffffff;
+  color: #33093E;
 }
 .term-prompt {
   color: var(--green);
@@ -607,7 +607,7 @@ p {
 .stats dt {
   font-size: clamp(1.5rem, 3vw, 1.85rem);
   font-weight: 700;
-  color: var(--brand-tint);
+  color: var(--brand-ink);
   line-height: 1.1;
 }
 .stats dd {
@@ -679,8 +679,8 @@ p {
 .note-dark {
   width: 86%;
   margin-left: 8%;
-  background: var(--plum);
-  color: var(--on-plum);
+  background: var(--on-plum);
+  color: var(--plum-soft);
   transform: rotate(-1deg);
 }
 .note-kicker {
@@ -688,9 +688,9 @@ p {
   font-size: 10.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--on-plum-muted);
+  color: var(--plum-soft);
 }
-.note-kicker-pink {
+.note-kicker-blue {
   color: var(--brand-tint);
   font-weight: 700;
 }
@@ -698,7 +698,7 @@ p {
   margin-top: 6px;
   font-family: var(--f-hand);
   font-size: 1.35rem;
-  color: var(--on-plum-muted);
+  color: var(--plum-soft);
   text-decoration: line-through;
   text-decoration-color: var(--brand-tint);
 }
@@ -716,7 +716,7 @@ p {
   color: #ffffff;
 }
 .note-dark .note-by {
-  color: var(--on-plum-muted);
+  color: var(--plum-soft);
 }
 .note-chips {
   width: 62%;
@@ -728,7 +728,7 @@ p {
 .note-code {
   font-family: var(--f-mono);
   font-size: 12.5px;
-  color: var(--plum-ink);
+  color: var(--on-plum);
 }
 .chips {
   display: flex;
@@ -840,7 +840,7 @@ main {
   font-weight: 700;
   font-size: clamp(1.8rem, 3.6vw, 2.3rem);
   line-height: 1.15;
-  color: var(--plum-ink);
+  color: var(--on-plum);
 }
 :root[data-theme="dark"] .quote {
   color: var(--text-strong);
