@@ -263,6 +263,9 @@ p {
   background: var(--plum);
   color: var(--plum-soft);
 }
+:root[data-theme="dark"] .lang-switch button[aria-pressed="true"] {
+  color: var(--plum-ink);
+}
 .icon-btn {
   width: 36px;
   height: 36px;
