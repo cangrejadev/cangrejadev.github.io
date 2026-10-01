@@ -5,14 +5,14 @@
    ========================================================================== */
 
 :root {
-  --paper: #fcf8fa;
+  --paper: rgba(125, 83, 146, 0.4);
   --rule: rgba(99, 14, 83, 0.065);
   --surface: #ffffff;
   --surface-2: #f8eef3;
   --ink: #2b0d26;
   --border: #2b0d26;
   --shadow: #2b0d26;
-  --text: #3a2735;
+  --text: #333333;
   --text-strong: #2b0d26;
   --muted: #7a6573;
   --faint: #b9a6b2;
@@ -350,8 +350,8 @@ p {
   padding: 10px 22px;
   border-radius: 12px;
   border: 2px solid var(--border);
-  background: var(--surface);
-  color: var(--text-strong);
+  background: #7D5392;
+  color: #ffffff;
   font-family: var(--f-body);
   font-size: 15.5px;
   font-weight: 600;
@@ -363,28 +363,30 @@ p {
 .btn:hover {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 var(--shadow);
+  background: #6a4580;
 }
 .btn:active {
   transform: translate(3px, 3px);
   box-shadow: 1px 1px 0 var(--shadow);
 }
 .btn-primary {
-  background: #4d133f;
+  background: #4e275d;
   color: #ffffff;
 }
 .btn-primary:hover {
-  background: #630e53;
+  background: #3f1e4c;
 }
 .btn-dashed {
   border-style: dashed;
   background: transparent;
+  color: #333333;
   box-shadow: none;
   font-family: var(--f-mono);
   font-size: 14px;
   font-weight: 500;
 }
 .btn-dashed:hover {
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.55);
   box-shadow: none;
   transform: translate(0, -1px);
 }
