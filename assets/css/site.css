@@ -369,11 +369,11 @@ p {
   box-shadow: 1px 1px 0 var(--shadow);
 }
 .btn-primary {
-  background: var(--brand);
-  color: var(--brand-ink);
+  background: #4d133f;
+  color: #ffffff;
 }
 .btn-primary:hover {
-  background: var(--brand-hover);
+  background: #630e53;
 }
 .btn-dashed {
   border-style: dashed;
