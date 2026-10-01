@@ -119,29 +119,29 @@ window.addEventListener("hashchange", router);
 
 /* ----------------------------- Header ------------------------------ */
 
-function headerHtml() {
+function headerHtml(currentLabel) {
+  const label = currentLabel || "Recetario";
   return `
-  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-neutral-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-      <a href="#/" class="flex items-center gap-2 shrink-0">
-        <span class="text-2xl">🍽️</span>
-        <span class="font-bold text-lg text-neutral-800 tracking-tight">Recetario</span>
-      </a>
-      <nav class="flex items-center gap-2 sm:gap-3">
-        <a href="#/" class="hidden sm:inline text-sm font-medium text-neutral-600 hover:text-orange-600 px-2 py-1.5">Inicio</a>
-        <a href="#/agregar" class="hidden inline-flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-3.5 py-2 rounded-full shadow-sm transition">
-          <span class="text-base leading-none">+</span> Agregar receta
-        </a>
-      </nav>
-    </div>
+  <header class="rb-top">
+    <a href="../index.html" class="rb-brand" aria-label="Volver al sitio principal">
+      <img src="../assets/img/logo-az.png" alt="Alejandra Zerdá" />
+    </a>
+    <span class="rb-brand-sep">/</span>
+    <span class="rb-brand-cur">${escapeHtml(label)}</span>
+    <nav class="rb-nav">
+      <a href="#/">Inicio</a>
+      <a href="../index.html">← al portafolio</a>
+      <a href="#/agregar" class="cta hidden">+ Agregar receta</a>
+    </nav>
   </header>`;
 }
 
 function footerHtml() {
   return `
-  <footer class="mt-16 border-t border-neutral-200 bg-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 text-sm text-neutral-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Recetario — ${allRecipes().length} recetas</p>
+  <footer class="mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>${allRecipes().length} recetas · hecho con amor por Alejandra Zerdá</p>
+      <p><a href="../index.html" style="color:var(--brand);text-decoration:underline;font-family:var(--f-mono);font-size:13px">volver al portafolio ↗</a></p>
     </div>
   </footer>`;
 }
@@ -167,17 +167,19 @@ function renderHome(initial = {}) {
 
   app.innerHTML = `
     ${headerHtml()}
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
 
-      <section class="mb-10 text-center sm:text-left">
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-900">¿Qué vamos a cocinar hoy?</h1>
-        <p class="text-neutral-500 mt-1">Explora recetas por categoría o usa los filtros para encontrar justo lo que buscas.</p>
+      <section class="rb-hero mb-10">
+        <p class="rb-prompt">&lt;?php // section 1 ?&gt;</p>
+        <h1>¿Qué vamos a cocinar hoy?</h1>
+        <p class="rb-hand">lo que sea, lo hacemos rico.</p>
+        <p class="lead">Explora recetas por categoría o usa los filtros para encontrar justo lo que buscas. Hay <strong>${allRecipes().length}</strong> recetas en el libro.</p>
       </section>
 
       <section class="mb-10">
-        <div class="flex items-center justify-between mb-3">
-          <h2 class="text-lg font-bold text-neutral-800">Categoría</h2>
-          <button id="clear-cat" class="text-sm font-medium text-orange-600 hover:underline hidden">Ver todo</button>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="rb-h2">categoría</h2>
+          <button id="clear-cat" class="text-sm font-medium hidden" style="color:var(--brand);font-family:var(--f-mono)">× Ver todo</button>
         </div>
         <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
           ${categoryCards}
@@ -185,7 +187,7 @@ function renderHome(initial = {}) {
       </section>
 
       <section class="mb-6">
-        <h2 class="text-lg font-bold text-neutral-800 mb-3">Filtrar recetas</h2>
+        <h2 class="rb-h2 mb-4">filtrar recetas</h2>
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-white p-4 rounded-2xl border border-neutral-200">
           <div>
             <label class="block text-xs font-semibold text-neutral-500 mb-1">Buscar por nombre</label>
@@ -217,12 +219,12 @@ function renderHome(initial = {}) {
       </section>
 
       <section>
-        <div class="flex items-center justify-between mb-3">
-          <h2 id="results-title" class="text-lg font-bold text-neutral-800">Todas las recetas</h2>
-          <span id="results-count" class="text-sm text-neutral-400"></span>
+        <div class="flex items-center justify-between mb-4">
+          <h2 id="results-title" class="rb-h2">todas las recetas</h2>
+          <span id="results-count" class="text-sm" style="color:var(--muted);font-family:var(--f-mono)"></span>
         </div>
         <div id="recipe-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-        <p id="no-results" class="hidden text-center text-neutral-400 py-16">No encontramos recetas con esos filtros. Prueba ajustar la búsqueda.</p>
+        <p id="no-results" class="hidden text-center py-16">No encontramos recetas con esos filtros. Prueba ajustar la búsqueda.</p>
       </section>
     </main>
     ${footerHtml()}
