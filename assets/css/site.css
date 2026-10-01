@@ -592,7 +592,7 @@ p {
 }
 .term-line {
   font-size: 13px;
-  color: var(--green);
+  color: #ffffff;
 }
 .term-prompt {
   color: var(--green);
