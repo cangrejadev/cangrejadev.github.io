@@ -7967,5 +7967,32 @@
       "Cuando esté listo, en un vaso de vidrio, poner pudín de chía y 50 gramos de arándanos o fresas."
     ],
     "notes": ""
+  },
+  {
+    "id": "brownie-sin-hornear-con-frutos-rojos",
+    "title": "Brownie sin hornear con frutos rojos",
+    "icon": "",
+    "diet": [],
+    "mealTypes": [
+      "Postre"
+    ],
+    "restrictions": [],
+    "portions": "",
+    "instagramLink": "",
+    "ingredients": [
+      "2 bananas",
+      "1 cucharada de cacao en polvo",
+      "4 cucharadas de chocolate oscuro sin azúcar, derretido (puedes agregar más, siempre es buena idea)",
+      "Para el topping: fresas, frambuesas y arándanos"
+    ],
+    "steps": [
+      "Forrar un recipiente con papel film y colocar los frutos rojos (fresas, frambuesas y arándanos) en el fondo.",
+      "Procesar las bananas, el cacao y el chocolate derretido en un procesador de alimentos hasta obtener una mezcla homogénea.",
+      "Verter la mezcla sobre la fruta.",
+      "Congelar hasta que cuaje por completo.",
+      "Voltear antes de servir.",
+      "Cortar en cuadrados prolijos para servir."
+    ],
+    "notes": ""
   }
 ]
