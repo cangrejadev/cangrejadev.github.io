@@ -1345,7 +1345,7 @@ main {
 
 /* ---------- Contact ---------- */
 .callout-contact {
-  background: var(--plum);
+  background: var(--plum-2);
   border: 0;
   color: var(--on-plum);
   padding: 28px 30px;
@@ -1382,7 +1382,7 @@ main {
   margin-top: 100px;
   padding: 44px 0 52px;
   border-top: 2px solid var(--border);
-  background: var(--plum);
+  background: var(--plum-2);
   color: var(--on-plum);
 }
 .footer-quote {
@@ -1390,7 +1390,7 @@ main {
   font-weight: 700;
   font-size: clamp(1.7rem, 3.4vw, 2.3rem);
   line-height: 1.2;
-  color: var(--brand-tint);
+  color: var(on-plum);
   max-width: 28em;
 }
 .footer-row {
