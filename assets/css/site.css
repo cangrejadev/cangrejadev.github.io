@@ -1652,33 +1652,60 @@ main {
 /* ---- Hero notes: dark-mode-only fixes ---- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .note-dark {
-    color: #e6d6df;
+    color: #f3e8ef;
   }
   :root:not([data-theme="light"]) .note-dark .note-kicker {
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.82);
+  }
+  :root:not([data-theme="light"]) .note-dark .note-kicker.note-kicker-blue {
+    color: var(--brand-tint);
   }
   :root:not([data-theme="light"]) .note-dark .note-old {
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration-color: var(--brand-tint);
   }
   :root:not([data-theme="light"]) .note-dark .note-by {
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.78);
   }
   :root:not([data-theme="light"]) .note-code {
     color: var(--brand-tint);
   }
+  /* Handwriting fonts are thin — bump weight for both notes in dark mode */
+  :root:not([data-theme="light"]) .note blockquote,
+  :root:not([data-theme="light"]) .note-old,
+  :root:not([data-theme="light"]) .note-new {
+    font-weight: 600;
+  }
+  :root:not([data-theme="light"]) .note-pink {
+    background: #0f2d36;
+    border-color: rgba(94, 197, 219, 0.35);
+  }
 }
 :root[data-theme="dark"] .note-dark {
-  color: #e6d6df;
+  color: #f3e8ef;
 }
 :root[data-theme="dark"] .note-dark .note-kicker {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.82);
+}
+:root[data-theme="dark"] .note-dark .note-kicker.note-kicker-blue {
+  color: var(--brand-tint);
 }
 :root[data-theme="dark"] .note-dark .note-old {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration-color: var(--brand-tint);
 }
 :root[data-theme="dark"] .note-dark .note-by {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.78);
 }
 :root[data-theme="dark"] .note-code {
   color: var(--brand-tint);
+}
+:root[data-theme="dark"] .note blockquote,
+:root[data-theme="dark"] .note-old,
+:root[data-theme="dark"] .note-new {
+  font-weight: 600;
+}
+:root[data-theme="dark"] .note-pink {
+  background: #0f2d36;
+  border-color: rgba(94, 197, 219, 0.35);
 }
