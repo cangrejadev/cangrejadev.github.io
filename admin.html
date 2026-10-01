@@ -487,7 +487,7 @@
             <h2>Menú — Orden de los enlaces</h2>
             <p class="hint">
               Reordena (↑/↓) o edita el texto de los enlaces del menú
-              "En esta página". Cada uno sigue apuntando a su sección real del
+              del menú superior. Cada uno sigue apuntando a su sección real del
               sitio; no se pueden agregar ni quitar enlaces aquí.
             </p>
             <div id="menuNavList"></div>
@@ -559,10 +559,12 @@
               label: "Roles (etiquetas; separados por coma)",
               type: "text",
             },
-            { key: "hero-tagline", label: "Frase debajo del nombre (EN)", type: "textarea" },
-            { key: "hero-tagline-es", label: "Frase debajo del nombre (ES)", type: "textarea" },
-            { key: "hero-intro", label: "Recuadro de presentación 💡 (EN)", type: "textarea" },
-            { key: "hero-intro-es", label: "Recuadro de presentación 💡 (ES)", type: "textarea" },
+            { key: "hero-script", label: "Frase manuscrita bajo el nombre (EN)", type: "text" },
+            { key: "hero-script-es", label: "Frase manuscrita bajo el nombre (ES)", type: "text" },
+            { key: "hero-tagline", label: "Párrafo de presentación (EN)", type: "textarea" },
+            { key: "hero-tagline-es", label: "Párrafo de presentación (ES)", type: "textarea" },
+            { key: "hero-intro", label: "Recuadro 💡 de Sobre mí (EN)", type: "textarea" },
+            { key: "hero-intro-es", label: "Recuadro 💡 de Sobre mí (ES)", type: "textarea" },
             { key: "hero-cta-text", label: "Botón principal — WhatsApp (EN)", type: "text" },
             { key: "hero-cta-text-es", label: "Botón principal — WhatsApp (ES)", type: "text" },
             { key: "hero-cv-text", label: "Botón secundario (EN)", type: "text" },
@@ -699,7 +701,7 @@
           tab: "imagenes",
           title: "Marca y foto de perfil",
           fields: [
-            { key: "profile-photo", label: "Foto de perfil (ícono de la página)", type: "image" },
+            { key: "profile-photo", label: "Foto de perfil (portada y menú)", type: "image" },
             { key: "site-logo", label: "Logo (pie de página)", type: "image" },
           ],
         },

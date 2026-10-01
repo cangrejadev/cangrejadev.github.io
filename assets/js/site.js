@@ -85,7 +85,43 @@
     });
   }
 
-  /* ---------- Comma lists -> Notion tags ---------- */
+  /* ---------- Hero name: last word as a highlighted "function()" ---------- */
+  var nameEl = document.querySelector(".hero-name");
+  if (nameEl) {
+    var words = nameEl.textContent.trim().split(/\s+/);
+    var last = words.pop() || "";
+    nameEl.textContent = words.length ? words.join(" ") + " " : "";
+    var hl = document.createElement("span");
+    hl.className = "hl";
+    hl.textContent = last + "()";
+    var dot = document.createElement("span");
+    dot.className = "hl-dot";
+    dot.textContent = ".";
+    var keep = document.createElement("span");
+    keep.style.whiteSpace = "nowrap";
+    keep.appendChild(hl);
+    keep.appendChild(dot);
+    nameEl.appendChild(keep);
+  }
+
+  /* ---------- Mobile menu ---------- */
+  var menuBtn = document.getElementById("menuToggle");
+  var nav = document.getElementById("mainnav");
+  if (menuBtn && nav) {
+    menuBtn.addEventListener("click", function () {
+      var open = !nav.classList.contains("open");
+      nav.classList.toggle("open", open);
+      menuBtn.setAttribute("aria-expanded", String(open));
+    });
+    nav.addEventListener("click", function (e) {
+      if (e.target.closest("a")) {
+        nav.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  /* ---------- Comma lists -> tags ---------- */
   function tagify(el, color) {
     var items = el.textContent
       .split(",")

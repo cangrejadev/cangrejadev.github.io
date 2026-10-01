@@ -39,6 +39,7 @@
         if (theme === "dark" || theme === "light") root.setAttribute("data-theme", theme);
       })();
     </script>
+    <link rel="stylesheet" href="assets/css/fonts.css" />
     <link rel="stylesheet" href="assets/css/site.css" />
   </head>
   <body>
@@ -46,22 +47,23 @@
       <span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span>
     </a>
 
-    <!-- Top bar (Notion-style breadcrumb) -->
+    <!-- Top bar -->
     <header class="topbar">
-      <a class="crumb" href="#hero">
-        <img
-          class="crumb-icon"
-          src="assets/img/alejandra-480.jpg"
-          alt=""
-          width="20"
-          height="20"
-        />
-        <span class="crumb-text">Alejandra Zerdá</span>
-        <span class="crumb-sep">/</span>
-        <span class="crumb-page">
-          <span data-lang="en">Portfolio</span><span data-lang="es">Portafolio</span>
-        </span>
+      <a class="brand" href="#hero" aria-label="Alejandra Zerdá">
+        <img class="brand-icon" src="assets/img/alejandra-480.jpg" alt="" width="44" height="44" />
       </a>
+      <nav class="mainnav" id="mainnav" aria-label="Main">
+        <ul id="myMenu">
+          <li data-menuanchor="about"><a href="#about"><span data-lang="en">about me</span><span data-lang="es">sobre mí</span></a></li>
+          <li data-menuanchor="services"><a href="#services"><span data-lang="en">services</span><span data-lang="es">servicios</span></a></li>
+          <li data-menuanchor="process"><a href="#process"><span data-lang="en">how I work</span><span data-lang="es">cómo trabajo</span></a></li>
+          <li data-menuanchor="portfolio"><a href="#portfolio"><span data-lang="en">projects</span><span data-lang="es">proyectos</span></a></li>
+          <li data-menuanchor="resume"><a href="#resume"><span data-lang="en">experience</span><span data-lang="es">experiencia</span></a></li>
+          <li data-menuanchor="client"><a href="#testimonial"><span data-lang="en">testimonials</span><span data-lang="es">testimonios</span></a></li>
+          <li data-menuanchor="blog"><a href="#blog"><span data-lang="en">blog</span><span data-lang="es">blog</span></a></li>
+          <li data-menuanchor="contact"><a href="#contact"><span data-lang="en">contact</span><span data-lang="es">contacto</span></a></li>
+        </ul>
+      </nav>
       <div class="topbar-actions">
         <div class="lang-switch" role="group" aria-label="Language / Idioma">
           <button type="button" data-set-lang="es" aria-pressed="false">ES</button>
@@ -71,148 +73,107 @@
           <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
           <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
         </button>
-        <a class="btn btn-primary btn-sm" href="#contact">
-          <span data-lang="en">Let's talk</span><span data-lang="es">Hablemos</span>
+        <a class="btn btn-primary btn-sm topbar-cta" href="#contact">
+          ♥ <span data-lang="en">Let's talk</span><span data-lang="es">Hablemos</span>
         </a>
+        <button type="button" class="icon-btn menu-btn" id="menuToggle" aria-controls="mainnav" aria-expanded="false" aria-label="Menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
       </div>
     </header>
 
     <main id="main">
-      <!-- Cover + page icon -->
+      <!-- HERO -->
       <section id="hero" class="hero" data-menuanchor="hero">
-        <div class="cover" aria-hidden="true">
-          <div class="cover-pattern"></div>
-        </div>
-        <div class="page">
-          <img
-            class="page-icon"
-            data-edit="profile-photo"
-            data-edit-attr="src"
-            src="assets/img/alejandra-480.jpg"
-            alt="Illustrated portrait of Alejandra Zerdá"
-            width="140"
-            height="140"
-          />
-          <h1 class="page-title" data-edit="hero-name">Alejandra Zerdá</h1>
-          <p class="hero-tagline">
-            <span data-lang="en" data-edit="hero-tagline">Technology that transforms lives — I turn ideas into high-impact digital projects.</span><span data-lang="es" data-edit="hero-tagline-es">Impulsando tecnología que transforma vidas: haré que tu proyecto digital cobre vida y genere impacto.</span>
-          </p>
+        <div class="page hero-grid">
+          <div class="hero-main">
+            <p class="nb-bar">
+              <span class="nb-file">alejandra_zerda.ipynb</span>
+              <span class="nb-kernel"><i aria-hidden="true"></i> kernel: project-manager — <span data-lang="en">active</span><span data-lang="es">activo</span></span>
+            </p>
+            <p class="prompt">In [1]:</p>
+            <h1 class="hero-title">
+              <span class="hero-hello"><span data-lang="en">Hi, I'm</span><span data-lang="es">Hola, soy</span></span>
+              <span class="hero-name" data-edit="hero-name">Alejandra Zerdá</span>
+            </h1>
+            <p class="hero-script">
+              <span data-lang="en" data-edit="hero-script">I turn chaos into order.</span><span data-lang="es" data-edit="hero-script-es">Convierto el caos en orden.</span>
+            </p>
+            <p class="hero-tagline">
+              <span data-lang="en" data-edit="hero-tagline">Technical Project &amp; Program Manager with 10+ years leading digital transformation in Latin America. I connect strategy, tech teams and stakeholders so ideas become solutions that work, grow and create impact.</span><span data-lang="es" data-edit="hero-tagline-es">Project &amp; Program Manager técnica con más de 10 años liderando transformación digital en Latinoamérica. Conecto estrategia, equipos técnicos y stakeholders para que las ideas se conviertan en soluciones que funcionan, crecen y generan impacto.</span>
+            </p>
+            <p
+              class="roles"
+              data-edit="hero-roles"
+              data-edit-attr="data-elements"
+              data-elements="Technical Project Manager.,Program Manager.,Scrum Master."
+            ></p>
 
-          <!-- Notion-style properties -->
-          <dl class="props">
-            <div class="prop">
-              <dt>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v12H4zM9 7V5h6v2" /></svg>
-                <span data-lang="en">Role</span><span data-lang="es">Rol</span>
-              </dt>
-              <dd>
-                <span
-                  class="roles"
-                  data-edit="hero-roles"
-                  data-edit-attr="data-elements"
-                  data-elements="Technical Project Manager.,Program Manager.,Scrum Master."
-                ></span>
-              </dd>
+            <div class="hero-actions">
+              <a
+                class="btn btn-primary"
+                href="https://wa.link/3dhasn"
+                target="_blank"
+                rel="noopener"
+                data-edit="contact-whatsapp-href"
+                data-edit-attr="href"
+              >
+                <span aria-hidden="true">♥</span>
+                <span data-lang="en" data-edit="hero-cta-text">Let's talk about your project</span><span data-lang="es" data-edit="hero-cta-text-es">Conversemos sobre tu proyecto</span>
+              </a>
+              <a
+                class="btn btn-dashed"
+                href="https://www.linkedin.com/in/alejandrazerda/"
+                target="_blank"
+                rel="noopener"
+                data-edit="hero-cv-href"
+                data-edit-attr="href"
+              >
+                <span data-lang="en" data-edit="hero-cv-text">view --linkedin</span><span data-lang="es" data-edit="hero-cv-text-es">ver --linkedin</span>
+              </a>
             </div>
-            <div class="prop">
-              <dt>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
-                <span data-lang="en">Location</span><span data-lang="es">Ubicación</span>
-              </dt>
-              <dd>
-                <span data-lang="en" data-edit="about-city">Colombia · Remote</span><span data-lang="es" data-edit="about-city-es">Colombia · Remoto</span>
-              </dd>
-            </div>
-            <div class="prop">
-              <dt>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
-                <span data-lang="en">Availability</span><span data-lang="es">Disponibilidad</span>
-              </dt>
-              <dd>
-                <span class="tag tag-green">
-                  <span data-lang="en" data-edit="about-freelance">Open to projects</span><span data-lang="es" data-edit="about-freelance-es">Disponible para proyectos</span>
-                </span>
-              </dd>
-            </div>
-            <div class="prop">
-              <dt>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z" /><path d="m4 7 8 6 8-6" /></svg>
-                Email
-              </dt>
-              <dd>
-                <a
-                  class="link"
-                  href="mailto:aleja533@gmail.com"
-                  data-edit="about-hire-email"
-                  data-edit-attr="href"
-                  data-edit-prefix="mailto:"
-                ><span data-edit="about-email">aleja533@gmail.com</span></a>
-              </dd>
-            </div>
-            <div class="prop">
-              <dt>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
-                <span data-lang="en">Website</span><span data-lang="es">Sitio web</span>
-              </dt>
-              <dd>
-                <a
-                  class="link"
-                  href="https://alejandrazerda.com/"
-                  target="_blank"
-                  rel="noopener"
-                  data-edit="about-website-href"
-                  data-edit-attr="href"
-                ><span data-edit="about-website">alejandrazerda.com</span></a>
-              </dd>
-            </div>
-          </dl>
 
-          <div class="hero-actions">
-            <a
-              class="btn btn-primary"
-              href="https://wa.link/3dhasn"
-              target="_blank"
-              rel="noopener"
-              data-edit="contact-whatsapp-href"
-              data-edit-attr="href"
-            >
-              <span data-lang="en" data-edit="hero-cta-text">Let's talk about your project</span><span data-lang="es" data-edit="hero-cta-text-es">Conversemos sobre tu proyecto</span>
-            </a>
-            <a
-              class="btn"
-              href="https://www.linkedin.com/in/alejandrazerda/"
-              target="_blank"
-              rel="noopener"
-              data-edit="hero-cv-href"
-              data-edit-attr="href"
-            >
-              <span data-lang="en" data-edit="hero-cv-text">View my LinkedIn</span><span data-lang="es" data-edit="hero-cv-text-es">Ver mi LinkedIn</span>
-            </a>
+            <div class="term stats">
+              <p class="term-line"><span class="term-prompt">&gt;&gt;&gt;</span> alejandra.describe()</p>
+              <dl>
+                <div><dt>10+</dt><dd><span data-lang="en">years of experience</span><span data-lang="es">años de experiencia</span></dd></div>
+                <div><dt>10+</dt><dd><span data-lang="en">projects delivered</span><span data-lang="es">proyectos entregados</span></dd></div>
+                <div><dt>8</dt><dd><span data-lang="en">startups mentored</span><span data-lang="es">startups mentoreadas</span></dd></div>
+              </dl>
+            </div>
           </div>
 
-          <div class="callout">
-            <span class="callout-icon" aria-hidden="true">💡</span>
-            <p>
-              <span data-lang="en" data-edit="hero-intro">I love bringing projects to life that make a difference. I connect strategic vision and technical knowledge to turn ideas into digital solutions that work, grow and create impact — coordinating teams and resources so every delivery exceeds expectations, with real value and measurable results from day one.</span><span data-lang="es" data-edit="hero-intro-es">Me apasiona dar vida a proyectos que marcan la diferencia. Conecto visión estratégica y conocimiento técnico para convertir ideas en soluciones digitales que funcionan, crecen y generan impacto. Coordino equipos y recursos para que cada entrega supere expectativas, aportando valor real y resultados medibles desde el primer día.</span>
-            </p>
+          <div class="hero-side" aria-label="Highlights">
+            <figure class="polaroid">
+              <img
+                data-edit="profile-photo"
+                data-edit-attr="src"
+                src="assets/img/alejandra-480.jpg"
+                alt="Illustrated portrait of Alejandra Zerdá"
+                width="200"
+                height="200"
+              />
+              <figcaption><span data-lang="en">hi there! 👋</span><span data-lang="es">¡hola! 👋</span></figcaption>
+            </figure>
+            <span class="sparkle sparkle-1" aria-hidden="true"></span>
+            <figure class="note note-pink">
+              <blockquote>“strong communication, attention to detail, and a deep understanding of both the technical and business sides”</blockquote>
+              <figcaption>— Diego Caro, Product Owner</figcaption>
+            </figure>
+            <div class="note note-dark">
+              <p class="note-kicker"><span data-lang="en">Before — the backlog I inherited</span><span data-lang="es">Antes — el backlog que recibí</span></p>
+              <p class="note-old"><span data-lang="en">“100+ ambiguous tasks”</span><span data-lang="es">“100+ tareas ambiguas”</span></p>
+              <p class="note-arrow" aria-hidden="true">↓</p>
+              <p class="note-kicker note-kicker-pink"><span data-lang="en">Now</span><span data-lang="es">Ahora</span></p>
+              <p class="note-new"><span data-lang="en">“30 clear, prioritized items”</span><span data-lang="es">“30 ítems claros y priorizados”</span></p>
+              <p class="note-by">— UNICEF Colombia</p>
+            </div>
+            <span class="sparkle sparkle-2" aria-hidden="true"></span>
+            <div class="note note-chips">
+              <p class="note-code">skills.append()</p>
+              <p class="chips"><span>Scrum</span><span>Jira</span><span>GitLab</span><span>n8n</span><span>AI</span></p>
+            </div>
           </div>
-
-          <!-- Table of contents (floats to the right on wide screens) -->
-          <nav class="toc" aria-label="Table of contents">
-            <p class="toc-title">
-              <span data-lang="en">On this page</span><span data-lang="es">En esta página</span>
-            </p>
-            <ul id="myMenu">
-              <li data-menuanchor="about"><a href="#about"><span data-lang="en">About me</span><span data-lang="es">Sobre mí</span></a></li>
-              <li data-menuanchor="services"><a href="#services"><span data-lang="en">Services</span><span data-lang="es">Servicios</span></a></li>
-              <li data-menuanchor="process"><a href="#process"><span data-lang="en">How I work</span><span data-lang="es">Cómo trabajo</span></a></li>
-              <li data-menuanchor="portfolio"><a href="#portfolio"><span data-lang="en">Projects</span><span data-lang="es">Proyectos</span></a></li>
-              <li data-menuanchor="resume"><a href="#resume"><span data-lang="en">Experience</span><span data-lang="es">Experiencia</span></a></li>
-              <li data-menuanchor="client"><a href="#testimonial"><span data-lang="en">Testimonials</span><span data-lang="es">Testimonios</span></a></li>
-              <li data-menuanchor="blog"><a href="#blog"><span data-lang="en">Blog</span><span data-lang="es">Blog</span></a></li>
-              <li data-menuanchor="contact"><a href="#contact"><span data-lang="en">Contact</span><span data-lang="es">Contacto</span></a></li>
-            </ul>
-          </nav>
         </div>
       </section>
 
@@ -222,6 +183,12 @@
           <h2>
             <span data-lang="en" data-edit="section-about">About me</span><span data-lang="es" data-edit="section-about-es">Conóceme un poco más</span>
           </h2>
+          <div class="callout">
+            <span class="callout-icon" aria-hidden="true">💡</span>
+            <p>
+              <span data-lang="en" data-edit="hero-intro">I love bringing projects to life that make a difference. I connect strategic vision and technical knowledge to turn ideas into digital solutions that work, grow and create impact — coordinating teams and resources so every delivery exceeds expectations, with real value and measurable results from day one.</span><span data-lang="es" data-edit="hero-intro-es">Me apasiona dar vida a proyectos que marcan la diferencia. Conecto visión estratégica y conocimiento técnico para convertir ideas en soluciones digitales que funcionan, crecen y generan impacto. Coordino equipos y recursos para que cada entrega supere expectativas, aportando valor real y resultados medibles desde el primer día.</span>
+            </p>
+          </div>
           <blockquote class="quote">
             <span data-lang="en" data-edit="about-quote">I turn ideas into high-impact digital projects.</span><span data-lang="es" data-edit="about-quote-es">Transformo ideas en proyectos digitales de alto impacto.</span>
           </blockquote>
@@ -234,6 +201,22 @@
                 <span data-lang="en">Quick facts</span><span data-lang="es">Datos rápidos</span>
               </h3>
               <dl class="props props-compact">
+                <div class="prop">
+                  <dt><span data-lang="en">Location</span><span data-lang="es">Ubicación</span></dt>
+                  <dd><span data-lang="en" data-edit="about-city">Colombia · Remote</span><span data-lang="es" data-edit="about-city-es">Colombia · Remoto</span></dd>
+                </div>
+                <div class="prop">
+                  <dt><span data-lang="en">Availability</span><span data-lang="es">Disponibilidad</span></dt>
+                  <dd><span class="tag tag-green"><span data-lang="en" data-edit="about-freelance">Open to projects</span><span data-lang="es" data-edit="about-freelance-es">Disponible para proyectos</span></span></dd>
+                </div>
+                <div class="prop">
+                  <dt>Email</dt>
+                  <dd><a class="link" href="mailto:aleja533@gmail.com" data-edit="about-hire-email" data-edit-attr="href" data-edit-prefix="mailto:"><span data-edit="about-email">aleja533@gmail.com</span></a></dd>
+                </div>
+                <div class="prop">
+                  <dt><span data-lang="en">Website</span><span data-lang="es">Sitio web</span></dt>
+                  <dd><a class="link" href="https://alejandrazerda.com/" target="_blank" rel="noopener" data-edit="about-website-href" data-edit-attr="href"><span data-edit="about-website">alejandrazerda.com</span></a></dd>
+                </div>
                 <div class="prop">
                   <dt><span data-lang="en">Focus</span><span data-lang="es">Enfoque</span></dt>
                   <dd><strong data-edit="about-role-bold">Project</strong> <span data-edit="about-role-rest">& Program Manager</span></dd>
