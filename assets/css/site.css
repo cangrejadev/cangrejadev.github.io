@@ -51,18 +51,17 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+:root[data-theme="dark"] {
     --paper: #1a1118;
     --rule: rgba(255, 255, 255, 0.035);
     --surface: #241820;
-    --surface-2: #2e1d29;
+    --surface-2: #6b4a61;
     --ink: #f3e6ee;
     --border: #6b4a61;
     --shadow: #000000;
     --text: #e6d6df;
     --text-strong: #fbf1f6;
-    --muted: #ac96a3;
+    --muted: #e9c4dd;
     --faint: #6f5a67;
     --line: rgba(255, 255, 255, 0.1);
     --brand: #5ec5db;
@@ -74,41 +73,13 @@
     --plum: #2f0e28;
     --plum-soft: #3a2033;
     --plum-ink: #e9c4dd;
+    --plum-2: #6b4a61;
+    --on-plum: #e9c4dd;
     --green-soft: #22331a;
     --green-ink: #b6e38a;
     --teal-soft: #15313a;
     --teal-ink: #9adbea;
     --soft-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #1a1118;
-  --rule: rgba(255, 255, 255, 0.035);
-  --surface: #241820;
-  --surface-2: #2e1d29;
-  --ink: #f3e6ee;
-  --border: #6b4a61;
-  --shadow: #000000;
-  --text: #e6d6df;
-  --text-strong: #fbf1f6;
-  --muted: #ac96a3;
-  --faint: #6f5a67;
-  --line: rgba(255, 255, 255, 0.1);
-  --brand: #5ec5db;
-  --brand-hover: #78d1e4;
-  --brand-ink: #0e2b31;
-  --brand-soft: #153842;
-  --brand-soft-line: #2a5a68;
-  --brand-tint: #8cd9e8;
-  --plum: #2f0e28;
-  --plum-soft: #3a2033;
-  --plum-ink: #e9c4dd;
-  --green-soft: #22331a;
-  --green-ink: #b6e38a;
-  --teal-soft: #15313a;
-  --teal-ink: #9adbea;
-  --soft-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
   color-scheme: dark;
 }
 
@@ -290,7 +261,7 @@ p {
 }
 .lang-switch button[aria-pressed="true"] {
   background: var(--plum);
-  color: var(--on-plum);
+  color: var(--plum-soft);
 }
 .icon-btn {
   width: 36px;
@@ -367,11 +338,11 @@ p {
   box-shadow: 1px 1px 0 var(--shadow);
 }
 .btn-primary {
-  background: #4e275d;
+  background: var(--plum);
   color: #ffffff;
 }
 .btn-primary:hover {
-  background: #3f1e4c;
+  background: var(--plum-ink);
 }
 .btn-dashed {
   border-style: dashed;
@@ -381,6 +352,9 @@ p {
   font-family: var(--f-mono);
   font-size: 14px;
   font-weight: 500;
+}
+:root[data-theme="dark"] .btn-dashed{
+  color: #fff;
 }
 .btn-dashed:hover {
   background: rgba(255, 255, 255, 0.55);
@@ -591,6 +565,9 @@ p {
   font-size: 13px;
   color: #33093E;
 }
+:root[data-theme="dark"] .term-line{
+  color: var(--text-strong);
+}
 .term-prompt {
   color: var(--green);
   margin-right: 4px;
@@ -610,13 +587,19 @@ p {
   color: var(--brand-ink);
   line-height: 1.1;
 }
+:root[data-theme="dark"] .stats dt {
+  color: #fff;
+}
+
 .stats dd {
   margin: 6px 0 0;
   font-size: 11.5px;
   line-height: 1.35;
   color: var(--on-plum-muted);
 }
-
+:root[data-theme="dark"] dd{
+  color: var(--ink);
+}
 /* Hero side: sticky notes */
 .hero-side {
   position: relative;
@@ -1651,32 +1634,32 @@ main {
 
 /* ---- Hero notes: dark-mode-only fixes ---- */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .note-dark {
+  :root:not([data-theme="dark"]) .note-dark {
     color: #f3e8ef;
   }
-  :root:not([data-theme="light"]) .note-dark .note-kicker {
+  :root:not([data-theme="dark"]) .note-dark .note-kicker {
     color: rgba(255, 255, 255, 0.82);
   }
-  :root:not([data-theme="light"]) .note-dark .note-kicker.note-kicker-blue {
+  :root:not([data-theme="dark"]) .note-dark .note-kicker.note-kicker-blue {
     color: var(--brand-tint);
   }
-  :root:not([data-theme="light"]) .note-dark .note-old {
+  :root:not([data-theme="dark"]) .note-dark .note-old {
     color: rgba(255, 255, 255, 0.72);
     text-decoration-color: var(--brand-tint);
   }
-  :root:not([data-theme="light"]) .note-dark .note-by {
+  :root:not([data-theme="dark"]) .note-dark .note-by {
     color: rgba(255, 255, 255, 0.78);
   }
-  :root:not([data-theme="light"]) .note-code {
+  :root:not([data-theme="dark"]) .note-code {
     color: var(--brand-tint);
   }
   /* Handwriting fonts are thin — bump weight for both notes in dark mode */
-  :root:not([data-theme="light"]) .note blockquote,
-  :root:not([data-theme="light"]) .note-old,
-  :root:not([data-theme="light"]) .note-new {
+  :root:not([data-theme="dark"]) .note blockquote,
+  :root:not([data-theme="dark"]) .note-old,
+  :root:not([data-theme="dark"]) .note-new {
     font-weight: 600;
   }
-  :root:not([data-theme="light"]) .note-pink {
+  :root:not([data-theme="dark"]) .note-pink {
     background: #0f2d36;
     border-color: rgba(94, 197, 219, 0.35);
   }
