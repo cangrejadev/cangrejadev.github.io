@@ -776,7 +776,7 @@ main {
   margin-bottom: 22px;
 }
 .block-section > h2::before {
-  content: "In [" counter(cell) "]:";
+  content: "<?php // section " counter(cell) " ?>";
   display: block;
   margin-bottom: 10px;
   font-family: var(--f-mono);
@@ -1063,10 +1063,10 @@ main {
   color: var(--on-plum);
 }
 .step-num::before {
-  content: "step_";
+  content: "$step_";
 }
 .step-num::after {
-  content: "()";
+  content: ";";
 }
 .steps h3 {
   font-size: 1.25rem;
