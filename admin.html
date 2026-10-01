@@ -366,7 +366,6 @@
           <button type="button" class="tab-btn" data-tab="experience">Experience</button>
           <button type="button" class="tab-btn" data-tab="estudios">Estudios</button>
           <button type="button" class="tab-btn" data-tab="services">Servicios</button>
-          <button type="button" class="tab-btn" data-tab="process">Cómo trabajo</button>
           <button type="button" class="tab-btn" data-tab="portfolio">Portfolio</button>
           <button type="button" class="tab-btn" data-tab="testimonial">Testimonios</button>
           <button type="button" class="tab-btn" data-tab="blog">Blog</button>
@@ -386,7 +385,6 @@
             </div>
           </div>
           <div id="tab-about" class="tab-panel" data-tab-panel="about" hidden></div>
-          <div id="tab-process" class="tab-panel" data-tab-panel="process" hidden></div>
           <div id="tab-contact" class="tab-panel" data-tab-panel="contact" hidden></div>
           <div id="tab-menu" class="tab-panel" data-tab-panel="menu" hidden></div>
           <div id="tab-titulos" class="tab-panel" data-tab-panel="titulos" hidden></div>
@@ -398,8 +396,8 @@
             <h2>Experience</h2>
             <p class="hint">
               Agrega, edita, elimina o reordena (↑/↓) puestos de trabajo.
-              Corresponden a la tabla "Experiencia" del sitio. Si dejas la
-              descripción vacía, la fila se muestra sin desplegable.
+              Corresponden a la columna "Experience" del sitio (dentro de
+              Resume).
             </p>
             <div id="experienceList"></div>
             <button type="button" class="btn-secondary" id="btnAddExperience" disabled>
@@ -413,8 +411,8 @@
             <h2>Estudios</h2>
             <p class="hint">
               Agrega, edita, elimina o reordena (↑/↓) cursos, títulos o
-              certificaciones. Corresponden a "Formación y certificaciones"
-              del sitio.
+              certificaciones. Corresponden a la columna "Education" del
+              sitio (dentro de Resume).
             </p>
             <div id="educationList"></div>
             <button type="button" class="btn-secondary" id="btnAddEducation" disabled>
@@ -428,8 +426,7 @@
             <h2>Servicios</h2>
             <p class="hint">
               Agrega, edita, elimina o reordena (↑/↓) los servicios que se
-              muestran en la sección "Servicios". Cada texto tiene versión en
-              inglés (EN) y en español (ES).
+              muestran en la sección "My Services".
             </p>
             <div id="servicesList"></div>
             <button type="button" class="btn-secondary" id="btnAddServices" disabled>
@@ -445,7 +442,7 @@
               Agrega, edita, elimina o reordena (↑/↓) proyectos del
               portafolio. La categoría controla los filtros del sitio: usa
               una o más de estas palabras separadas por espacio —
-              delivery, public, ai, community.
+              webdesign, mobiledesign, seo, graphic.
             </p>
             <div id="portfolioList"></div>
             <button type="button" class="btn-secondary" id="btnAddPortfolio" disabled>
@@ -487,7 +484,7 @@
             <h2>Menú — Orden de los enlaces</h2>
             <p class="hint">
               Reordena (↑/↓) o edita el texto de los enlaces del menú
-              del menú superior. Cada uno sigue apuntando a su sección real del
+              desplegable. Cada uno sigue apuntando a su sección real del
               sitio; no se pueden agregar ni quitar enlaces aquí.
             </p>
             <div id="menuNavList"></div>
@@ -541,7 +538,7 @@
     </div>
 
     <script>
-      const DRAFT_KEY = "site-admin-draft-v3";
+      const DRAFT_KEY = "site-admin-draft-v2";
       const GH_SETTINGS_KEY = "site-admin-gh-settings-v1";
 
       // Human-friendly grouping/labels for known fields, grouped by which
@@ -551,27 +548,23 @@
       const GROUPS = [
         {
           tab: "hero",
-          title: "Portada",
+          title: "Portada (Hero)",
           fields: [
             { key: "hero-name", label: "Nombre mostrado", type: "text" },
             {
               key: "hero-roles",
-              label: "Roles (etiquetas; separados por coma)",
+              label: "Roles animados (separados por coma, cada uno termina en punto)",
               type: "text",
             },
-            { key: "hero-script", label: "Frase manuscrita bajo el nombre (EN)", type: "text" },
-            { key: "hero-script-es", label: "Frase manuscrita bajo el nombre (ES)", type: "text" },
-            { key: "hero-tagline", label: "Párrafo de presentación (EN)", type: "textarea" },
-            { key: "hero-tagline-es", label: "Párrafo de presentación (ES)", type: "textarea" },
-            { key: "hero-intro", label: "Recuadro 💡 de Sobre mí (EN)", type: "textarea" },
-            { key: "hero-intro-es", label: "Recuadro 💡 de Sobre mí (ES)", type: "textarea" },
-            { key: "hero-cta-text", label: "Botón principal — WhatsApp (EN)", type: "text" },
-            { key: "hero-cta-text-es", label: "Botón principal — WhatsApp (ES)", type: "text" },
-            { key: "hero-cv-text", label: "Botón secundario (EN)", type: "text" },
-            { key: "hero-cv-text-es", label: "Botón secundario (ES)", type: "text" },
+            {
+              key: "hero-tagline",
+              label: "Frase debajo del nombre (una línea por renglón)",
+              type: "textarea",
+            },
+            { key: "hero-cv-text", label: "Texto del botón \"Download Cv\"", type: "text" },
             {
               key: "hero-cv-href",
-              label: "Enlace del botón secundario (LinkedIn, CV en PDF…)",
+              label: "Enlace del botón \"Download Cv\" (URL del CV o página)",
               type: "link",
             },
           ],
@@ -580,129 +573,109 @@
           tab: "about",
           title: "Sobre mí",
           fields: [
-            { key: "about-quote", label: "Cita destacada (EN)", type: "text" },
-            { key: "about-quote-es", label: "Cita destacada (ES)", type: "text" },
-            { key: "about-bio", label: "Biografía (EN; deja una línea en blanco entre párrafos)", type: "textarea" },
-            { key: "about-bio-es", label: "Biografía (ES; deja una línea en blanco entre párrafos)", type: "textarea" },
-            { key: "about-community", label: "Recuadro de comunidad 🌎 (EN)", type: "textarea" },
-            { key: "about-community-es", label: "Recuadro de comunidad 🌎 (ES)", type: "textarea" },
-            { key: "about-role-bold", label: "Enfoque — primera palabra (resaltada)", type: "text" },
-            { key: "about-role-rest", label: "Enfoque — resto del texto", type: "text" },
-            { key: "about-degree", label: "Título académico (EN)", type: "text" },
-            { key: "about-degree-es", label: "Título académico (ES)", type: "text" },
-            { key: "about-specialization", label: "Especialización (EN)", type: "text" },
-            { key: "about-specialization-es", label: "Especialización (ES)", type: "text" },
-            { key: "about-cv-text", label: "Botón de hoja de vida (EN)", type: "text" },
-            { key: "about-cv-text-es", label: "Botón de hoja de vida (ES)", type: "text" },
-            { key: "about-linkedin-href", label: "Enlace del botón de hoja de vida", type: "link" },
-          ],
-        },
-        {
-          tab: "about",
-          title: "Propiedades de la portada",
-          fields: [
-            { key: "about-city", label: "Ubicación (EN)", type: "text" },
-            { key: "about-city-es", label: "Ubicación (ES)", type: "text" },
-            { key: "about-freelance", label: "Disponibilidad (EN)", type: "text" },
-            { key: "about-freelance-es", label: "Disponibilidad (ES)", type: "text" },
-            { key: "about-email", label: "Correo mostrado", type: "text" },
-            { key: "about-hire-email", label: "Correo de los botones de contacto", type: "text" },
+            { key: "about-role-bold", label: "Rol — primera palabra (resaltada)", type: "text" },
+            { key: "about-role-rest", label: "Rol — resto del texto", type: "text" },
             { key: "about-website", label: "Sitio web (texto mostrado)", type: "text" },
-            { key: "about-website-href", label: "Sitio web (enlace real)", type: "link" },
-          ],
-        },
-        {
-          tab: "process",
-          title: "Cómo trabajo",
-          fields: [
-            { key: "process-intro", label: "Introducción (EN)", type: "textarea" },
-            { key: "process-intro-es", label: "Introducción (ES)", type: "textarea" },
-            { key: "process-1-title", label: "Paso 1 — título (EN)", type: "text" },
-            { key: "process-1-title-es", label: "Paso 1 — título (ES)", type: "text" },
-            { key: "process-1-text", label: "Paso 1 — texto (EN)", type: "textarea" },
-            { key: "process-1-text-es", label: "Paso 1 — texto (ES)", type: "textarea" },
-            { key: "process-2-title", label: "Paso 2 — título (EN)", type: "text" },
-            { key: "process-2-title-es", label: "Paso 2 — título (ES)", type: "text" },
-            { key: "process-2-text", label: "Paso 2 — texto (EN)", type: "textarea" },
-            { key: "process-2-text-es", label: "Paso 2 — texto (ES)", type: "textarea" },
-            { key: "process-3-title", label: "Paso 3 — título (EN)", type: "text" },
-            { key: "process-3-title-es", label: "Paso 3 — título (ES)", type: "text" },
-            { key: "process-3-text", label: "Paso 3 — texto (EN)", type: "textarea" },
-            { key: "process-3-text-es", label: "Paso 3 — texto (ES)", type: "textarea" },
-            { key: "process-4-title", label: "Paso 4 — título (EN)", type: "text" },
-            { key: "process-4-title-es", label: "Paso 4 — título (ES)", type: "text" },
-            { key: "process-4-text", label: "Paso 4 — texto (EN)", type: "textarea" },
-            { key: "process-4-text-es", label: "Paso 4 — texto (ES)", type: "textarea" },
+            {
+              key: "about-website-href",
+              label: "Sitio web (enlace real)",
+              type: "link",
+            },
+            { key: "about-email", label: "Correo (Sobre mí)", type: "text" },
+            { key: "about-city", label: "Ciudad", type: "text" },
+            { key: "about-degree", label: "Título académico", type: "text" },
+            { key: "about-specialization", label: "Especialización", type: "text" },
+            { key: "about-freelance", label: "Disponibilidad freelance", type: "text" },
+            { key: "about-cv-text", label: "Texto del botón \"Download Cv\"", type: "text" },
+            {
+              key: "about-linkedin-href",
+              label: "Enlace del botón \"Download Cv\"",
+              type: "link",
+            },
+            { key: "about-hire-email", label: "Correo del botón \"Hire Me\"", type: "text" },
           ],
         },
         {
           tab: "contact",
           title: "Contacto",
           fields: [
-            { key: "contact-intro", label: "Texto de invitación (EN)", type: "textarea" },
-            { key: "contact-intro-es", label: "Texto de invitación (ES)", type: "textarea" },
-            { key: "contact-email", label: "Correo mostrado", type: "text" },
             { key: "contact-phone", label: "Teléfono", type: "text" },
-            { key: "contact-location", label: "Ubicación (EN)", type: "text" },
-            { key: "contact-location-es", label: "Ubicación (ES)", type: "text" },
-            { key: "contact-whatsapp-href", label: "Enlace de WhatsApp", type: "link" },
-            { key: "contact-calendar-href", label: "Enlace para agendar llamada", type: "link" },
+            { key: "contact-location", label: "Ubicación", type: "text" },
+            { key: "contact-email", label: "Correo de contacto", type: "text" },
           ],
         },
         {
           tab: "contact",
           title: "Pie de página",
           fields: [
-            { key: "footer-quote", label: "Frase final (EN)", type: "text" },
-            { key: "footer-quote-es", label: "Frase final (ES)", type: "text" },
             { key: "footer-copyright", label: "Texto de copyright", type: "text" },
           ],
         },
         {
           tab: "menu",
-          title: "Redes sociales",
+          title: "Menú desplegable — Contact Info",
           fields: [
-            { key: "menu-social-linkedin", label: "LinkedIn", type: "link" },
+            { key: "menu-address", label: "Dirección", type: "text" },
+            { key: "menu-phone", label: "Teléfono", type: "text" },
+            { key: "menu-email", label: "Correo", type: "text" },
+          ],
+        },
+        {
+          tab: "menu",
+          title: "Menú desplegable — Redes sociales",
+          fields: [
+            { key: "menu-social-facebook", label: "Facebook", type: "link" },
+            { key: "menu-social-twitter", label: "Twitter", type: "link" },
             { key: "menu-social-github", label: "GitHub", type: "link" },
-            { key: "menu-social-twitter", label: "X / Twitter", type: "link" },
+            { key: "menu-social-linkedin", label: "LinkedIn", type: "link" },
           ],
         },
         {
           tab: "titulos",
           title: "Títulos de sección",
           fields: [
-            { key: "section-about", label: "Sobre mí (EN)", type: "text" },
-            { key: "section-about-es", label: "Sobre mí (ES)", type: "text" },
-            { key: "section-services", label: "Servicios (EN)", type: "text" },
-            { key: "section-services-es", label: "Servicios (ES)", type: "text" },
-            { key: "section-process", label: "Cómo trabajo (EN)", type: "text" },
-            { key: "section-process-es", label: "Cómo trabajo (ES)", type: "text" },
-            { key: "section-portfolio", label: "Proyectos (EN)", type: "text" },
-            { key: "section-portfolio-es", label: "Proyectos (ES)", type: "text" },
-            { key: "section-resume", label: "Experiencia (EN)", type: "text" },
-            { key: "section-resume-es", label: "Experiencia (ES)", type: "text" },
-            { key: "section-testimonial", label: "Testimonios (EN)", type: "text" },
-            { key: "section-testimonial-es", label: "Testimonios (ES)", type: "text" },
-            { key: "section-blog", label: "Blog (EN)", type: "text" },
-            { key: "section-blog-es", label: "Blog (ES)", type: "text" },
-            { key: "section-contact", label: "Contacto (EN)", type: "text" },
-            { key: "section-contact-es", label: "Contacto (ES)", type: "text" },
-          ],
-        },
-        {
-          tab: "titulos",
-          title: "Textos introductorios",
-          fields: [
-            { key: "services-intro", label: "Introducción de servicios (EN)", type: "textarea" },
-            { key: "services-intro-es", label: "Introducción de servicios (ES)", type: "textarea" },
+            { key: "section-about", label: "Sección \"About Me\"", type: "text" },
+            { key: "section-resume", label: "Sección \"My Resume\" (Experience + Estudios)", type: "text" },
+            { key: "section-services", label: "Sección \"My Services\"", type: "text" },
+            { key: "section-portfolio", label: "Sección \"My Work\" (Portfolio)", type: "text" },
+            { key: "section-testimonial", label: "Sección \"Client Says\" (Testimonios)", type: "text" },
+            { key: "section-blog", label: "Sección \"News Post\" (Blog)", type: "text" },
+            { key: "section-contact", label: "Sección \"Get In Touch\" (Contacto)", type: "text" },
           ],
         },
         {
           tab: "imagenes",
           title: "Marca y foto de perfil",
           fields: [
-            { key: "profile-photo", label: "Foto de perfil (portada y menú)", type: "image" },
-            { key: "site-logo", label: "Logo (pie de página)", type: "image" },
+            { key: "site-logo", label: "Logo del encabezado", type: "image" },
+            {
+              key: "profile-photo",
+              label: "Foto de perfil (Hero y Sobre mí, misma imagen)",
+              type: "image",
+            },
+            {
+              key: "hero-decoration-image",
+              label: "Imagen decorativa junto a la foto (Hero)",
+              type: "image",
+            },
+          ],
+        },
+        {
+          tab: "imagenes",
+          title: "Íconos de servicios",
+          fields: [
+            { key: "service1-icon", label: "Ícono — Servicio 1", type: "image" },
+            { key: "service2-icon", label: "Ícono — Servicio 2", type: "image" },
+            { key: "service3-icon", label: "Ícono — Servicio 3", type: "image" },
+          ],
+        },
+        {
+          tab: "imagenes",
+          title: "Íconos de contacto",
+          fields: [
+            { key: "contact-icon-phone", label: "Ícono — Teléfono", type: "image" },
+            { key: "contact-icon-location", label: "Ícono — Ubicación", type: "image" },
+            { key: "contact-icon-email", label: "Ícono — Correo", type: "image" },
           ],
         },
       ];
@@ -807,7 +780,6 @@
         const formTabs = [
           "hero",
           "about",
-          "process",
           "contact",
           "menu",
           "titulos",
@@ -1063,59 +1035,23 @@
           .filter((obj) => fields.some((f) => obj[f.key]));
       }
 
-      // ------------------------------------------------------------------
-      // Bilingual helpers. The site keeps both languages in the HTML as
-      // sibling elements marked data-lang="en" / data-lang="es".
-      // ------------------------------------------------------------------
-      function cleanText(el) {
-        return el ? el.textContent.replace(/\s+/g, " ").trim() : "";
-      }
-      function langText(scope, lang) {
-        if (!scope) return "";
-        const el = scope.querySelector(`[data-lang="${lang}"]`);
-        return el ? cleanText(el) : cleanText(scope);
-      }
-      function biSpan(en, es) {
-        return (
-          '<span data-lang="en">' +
-          escapeHtml(en || es || "") +
-          '</span><span data-lang="es">' +
-          escapeHtml(es || en || "") +
-          "</span>"
-        );
-      }
-      function escapeAttr(str) {
-        return escapeHtml(str || "").replace(/"/g, "&quot;");
-      }
-      const COVER_COLORS = ["orange", "blue", "green", "purple", "yellow", "pink"];
-      function coverColorOf(item) {
-        const cover = item.querySelector(".card-cover");
-        if (!cover) return "";
-        const c = [...cover.classList].find((k) => k.startsWith("cover-"));
-        return c ? c.slice(6) : "";
-      }
-      function safeColor(color, idx) {
-        color = (color || "").trim().toLowerCase();
-        return COVER_COLORS.includes(color)
-          ? color
-          : COVER_COLORS[idx % COVER_COLORS.length];
-      }
-
       // --- Resume tab: Experiencia + Estudios (shared "timeline" shape) ---
+      const TIMELINE_COLORS = [
+        "#bd1550",
+        "#84ba40",
+        "#630e53",
+        "#ff5380",
+        "#0bceaf",
+        "#fbdd62",
+        "#3caac1ff",
+      ];
       const TIMELINE_FIELDS = [
-        { key: "title", label: "Cargo / título (EN)" },
-        { key: "title_es", label: "Cargo / título (ES)" },
-        { key: "institution", label: "Empresa / institución" },
-        { key: "year", label: "Periodo (EN, ej. Apr 2024 – Jun 2025)" },
-        { key: "year_es", label: "Periodo (ES, ej. abr 2024 – jun 2025)" },
+        { key: "title", label: "Título / cargo" },
+        { key: "institution", label: "Institución / empresa" },
+        { key: "year", label: "Año (ej. 2024 o 2021 - 2023)" },
         {
           key: "description",
-          label: "Descripción EN (opcional; una línea por viñeta)",
-          type: "textarea",
-        },
-        {
-          key: "description_es",
-          label: "Descripción ES (opcional; una línea por viñeta)",
+          label: "Descripción (opcional; una línea por viñeta si son varias)",
           type: "textarea",
         },
       ];
@@ -1128,52 +1064,43 @@
           : null;
       }
 
-      function readTimelineDescription(content, lang) {
-        if (!content) return "";
-        const el = content.querySelector(`[data-lang="${lang}"]`);
-        if (!el) return "";
-        if (el.tagName === "UL") {
-          return [...el.querySelectorAll("li")].map(cleanText).join("\n");
-        }
-        return cleanText(el);
-      }
-
       function parseTimelineFromDoc(listKey) {
         const container = getTimelineContainer(listKey);
         if (!container) return [];
         return [...container.querySelectorAll(":scope > .timeline-item")].map(
           (item) => {
-            const title = item.querySelector(".timeline-title");
-            const year = item.querySelector(".timeline-year");
-            const content = item.querySelector(".timeline-content");
-            return {
-              title: langText(title, "en"),
-              title_es: langText(title, "es"),
-              institution: cleanText(item.querySelector(".timeline-org")),
-              year: langText(year, "en"),
-              year_es: langText(year, "es"),
-              description: readTimelineDescription(content, "en"),
-              description_es: readTimelineDescription(content, "es"),
-            };
+            const title =
+              item
+                .querySelector(".timeline-title")
+                ?.textContent.replace(/\s+/g, " ")
+                .trim() || "";
+            const header = item.querySelector(".time-line-header");
+            const institutionP = header
+              ? [...header.querySelectorAll("p")].find(
+                  (p) => !p.classList.contains("timeline-year")
+                )
+              : null;
+            const institution = institutionP
+              ? institutionP.textContent.replace(/\s+/g, " ").trim()
+              : "";
+            const year =
+              item
+                .querySelector(".timeline-year")
+                ?.textContent.replace(/\s+/g, " ").trim() || "";
+            const descEl = item.querySelector(".timeline-content");
+            let description = "";
+            if (descEl) {
+              const ul = descEl.querySelector("ul");
+              if (ul) {
+                description = [...ul.querySelectorAll("li")]
+                  .map((li) => li.textContent.replace(/\s+/g, " ").trim())
+                  .join("\n");
+              } else {
+                description = descEl.textContent.replace(/\s+/g, " ").trim();
+              }
+            }
+            return { title, institution, year, description };
           }
-        );
-      }
-
-      function descriptionHtml(text, lang) {
-        const lines = (text || "")
-          .split("\n")
-          .map((s) => s.trim())
-          .filter(Boolean);
-        if (!lines.length) return "";
-        if (lines.length === 1) {
-          return '<p data-lang="' + lang + '">' + escapeHtml(lines[0]) + "</p>";
-        }
-        return (
-          '<ul data-lang="' +
-          lang +
-          '">' +
-          lines.map((l) => "<li>" + escapeHtml(l) + "</li>").join("") +
-          "</ul>"
         );
       }
 
@@ -1182,32 +1109,46 @@
         if (!container) return;
         const rows = collectListRows(listEl, TIMELINE_FIELDS);
         container.innerHTML = "";
-        rows.forEach((item) => {
-          const details = parsedDoc.createElement("details");
-          details.className = "timeline-item";
-          const descEn = item.description || item.description_es;
-          const descEs = item.description_es || item.description;
-          const body =
-            descEn || descEs
-              ? '<div class="timeline-content">' +
-                descriptionHtml(descEn, "en") +
-                descriptionHtml(descEs, "es") +
-                "</div>"
-              : "";
-          details.innerHTML =
-            "<summary>" +
-            '<span class="timeline-title">' +
-            biSpan(item.title, item.title_es) +
-            "</span>" +
-            '<span class="timeline-org">' +
-            escapeHtml(item.institution) +
-            "</span>" +
-            '<span class="timeline-year">' +
-            biSpan(item.year, item.year_es) +
-            "</span>" +
-            "</summary>" +
-            body;
-          container.appendChild(details);
+        rows.forEach((item, idx) => {
+          const color = TIMELINE_COLORS[idx % TIMELINE_COLORS.length];
+          const div = parsedDoc.createElement("div");
+          div.className = "timeline-item timeline-border";
+          div.setAttribute("data-color", color);
+          const institutionHtml = item.institution
+            ? "<p>" + escapeHtml(item.institution) + "</p>"
+            : "";
+          let descriptionHtml = "";
+          if (item.description) {
+            const lines = item.description
+              .split("\n")
+              .map((s) => s.trim())
+              .filter(Boolean);
+            descriptionHtml =
+              lines.length > 1
+                ? '<div class="timeline-content"><ul>' +
+                  lines.map((l) => "<li>" + escapeHtml(l) + "</li>").join("") +
+                  "</ul></div>"
+                : '<div class="timeline-content"><p>' +
+                  escapeHtml(item.description) +
+                  "</p></div>";
+          }
+          div.innerHTML =
+            '<div class="timeline-icon data-background" data-color="' +
+            color +
+            '"></div>' +
+            '<div class="timeline-contents">' +
+            '<div class="time-line-header">' +
+            '<h6 class="timeline-title">' +
+            escapeHtml(item.title) +
+            "</h6>" +
+            institutionHtml +
+            '<p class="timeline-year">' +
+            escapeHtml(item.year) +
+            "</p>" +
+            "</div>" +
+            descriptionHtml +
+            "</div>";
+          container.appendChild(div);
         });
       }
 
@@ -1222,20 +1163,17 @@
 
       // --- Servicios tab ---
       const SERVICES_FIELDS = [
-        { key: "icon", label: "Ícono (un emoji, ej. 🧭)" },
+        { key: "icon", label: "Ícono (URL)" },
+        { key: "title", label: "Título" },
+        { key: "description", label: "Descripción", type: "textarea" },
         {
-          key: "color",
-          label: "Color de portada (orange, blue, green, purple, yellow, pink)",
+          key: "tags",
+          label: "Etiquetas (opcional, una por línea)",
+          type: "textarea",
         },
-        { key: "title", label: "Título (EN)" },
-        { key: "title_es", label: "Título (ES)" },
-        { key: "description", label: "Descripción (EN)", type: "textarea" },
-        { key: "description_es", label: "Descripción (ES)", type: "textarea" },
-        { key: "cta", label: "Texto del enlace (EN)" },
-        { key: "cta_es", label: "Texto del enlace (ES)" },
-        { key: "link", label: "Enlace (URL de agenda, WhatsApp, etc.)" },
       ];
       const servicesListEl = document.getElementById("servicesList");
+      const SERVICE_COLORS = TIMELINE_COLORS;
 
       function getServicesContainer() {
         return parsedDoc
@@ -1246,24 +1184,29 @@
       function parseServicesFromDoc() {
         const container = getServicesContainer();
         if (!container) return [];
-        return [...container.querySelectorAll(":scope > .service-card")].map(
-          (item) => {
-            const h3 = item.querySelector("h3");
-            const p = item.querySelector(".card-body > p");
-            const a = item.querySelector(".card-link");
-            return {
-              icon: cleanText(item.querySelector(".svc-icon")),
-              color: coverColorOf(item),
-              title: langText(h3, "en"),
-              title_es: langText(h3, "es"),
-              description: langText(p, "en"),
-              description_es: langText(p, "es"),
-              cta: a ? langText(a, "en").replace(/\s*[→↗]$/, "") : "",
-              cta_es: a ? langText(a, "es").replace(/\s*[→↗]$/, "") : "",
-              link: a ? a.getAttribute("href") || "" : "",
-            };
-          }
-        );
+        return [...container.querySelectorAll(":scope > .col-lg-4")]
+          .map((wrap) => {
+            const item = wrap.querySelector(".services-item");
+            if (!item) return null;
+            const img = item.querySelector("img");
+            const icon = img ? img.getAttribute("src") || "" : "";
+            const title =
+              item.querySelector("h5")?.textContent.replace(/\s+/g, " ").trim() ||
+              "";
+            const paragraphs = [...item.querySelectorAll("p")];
+            const description = paragraphs[0]
+              ? paragraphs[0].textContent.replace(/\s+/g, " ").trim()
+              : "";
+            const tags = paragraphs[1]
+              ? paragraphs[1].innerHTML
+                  .split(/<br\s*\/?>/i)
+                  .map((s) => s.replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim())
+                  .filter(Boolean)
+                  .join("\n")
+              : "";
+            return { icon, title, description, tags };
+          })
+          .filter(Boolean);
       }
 
       function writeServicesToDoc() {
@@ -1272,32 +1215,35 @@
         const rows = collectListRows(servicesListEl, SERVICES_FIELDS);
         container.innerHTML = "";
         rows.forEach((item, idx) => {
-          const card = parsedDoc.createElement("article");
-          card.className = "service-card";
-          const link =
-            item.link && (item.cta || item.cta_es)
-              ? '<a class="card-link" href="' +
-                escapeAttr(item.link) +
-                '" target="_blank" rel="noopener">' +
-                biSpan(item.cta, item.cta_es) +
-                " →</a>"
-              : "";
-          card.innerHTML =
-            '<div class="card-cover cover-' +
-            safeColor(item.color, idx) +
-            '"><span class="svc-icon">' +
+          const color = SERVICE_COLORS[idx % SERVICE_COLORS.length];
+          const wrap = parsedDoc.createElement("div");
+          wrap.className = "col-lg-4 text-center text-md-left";
+          const tagsHtml = item.tags
+            ? '<p class="text-white mb-0">' +
+              item.tags
+                .split("\n")
+                .map((l) => l.trim())
+                .filter(Boolean)
+                .map(escapeHtml)
+                .join("<br />") +
+              "</p>"
+            : "";
+          wrap.innerHTML =
+            '<div class="image-border"><div class="services-item box-hover-border data-background" data-color="' +
+            color +
+            '"><div class="text-center p-4">' +
+            '<img src="' +
             escapeHtml(item.icon) +
-            "</span></div>" +
-            '<div class="card-body">' +
-            "<h3>" +
-            biSpan(item.title, item.title_es) +
-            "</h3>" +
-            "<p>" +
-            biSpan(item.description, item.description_es) +
+            '" alt="/">' +
+            '<h5 class="text-white">' +
+            escapeHtml(item.title) +
+            "</h5>" +
+            '<p class="text-white mb-0">' +
+            escapeHtml(item.description) +
             "</p>" +
-            link +
-            "</div>";
-          container.appendChild(card);
+            tagsHtml +
+            "</div></div></div>";
+          container.appendChild(wrap);
         });
       }
 
@@ -1307,10 +1253,7 @@
       });
 
       // --- Menú — orden de enlaces ---
-      const MENU_NAV_FIELDS = [
-        { key: "label", label: "Texto del enlace (EN)" },
-        { key: "label_es", label: "Texto del enlace (ES)" },
-      ];
+      const MENU_NAV_FIELDS = [{ key: "label", label: "Texto del enlace" }];
       const MENU_NAV_META = ["href", "menuanchor"];
       const menuNavListEl = document.getElementById("menuNavList");
 
@@ -1324,8 +1267,7 @@
         return [...container.querySelectorAll(":scope > li")].map((li) => {
           const a = li.querySelector("a");
           return {
-            label: langText(a, "en"),
-            label_es: langText(a, "es"),
+            label: a ? a.textContent.replace(/\s+/g, " ").trim() : "",
             href: a ? a.getAttribute("href") || "" : "",
             menuanchor: li.getAttribute("data-menuanchor") || "",
           };
@@ -1339,10 +1281,11 @@
         container.innerHTML = "";
         rows.forEach((item) => {
           const li = parsedDoc.createElement("li");
+          li.className = "list-group-item";
           if (item.menuanchor) li.setAttribute("data-menuanchor", item.menuanchor);
           const a = parsedDoc.createElement("a");
           a.setAttribute("href", item.href || "#");
-          a.innerHTML = biSpan(item.label, item.label_es);
+          a.textContent = item.label;
           li.appendChild(a);
           container.appendChild(li);
         });
@@ -1350,21 +1293,12 @@
 
       // --- Portfolio tab ---
       const PORTFOLIO_FIELDS = [
-        { key: "icon", label: "Ícono (un emoji, ej. 📊)" },
-        {
-          key: "color",
-          label: "Color de portada (orange, blue, green, purple, yellow, pink)",
-        },
+        { key: "title", label: "Título" },
         {
           key: "category",
-          label: "Categorías para los filtros (separadas por espacio: delivery, public, ai, community)",
+          label: "Categoría (una o más, separadas por espacio: webdesign, mobiledesign, seo, graphic)",
         },
-        { key: "title", label: "Título (EN)" },
-        { key: "title_es", label: "Título (ES)" },
-        { key: "description", label: "Descripción (EN)", type: "textarea" },
-        { key: "description_es", label: "Descripción (ES)", type: "textarea" },
-        { key: "tags", label: "Etiquetas (separadas por coma)" },
-        { key: "link", label: "Enlace al proyecto (opcional)" },
+        { key: "image", label: "Imagen (URL)" },
       ];
       const portfolioListEl = document.getElementById("portfolioList");
 
@@ -1379,20 +1313,15 @@
         if (!container) return [];
         return [...container.querySelectorAll(":scope > .portfolio-item")].map(
           (item) => {
-            const h3 = item.querySelector("h3");
-            const p = item.querySelector(".card-body > p:not(.tags)");
-            const a = item.querySelector(".card-link");
-            return {
-              icon: cleanText(item.querySelector(".svc-icon")),
-              color: coverColorOf(item),
-              category: item.getAttribute("data-category") || "",
-              title: langText(h3, "en"),
-              title_es: langText(h3, "es"),
-              description: langText(p, "en"),
-              description_es: langText(p, "es"),
-              tags: cleanText(item.querySelector(".tags")),
-              link: a ? a.getAttribute("href") || "" : "",
-            };
+            const img = item.querySelector("img");
+            const image = img ? img.getAttribute("src") || "" : "";
+            const title =
+              item.querySelector("h5")?.textContent.replace(/\s+/g, " ").trim() ||
+              "";
+            const category = [...item.classList]
+              .filter((c) => c !== "col-lg-4" && c !== "portfolio-item")
+              .join(" ");
+            return { title, category, image };
           }
         );
       }
@@ -1402,40 +1331,27 @@
         if (!container) return;
         const rows = collectListRows(portfolioListEl, PORTFOLIO_FIELDS);
         container.innerHTML = "";
-        rows.forEach((item, idx) => {
-          const card = parsedDoc.createElement("article");
-          card.className = "portfolio-item";
-          card.setAttribute(
-            "data-category",
-            (item.category || "").replace(/,/g, " ").replace(/\s+/g, " ").trim()
-          );
-          const tags = item.tags
-            ? '<p class="tags">' + escapeHtml(item.tags) + "</p>"
-            : "";
-          const link = item.link
-            ? '<a class="card-link" href="' +
-              escapeAttr(item.link) +
-              '" target="_blank" rel="noopener">' +
-              biSpan("See the project", "Ver el proyecto") +
-              " ↗</a>"
-            : "";
-          card.innerHTML =
-            '<div class="card-cover cover-' +
-            safeColor(item.color, idx) +
-            '"><span class="svc-icon">' +
-            escapeHtml(item.icon) +
-            "</span></div>" +
-            '<div class="card-body">' +
-            "<h3>" +
-            biSpan(item.title, item.title_es) +
-            "</h3>" +
-            "<p>" +
-            biSpan(item.description, item.description_es) +
-            "</p>" +
-            tags +
-            link +
-            "</div>";
-          container.appendChild(card);
+        rows.forEach((item) => {
+          const div = parsedDoc.createElement("div");
+          div.className = ("col-lg-4 portfolio-item " + item.category).trim();
+          const img = escapeHtml(item.image);
+          div.innerHTML =
+            '<div class="image-border"><div class="portfolio-item-content">' +
+            '<img src="' +
+            img +
+            '" alt="/" class="img-fluid">' +
+            '<div class="img-overlay text-center"><div class="img-overlay-content">' +
+            '<div class="portfolio-icon">' +
+            '<a href="javascript:void();" type="button" data-toggle="modal" data-target="#portfolio-single"><i class="lni-link"></i></a>' +
+            '<a href="' +
+            img +
+            '" class="js-zoom-gallery"><i class="lni-search"></i></a>' +
+            "</div>" +
+            '<h5 class="mt-3 mb-0">' +
+            escapeHtml(item.title) +
+            "</h5>" +
+            "</div></div></div></div>";
+          container.appendChild(div);
         });
       }
 
@@ -1446,7 +1362,8 @@
 
       // --- Testimonial tab ---
       const TESTIMONIAL_FIELDS = [
-        { key: "quote", label: "Testimonio (en su idioma original)", type: "textarea" },
+        { key: "image", label: "Foto (URL)" },
+        { key: "quote", label: "Testimonio", type: "textarea" },
         { key: "name", label: "Nombre" },
         { key: "role", label: "Cargo / empresa" },
       ];
@@ -1462,11 +1379,30 @@
         const container = getTestimonialContainer();
         if (!container) return [];
         return [...container.querySelectorAll(":scope > .testimonial-item")].map(
-          (item) => ({
-            quote: cleanText(item.querySelector("blockquote")),
-            name: cleanText(item.querySelector(".t-name")),
-            role: cleanText(item.querySelector(".t-role")),
-          })
+          (item) => {
+            const img = item.querySelector("img");
+            const image = img ? img.getAttribute("src") || "" : "";
+            const quoteP = item.querySelector("p");
+            const quote = quoteP
+              ? quoteP.textContent
+                  .replace(/\s+/g, " ")
+                  .trim()
+                  .replace(/^"\s*/, "")
+                  .replace(/\s*"$/, "")
+              : "";
+            const nameSpan = item.querySelector("span.d-block");
+            let name = "";
+            let role = "";
+            if (nameSpan) {
+              const small = nameSpan.querySelector("small");
+              role = small ? small.textContent.replace(/\s+/g, " ").trim() : "";
+              const clone = nameSpan.cloneNode(true);
+              const smallInClone = clone.querySelector("small");
+              if (smallInClone) smallInClone.remove();
+              name = clone.textContent.replace(/\s+/g, " ").trim().replace(/,$/, "");
+            }
+            return { image, quote, name, role };
+          }
         );
       }
 
@@ -1476,18 +1412,23 @@
         const rows = collectListRows(testimonialListEl, TESTIMONIAL_FIELDS);
         container.innerHTML = "";
         rows.forEach((item) => {
-          const fig = parsedDoc.createElement("figure");
-          fig.className = "testimonial-item";
-          fig.innerHTML =
-            "<blockquote><p>" +
+          const div = parsedDoc.createElement("div");
+          div.className = "testimonial-item box-border";
+          div.innerHTML =
+            '<div class="testimonial-image"><div class="testimonial-image-border">' +
+            '<img src="' +
+            escapeHtml(item.image) +
+            '" alt="/"></div></div>' +
+            '<p class="mb-0 mt-3 text-muted">" ' +
             escapeHtml(item.quote) +
-            "</p></blockquote>" +
-            '<figcaption><span class="t-name">' +
+            ' "</p>' +
+            '<span class="d-block font-weight-bold text-dark mt-3">' +
             escapeHtml(item.name) +
-            '</span><span class="t-role">' +
+            ",\n" +
+            '<small class="text-muted">' +
             escapeHtml(item.role) +
-            "</span></figcaption>";
-          container.appendChild(fig);
+            "</small></span>";
+          container.appendChild(div);
         });
       }
 
@@ -1498,10 +1439,11 @@
 
       // --- Blog tab ---
       const BLOG_FIELDS = [
+        { key: "image", label: "Imagen (URL)" },
+        { key: "date", label: "Fecha (ej. June 02, 2020)" },
+        { key: "meta", label: "Dato adicional (ej. número de comentarios)" },
         { key: "title", label: "Título" },
-        { key: "date", label: "Fecha (formato AAAA-MM-DD, ej. 2024-07-01)" },
         { key: "excerpt", label: "Resumen", type: "textarea" },
-        { key: "link", label: "Enlace al artículo (URL)" },
       ];
       const blogListEl = document.getElementById("blogList");
 
@@ -1514,17 +1456,29 @@
       function parseBlogFromDoc() {
         const container = getBlogContainer();
         if (!container) return [];
-        return [...container.querySelectorAll(":scope > .blog-item")].map(
-          (item) => {
-            const time = item.querySelector("time");
-            return {
-              title: cleanText(item.querySelector(".b-title")),
-              date: time ? time.getAttribute("datetime") || cleanText(time) : "",
-              excerpt: cleanText(item.querySelector(".b-excerpt")),
-              link: item.getAttribute("href") || "",
-            };
-          }
-        );
+        return [...container.querySelectorAll(":scope > .col-lg-4")]
+          .map((wrap) => {
+            const item = wrap.querySelector(".blog-item");
+            if (!item) return null;
+            const img = item.querySelector("img");
+            const image = img ? img.getAttribute("src") || "" : "";
+            const spans = item.querySelectorAll(".list-inline-item span");
+            const date = spans[0]
+              ? spans[0].textContent.replace(/\s+/g, " ").trim()
+              : "";
+            const meta = spans[1]
+              ? spans[1].textContent.replace(/\s+/g, " ").trim()
+              : "";
+            const title =
+              item.querySelector("h6 a")?.textContent.replace(/\s+/g, " ").trim() ||
+              "";
+            const excerpt =
+              item
+                .querySelector(".blog-content > p")
+                ?.textContent.replace(/\s+/g, " ").trim() || "";
+            return { image, date, meta, title, excerpt };
+          })
+          .filter(Boolean);
       }
 
       function writeBlogToDoc() {
@@ -1533,24 +1487,31 @@
         const rows = collectListRows(blogListEl, BLOG_FIELDS);
         container.innerHTML = "";
         rows.forEach((item) => {
-          const a = parsedDoc.createElement("a");
-          a.className = "blog-item";
-          a.setAttribute("href", item.link || "#");
-          a.setAttribute("target", "_blank");
-          a.setAttribute("rel", "noopener");
-          a.innerHTML =
-            '<span class="b-icon" aria-hidden="true">📄</span>' +
-            '<span class="b-main"><span class="b-title">' +
-            escapeHtml(item.title) +
-            '</span><span class="b-excerpt">' +
-            escapeHtml(item.excerpt) +
-            "</span></span>" +
-            '<time class="b-date" datetime="' +
-            escapeAttr(item.date) +
-            '">' +
+          const wrap = parsedDoc.createElement("div");
+          wrap.className = "col-lg-4";
+          wrap.innerHTML =
+            '<div class="blog-item box-border">' +
+            '<div class="blog-image"><div class="blog-intro"><img src="' +
+            escapeHtml(item.image) +
+            '" alt="/"></div></div>' +
+            '<div class="blog-content">' +
+            '<ul class="list-inline mt-4">' +
+            '<li class="list-inline-item"><i class="lni-calendar data-text-color" data-color="#ff4274"></i><span class="text-muted">' +
             escapeHtml(item.date) +
-            "</time>";
-          container.appendChild(a);
+            " </span></li>" +
+            '<li class="list-inline-item"><i class="lni-calendar data-text-color" data-color="#fbdd62"></i><span class="text-muted">' +
+            escapeHtml(item.meta) +
+            "</span></li>" +
+            "</ul>" +
+            '<h6 class="mb-3"><a class="text-dark" href="javascript:void(0)" target="_blank" data-toggle="modal" data-target="#blog-single">' +
+            escapeHtml(item.title) +
+            "</a></h6>" +
+            '<p class="text-dark">' +
+            escapeHtml(item.excerpt) +
+            "</p>" +
+            '<div class="blog-link"><a class="base-color" href="javascript:void(0)" target="_blank" data-toggle="modal" data-target="#blog-single">Read More...</a></div>' +
+            "</div></div>";
+          container.appendChild(wrap);
         });
       }
 
