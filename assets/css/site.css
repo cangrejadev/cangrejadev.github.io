@@ -513,20 +513,22 @@ p {
   margin-top: 10px;
   font-size: clamp(2.6rem, 6.2vw, 4.6rem);
   font-weight: 700;
-  line-height: 1.04;
+  line-height: 1.16;
   letter-spacing: -0.035em;
 }
-.hero-hello,
-.hero-name {
-  display: inline;
+.hero-hello {
+  display: block;
 }
+/* Highlighted name: each wrapped line gets its own box */
 .hl {
-  display: inline-block;
+  display: inline;
   background: var(--plum);
   color: var(--on-plum);
   padding: 0 0.14em 0.04em;
   border-radius: 6px;
-  margin-top: 0.06em;
+  line-height: 1.22;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 :root[data-theme="dark"] .hl {
   background: var(--brand-soft);

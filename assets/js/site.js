@@ -85,25 +85,6 @@
     });
   }
 
-  /* ---------- Hero name: last word highlighted ---------- */
-  var nameEl = document.querySelector(".hero-name");
-  if (nameEl) {
-    var words = nameEl.textContent.trim().split(/\s+/);
-    var last = words.pop() || "";
-    nameEl.textContent = words.length ? words.join(" ") + " " : "";
-    var hl = document.createElement("span");
-    hl.className = "hl";
-    hl.textContent = last;
-    var dot = document.createElement("span");
-    dot.className = "hl-dot";
-    dot.textContent = ".";
-    var keep = document.createElement("span");
-    keep.style.whiteSpace = "nowrap";
-    keep.appendChild(hl);
-    keep.appendChild(dot);
-    nameEl.appendChild(keep);
-  }
-
   /* ---------- Mobile menu ---------- */
   var menuBtn = document.getElementById("menuToggle");
   var nav = document.getElementById("mainnav");
