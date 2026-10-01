@@ -86,29 +86,36 @@
   }
 
   /* ---------- Email obfuscation ---------- */
-  // The HTML never contains the plaintext address or the mailto: link.
-  // User and domain live in data-user / data-domain and are joined at
-  // runtime, which blocks the vast majority of HTML scrapers.
-  function assembleEmail(el) {
+  // The real address is never dropped into the DOM as text or as a
+  // mailto: href. Visible labels use the human-readable "user (at)
+  // domain (dot) tld" form, and the real mailto: link is only built
+  // the moment a human focuses, hovers over or clicks the link.
+  function emailAt(el) {
     var u = el.getAttribute("data-user") || "";
     var d = el.getAttribute("data-domain") || "";
     if (!u || !d) return "";
-    // String.fromCharCode(64) is "@" — kept out of the source text as well
+    // String.fromCharCode keeps the literal "@" out of the source too
     return u + String.fromCharCode(64) + d;
   }
+  function obfuscateDisplay(u, d) {
+    return u + " (at) " + d.replace(/\./g, " (dot) ");
+  }
   document.querySelectorAll(".obf-email").forEach(function (el) {
-    var e = assembleEmail(el);
-    if (e) el.textContent = e;
+    var u = el.getAttribute("data-user") || "";
+    var d = el.getAttribute("data-domain") || "";
+    if (u && d) el.textContent = obfuscateDisplay(u, d);
   });
   document.querySelectorAll(".obf-email-link").forEach(function (a) {
-    var e = assembleEmail(a);
-    if (!e) return;
-    a.setAttribute("href", "mailto:" + e);
-    // if this link also carries an inner .obf-email span, let that run above
-    var inner = a.querySelector(".obf-email");
-    if (inner && !inner.textContent.trim().includes("@")) {
-      inner.textContent = e;
+    function build() {
+      if (a.dataset.resolved === "1") return;
+      var e = emailAt(a);
+      if (!e) return;
+      a.setAttribute("href", "mailto:" + e);
+      a.dataset.resolved = "1";
     }
+    ["mouseenter", "focus", "touchstart", "click"].forEach(function (ev) {
+      a.addEventListener(ev, build, { passive: true });
+    });
   });
 
   /* ---------- Mobile menu ---------- */
