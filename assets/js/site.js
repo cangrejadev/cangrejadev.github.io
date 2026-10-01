@@ -85,7 +85,7 @@
     });
   }
 
-  /* ---------- Hero name: last word as a highlighted "function()" ---------- */
+  /* ---------- Hero name: last word highlighted ---------- */
   var nameEl = document.querySelector(".hero-name");
   if (nameEl) {
     var words = nameEl.textContent.trim().split(/\s+/);
@@ -93,7 +93,7 @@
     nameEl.textContent = words.length ? words.join(" ") + " " : "";
     var hl = document.createElement("span");
     hl.className = "hl";
-    hl.textContent = last + "()";
+    hl.textContent = last;
     var dot = document.createElement("span");
     dot.className = "hl-dot";
     dot.textContent = ".";
