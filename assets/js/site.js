@@ -285,4 +285,26 @@
   }
 
   applyLang(currentLang(), false);
+
+
+  /* ---------- Web design gallery filter ---------- */
+  (function () {
+    var views = document.querySelectorAll("[data-wd-filter]");
+    if (!views.length) return;
+    views.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var f = btn.getAttribute("data-wd-filter");
+        views.forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle("active", on);
+          b.setAttribute("aria-selected", String(on));
+        });
+        document.querySelectorAll(".wd-card").forEach(function (card) {
+          var cats = (card.getAttribute("data-category") || "").split(/\s+/);
+          card.classList.toggle("is-hidden", f !== "*" && cats.indexOf(f) === -1);
+        });
+      });
+    });
+  })();
+
 })();

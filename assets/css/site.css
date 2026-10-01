@@ -1583,3 +1583,68 @@ main {
   background: transparent;
   color: inherit;
 }
+
+/* ---------- Web design gallery ---------- */
+.wd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+.wd-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: 4px 4px 0 var(--shadow);
+  text-decoration: none;
+  color: var(--text-strong);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.wd-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--shadow);
+}
+.wd-card.is-hidden {
+  display: none;
+}
+.wd-thumb {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: 2px solid var(--border);
+  background: var(--surface-2);
+}
+.wd-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.4s ease;
+}
+.wd-card:hover .wd-thumb img {
+  transform: scale(1.04);
+}
+.wd-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px 16px;
+}
+.wd-title {
+  font-family: var(--f-head);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-strong);
+}
+.wd-cat {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+@media (max-width: 520px) {
+  .wd-grid { grid-template-columns: minmax(0, 1fr); }
+}
