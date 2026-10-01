@@ -746,6 +746,18 @@
       }
 
       function readValue(el) {
+        // Obfuscated email: the real address lives in data-user/data-domain.
+        // Join them and ignore the placeholder text and the "#" href.
+        if (
+          (el.classList.contains("obf-email") ||
+            el.classList.contains("obf-email-link")) &&
+          el.hasAttribute("data-user") &&
+          el.hasAttribute("data-domain")
+        ) {
+          return (
+            el.getAttribute("data-user") + "@" + el.getAttribute("data-domain")
+          );
+        }
         const attr = el.getAttribute("data-edit-attr");
         const prefix = el.getAttribute("data-edit-prefix") || "";
         const join = el.getAttribute("data-edit-join");
@@ -765,6 +777,26 @@
       }
 
       function writeValue(el, value) {
+        // Obfuscated email: split "user@domain" back into data attributes
+        // and keep the placeholder text / "#" href so no plaintext address
+        // ever lands in the saved HTML. Also propagate to any sibling
+        // .obf-email descendants so the pair stays in sync.
+        if (
+          (el.classList.contains("obf-email") ||
+            el.classList.contains("obf-email-link")) &&
+          /@/.test(value)
+        ) {
+          const parts = value.trim().split("@");
+          const user = parts[0] || "";
+          const domain = parts.slice(1).join("@");
+          el.setAttribute("data-user", user);
+          el.setAttribute("data-domain", domain);
+          el.querySelectorAll(".obf-email").forEach((inner) => {
+            inner.setAttribute("data-user", user);
+            inner.setAttribute("data-domain", domain);
+          });
+          return;
+        }
         const attr = el.getAttribute("data-edit-attr");
         const prefix = el.getAttribute("data-edit-prefix") || "";
         const join = el.getAttribute("data-edit-join");

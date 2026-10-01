@@ -85,6 +85,32 @@
     });
   }
 
+  /* ---------- Email obfuscation ---------- */
+  // The HTML never contains the plaintext address or the mailto: link.
+  // User and domain live in data-user / data-domain and are joined at
+  // runtime, which blocks the vast majority of HTML scrapers.
+  function assembleEmail(el) {
+    var u = el.getAttribute("data-user") || "";
+    var d = el.getAttribute("data-domain") || "";
+    if (!u || !d) return "";
+    // String.fromCharCode(64) is "@" — kept out of the source text as well
+    return u + String.fromCharCode(64) + d;
+  }
+  document.querySelectorAll(".obf-email").forEach(function (el) {
+    var e = assembleEmail(el);
+    if (e) el.textContent = e;
+  });
+  document.querySelectorAll(".obf-email-link").forEach(function (a) {
+    var e = assembleEmail(a);
+    if (!e) return;
+    a.setAttribute("href", "mailto:" + e);
+    // if this link also carries an inner .obf-email span, let that run above
+    var inner = a.querySelector(".obf-email");
+    if (inner && !inner.textContent.trim().includes("@")) {
+      inner.textContent = e;
+    }
+  });
+
   /* ---------- Mobile menu ---------- */
   var menuBtn = document.getElementById("menuToggle");
   var nav = document.getElementById("mainnav");
