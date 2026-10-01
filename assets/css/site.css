@@ -1665,7 +1665,7 @@ main {
   }
 }
 :root[data-theme="dark"] .note-dark {
-  color: #f3e8ef;
+  background: var(--plum-soft);
 }
 :root[data-theme="dark"] .note-dark .note-kicker {
   color: rgba(255, 255, 255, 0.82);
