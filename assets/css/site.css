@@ -1025,7 +1025,7 @@ main {
   color: var(--brand);
 }
 .db-view.active {
-  background: var(--plum);
+  background: var(--plum-2);
   border-color: var(--plum);
   color: var(--on-plum);
 }
@@ -1059,8 +1059,8 @@ main {
   font-weight: 700;
   padding: 3px 9px;
   border-radius: 6px;
-  background: var(--plum);
-  color: var(--on-plum);
+  background: var(--brand-hover);
+  color: var(--brand-soft);
 }
 .step-num::before {
   content: "$step_";
