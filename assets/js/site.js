@@ -85,6 +85,28 @@
     });
   }
 
+  /* ---------- Google Analytics (GA4) ---------- */
+  // Loads gtag.js only when a real measurement ID is provided and the
+  // visitor hasn't enabled Do Not Track. The ID lives in a <meta> tag
+  // so the admin panel can edit it without touching the script.
+  (function () {
+    try {
+      var meta = document.querySelector('meta[name="ga-measurement-id"]');
+      if (!meta) return;
+      var id = (meta.getAttribute("content") || "").trim();
+      if (!/^G-[A-Z0-9]{6,}$/.test(id)) return;             // placeholder or invalid
+      if (navigator.doNotTrack === "1" || window.doNotTrack === "1") return;
+      var s = document.createElement("script");
+      s.async = true;
+      s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag("js", new Date());
+      window.gtag("config", id, { anonymize_ip: true });
+    } catch (e) {}
+  })();
+
   /* ---------- Email obfuscation ---------- */
   // The real address is never dropped into the DOM as text or as a
   // mailto: href. Visible labels use the human-readable "user (at)
