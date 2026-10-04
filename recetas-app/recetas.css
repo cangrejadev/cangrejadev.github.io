@@ -80,7 +80,7 @@ body {
 }
 
 /* ----- Headings use Space Grotesk ----- */
-h1, h2, h3, h4, h5, h6 { font-family: var(--f-head); color: var(--text-strong); }
+h1, h2, h3 { font-family: var(--f-head); color: var(--text-strong); }
 
 /* ============ Top bar / brand header ============ */
 .rb-top {
@@ -204,7 +204,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--f-head); color: var(--text-strong); 
   border-color: var(--brand) !important;
   box-shadow: 2px 2px 0 var(--brand), 4px 4px 0 var(--shadow) !important;
 }
-.cat-card span.text-3xl, .cat-card span.text-4xl { font-size: 2.3rem !important; }
+.cat-card span.text-3xl { font-size: 2.3rem !important; }
 .cat-card .text-sm { font-family: var(--f-head); font-weight: 700; color: var(--text-strong); font-size: 0.95rem !important; }
 .cat-card .text-xs { font-family: var(--f-mono); color: var(--muted); font-size: 11.5px !important; letter-spacing: 0.02em; }
 
@@ -251,7 +251,7 @@ input:focus, select:focus, textarea:focus {
   transform: translate(-2px, -2px) !important;
   box-shadow: 7px 7px 0 var(--shadow) !important;
 }
-#recipe-grid > a .h-24, #recipe-grid > a .h-28 {
+#recipe-grid > a .h-24 {
   border-bottom: 2px solid var(--border);
 }
 #recipe-grid > a h3 {
@@ -289,7 +289,7 @@ main .rounded-3xl.overflow-hidden.border {
 }
 main .rounded-3xl .bg-white { background: var(--surface) !important; }
 main .rounded-3xl .relative { border-bottom: 2px solid var(--border); }
-main h1.text-2xl, main h1.text-3xl {
+main h1.text-2xl {
   font-family: var(--f-head) !important;
   font-weight: 700 !important;
   color: var(--text-strong) !important;
@@ -359,10 +359,7 @@ main .bg-amber-50 {
 
 /* ============ Buttons (orange → brand) ============ */
 button[type="submit"],
-.bg-orange-500,
-.bg-orange-600,
-button.bg-orange-500,
-a.bg-orange-500 {
+.bg-orange-500 {
   background: var(--on-plum) !important;
   color: #ffffff !important;
   border: 2px solid var(--border) !important;
@@ -374,8 +371,7 @@ a.bg-orange-500 {
   transition: transform 0.12s, box-shadow 0.12s !important;
 }
 button[type="submit"]:hover,
-.bg-orange-500:hover,
-a.bg-orange-500:hover {
+.bg-orange-500:hover {
   background: var(--plum) !important;
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0 var(--shadow) !important;
@@ -425,7 +421,7 @@ footer p { font-family: var(--f-mono); color: var(--muted); font-size: 13px; }
 
 /* Dark-mode cover gradients: dim them a touch so cards don't glow */
 @media (prefers-color-scheme: dark) {
-  #recipe-grid > a .h-24, #recipe-grid > a .h-28,
+  #recipe-grid > a .h-24,
   main .rounded-3xl .relative {
     filter: saturate(0.6) brightness(0.65);
   }
@@ -435,6 +431,5 @@ footer p { font-family: var(--f-mono); color: var(--muted); font-size: 13px; }
 @media (max-width: 640px) {
   .rb-top { height: 60px; padding: 0 14px; gap: 10px; }
   .rb-brand img { height: 36px; }
-  .rb-brand-cur { font-size: 0.95rem; }
   .rb-brand-sep, .rb-brand-cur { display: none; }
 }
