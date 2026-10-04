@@ -591,8 +591,17 @@
       #fileFallback {
         display: none;
       }
+      .token-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+      }
       .token-state {
-        margin: 18px 0 0;
+        flex: 1;
+        min-width: 240px;
+        margin: 0;
         font-size: 13.5px;
         padding: 8px 12px;
         border-radius: 8px;
@@ -682,7 +691,11 @@
             <button type="button" class="btn btn-sm" id="btnPickFile">Cargar desde archivo…</button>
             <input type="file" id="fileFallback" accept=".html,text/html" />
           </div>
-          <p class="token-state" id="tokenState">Token de GitHub: buscando .env…</p>
+          <div class="token-row">
+            <p class="token-state" id="tokenState">Token de GitHub: buscando .env…</p>
+            <button type="button" class="btn btn-sm" id="btnPickEnv">Elegir archivo .env…</button>
+            <input type="file" id="envFile" hidden />
+          </div>
           <div class="grid-2">
             <div class="field">
               <label for="ghOwner">Owner</label>
@@ -704,7 +717,8 @@
             <em>fine-grained</em> en
             <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub</a>
             con acceso solo a este repositorio y permisos "Contents" y "Pull requests" en Read and write.
-            <code>.env</code> está en <code>.gitignore</code>; sin él puedes usar "Descargar index.html".
+            Si tu servidor no entrega el <code>.env</code>, usa “Elegir archivo .env…”: se lee en este navegador y no
+            se guarda. <code>.env</code> está en <code>.gitignore</code>; sin él puedes usar "Descargar index.html".
           </p>
         </details>
 
@@ -2283,35 +2297,64 @@
         el.classList.toggle("ok", !!ok);
       }
 
-      async function loadEnv() {
-        const missing = "Token de GitHub: no se encontró GITHUB_TOKEN en .env. Puedes editar y descargar index.html, pero no publicar.";
-        if (!isLocalHost()) {
+      // Aplica las variables de un .env (leído del servidor local o elegido a mano).
+      function applyEnv(text, origin) {
+        if (/^\s*</.test(text)) {
           return setTokenState(
-            "Token de GitHub: solo se carga desde .env al abrir el panel en tu computador (localhost). Aquí puedes editar y descargar index.html.",
+            "Token de GitHub: el servidor devolvió una página web en lugar del .env. Usa “Elegir archivo .env…”.",
             false
           );
         }
-        let text;
-        try {
-          const res = await fetch(".env", { cache: "no-store" });
-          if (!res.ok) return setTokenState(missing, false);
-          text = await res.text();
-        } catch (e) {
-          return setTokenState(missing, false);
-        }
-        // Si el servidor devuelve una página HTML (p. ej. un 404 personalizado), no es un .env.
-        if (/^\s*</.test(text)) return setTokenState(missing, false);
         const env = parseEnv(text);
-        if (env.GITHUB_TOKEN) {
-          envToken = env.GITHUB_TOKEN;
-          setTokenState("Token de GitHub: cargado desde .env ✓", true);
-        } else {
-          setTokenState(missing, false);
-        }
+        const token = env.GITHUB_TOKEN || env.GH_TOKEN || env.GITHUB_PAT;
         if (env.GITHUB_OWNER) gh.owner.value = env.GITHUB_OWNER;
         if (env.GITHUB_REPO) gh.repo.value = env.GITHUB_REPO;
         if (env.GITHUB_BASE) gh.base.value = env.GITHUB_BASE;
+        if (!token) {
+          const keys = Object.keys(env);
+          return setTokenState(
+            "Token de GitHub: " + origin + " no tiene GITHUB_TOKEN" +
+              (keys.length ? " (variables encontradas: " + keys.join(", ") + ")." : " (el archivo está vacío o no tiene variables)."),
+            false
+          );
+        }
+        envToken = token;
+        setTokenState("Token de GitHub: cargado desde " + origin + " ✓", true);
       }
+
+      async function loadEnv() {
+        if (!isLocalHost()) {
+          return setTokenState(
+            "Token de GitHub: aquí no se lee el .env automáticamente (solo en localhost). Usa “Elegir archivo .env…” o descarga index.html.",
+            false
+          );
+        }
+        let res;
+        try {
+          res = await fetch(".env", { cache: "no-store" });
+        } catch (e) {
+          return setTokenState("Token de GitHub: no se pudo pedir el .env al servidor. Usa “Elegir archivo .env…”.", false);
+        }
+        if (!res.ok) {
+          return setTokenState(
+            "Token de GitHub: el servidor no entrega el .env (HTTP " +
+              res.status +
+              "; algunos servidores ocultan los archivos que empiezan con punto). Usa “Elegir archivo .env…” o abre el panel con python3 -m http.server.",
+            false
+          );
+        }
+        applyEnv(await res.text(), "el .env");
+      }
+
+      $("#btnPickEnv").addEventListener("click", () => $("#envFile").click());
+      $("#envFile").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => applyEnv(String(reader.result), "el archivo " + file.name);
+        reader.readAsText(file);
+        e.target.value = "";
+      });
 
       function b64(str) {
         const bytes = new TextEncoder().encode(str);
