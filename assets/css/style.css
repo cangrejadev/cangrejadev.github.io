@@ -1,4 +1,4 @@
-/* ==========================================================================
+    /* ==========================================================================
        Cangreja Dev — Design System v1.0
        Extracted from Alejandra Zerdá "notebook" portfolio
        ========================================================================== */
@@ -80,6 +80,17 @@
       --teal-ink: #9adbea;
       --soft-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
       color-scheme: dark;
+    }
+ 
+    /* ---------- Language switching ----------
+       Hides the opposite-language spans based on the html[data-ui-lang] attr.
+       Markup pattern:
+         <span data-lang="en">Hello</span><span data-lang="es">Hola</span>
+       Set html[data-ui-lang="es"] to show Spanish, "en" (or absent) for English.
+    */
+    html:not([data-ui-lang="es"]) [data-lang="es"],
+    html[data-ui-lang="es"] [data-lang="en"] {
+      display: none !important;
     }
  
     /* ---------- Base ---------- */
