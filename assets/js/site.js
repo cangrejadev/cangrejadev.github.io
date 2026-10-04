@@ -5,17 +5,22 @@
   var root = document.documentElement;
   var TAG_COLORS = ["purple", "blue", "green", "orange", "pink", "yellow"];
 
+  // Title/description per language come from the HTML (editable in the
+  // admin panel): <title> + meta[name=description] for English, and
+  // meta[name=title-es] / meta[name=description-es] for Spanish.
+  function metaContent(name) {
+    var m = document.querySelector('meta[name="' + name + '"]');
+    return m ? m.getAttribute("content") || "" : "";
+  }
   var META = {
     en: {
-      title: "Alejandra Zerdá — Technical Project & Program Manager",
-      description:
-        "Alejandra Zerdá Guzmán — Technical Project & Program Manager and Scrum Master in Colombia. 10+ years leading digital transformation projects for international organizations.",
+      title: document.title,
+      description: metaContent("description"),
       theme: "Toggle dark mode",
     },
     es: {
-      title: "Alejandra Zerdá — Project & Program Manager técnica",
-      description:
-        "Alejandra Zerdá Guzmán — Project & Program Manager técnica y Scrum Master en Colombia. Más de 10 años liderando proyectos de transformación digital para organizaciones internacionales.",
+      title: metaContent("title-es") || document.title,
+      description: metaContent("description-es") || metaContent("description"),
       theme: "Cambiar modo oscuro",
     },
   };
@@ -243,7 +248,7 @@
   }
 
   /* ---------- Portfolio filter (database views) ---------- */
-  var views = document.querySelectorAll(".db-view");
+  var views = document.querySelectorAll(".db-view[data-filter]");
   views.forEach(function (btn) {
     btn.addEventListener("click", function () {
       var f = btn.getAttribute("data-filter");

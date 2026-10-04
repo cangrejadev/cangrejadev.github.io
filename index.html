@@ -99,7 +99,12 @@
             <p class="hero-tagline">
               <span data-lang="en" data-edit="hero-tagline">Technical Project &amp; Product Manager with 10+ years leading digital transformation in Latin America. I connect strategy, tech teams and stakeholders so ideas become solutions that work, grow and create impact.</span><span data-lang="es" data-edit="hero-tagline-es">Project &amp; Product Manager técnica con más de 10 años liderando transformación digital en Latinoamérica. Conecto estrategia, equipos técnicos y stakeholders para que las ideas se conviertan en soluciones que funcionan, crecen y generan impacto.</span>
             </p>
-            <p class="roles" data-edit="hero-roles" data-edit-attr="data-elements" data-elements="Project Manager ,AI Product Manager, Web Developer, AI Transformation Consultant, Scrum Master."></p>
+            <p
+              class="roles"
+              data-edit="hero-roles"
+              data-edit-attr="data-elements"
+              data-elements="Technical Project Manager.,Product Manager.,Scrum Master."
+            ></p>
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="https://wa.link/3dhasn" target="_blank" rel="noopener" data-edit="contact-whatsapp-href" data-edit-attr="href">
@@ -124,8 +129,15 @@
 
           <div class="hero-side" aria-label="Highlights">
             <figure class="polaroid">
-              <img data-edit="profile-photo" data-edit-attr="src" src="assets/img/alejandra-480.jpg" alt="Illustrated portrait of Alejandra Zerdá" width="200" height="200">
-              <figcaption><span data-lang="en">Hi there! 👋</span><span data-lang="es">¡Hola! 👋</span></figcaption>
+              <img
+                data-edit="profile-photo"
+                data-edit-attr="src"
+                src="assets/img/alejandra-480.jpg"
+                alt="Illustrated portrait of Alejandra Zerdá"
+                width="200"
+                height="200"
+              />
+              <figcaption><span data-lang="en">hi there! 👋</span><span data-lang="es">¡hola! 👋</span></figcaption>
             </figure>
             <span class="sparkle sparkle-1" aria-hidden="true"></span>
             <figure class="note note-pink">
@@ -459,42 +471,5 @@
     </footer>
 
     <script src="assets/js/site.js"></script>
-  <!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
-  </body></html>
+  </body>
+</html>
