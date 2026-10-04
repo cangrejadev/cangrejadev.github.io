@@ -4,3 +4,6 @@ graphify-out/
 
 # macOS metadata
 .DS_Store
+
+# Configuración local del panel admin (contiene el token de GitHub)
+.env
