@@ -172,6 +172,7 @@
     }
     .icon-btn:hover { border-color: var(--border); background: var(--surface); }
     .icon-btn svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .menu-btn { display: none; }
     .i-sun { display: none; }
     :root[data-theme="dark"] .i-sun { display: block; }
     :root[data-theme="dark"] .i-moon { display: none; }
@@ -653,7 +654,21 @@
     .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 28px; font-family: var(--f-mono); font-size: 12.5px; color: var(--on-plum-muted); }
  
     /* Responsive */
-    @media (max-width: 1180px) { .mainnav { display: none; } }
+    /* Menú móvil: el botón ☰ (site.js) agrega .open a .mainnav y lo despliega bajo la barra. */
+    @media (max-width: 1180px) {
+      .menu-btn { display: inline-grid; }
+      .mainnav {
+        position: absolute; top: calc(100% + 2px); left: 0; right: 0;
+        display: none;
+        max-height: calc(100vh - 100%); overflow-y: auto;
+        background: var(--paper);
+        border-bottom: 2px solid var(--border);
+        padding: 14px var(--gutter) 20px;
+      }
+      .mainnav.open { display: block; }
+      .mainnav ul { flex-direction: column; align-items: flex-start; gap: 2px; }
+      .mainnav a { display: block; font-size: 15px; padding: 8px 0; }
+    }
     @media (max-width: 980px) { :root { --gutter: 28px; } }
     @media (max-width: 720px) { :root { --gutter: 16px; } body { font-size: 16px; } .topbar { height: 68px; gap: 10px; } .block-section { padding-top: 68px; } .footer-row { flex-direction: column; align-items: flex-start; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
