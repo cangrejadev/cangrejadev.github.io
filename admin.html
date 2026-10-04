@@ -591,6 +591,9 @@
       #fileFallback {
         display: none;
       }
+      #tokenSource {
+        color: var(--green-ink);
+      }
       .tab-panel[hidden] {
         display: none;
       }
@@ -670,7 +673,7 @@
             <input type="file" id="fileFallback" accept=".html,text/html" />
           </div>
           <div class="field" style="margin-top: 18px">
-            <label for="ghToken">Token de acceso personal de GitHub</label>
+            <label for="ghToken">Token de acceso personal de GitHub <span id="tokenSource"></span></label>
             <div class="with-btn">
               <input type="password" id="ghToken" autocomplete="off" spellcheck="false" />
               <button type="button" class="btn btn-sm" id="btnToggleToken">Mostrar</button>
@@ -696,6 +699,12 @@
             con acceso solo a este repositorio y permisos "Contents: Read and write" y "Pull requests: Read and
             write". Se guarda únicamente en este navegador y solo se envía a api.github.com; no lo uses en un equipo
             compartido.
+          </p>
+          <p class="hint" style="margin: 8px 0 0">
+            <strong>En tu computador:</strong> copia <code>.env.example</code> como <code>.env</code>, pon ahí tu token
+            y sirve la carpeta con <code>python3 -m http.server</code>. Al abrir
+            <code>http://localhost:8000/admin.html</code> el panel lo carga solo. <code>.env</code> está en
+            <code>.gitignore</code> y en el sitio publicado no se busca.
           </p>
         </details>
 
@@ -2228,13 +2237,16 @@
         if (s.repo && s.repo !== "cangreja533.github.io") gh.repo.value = s.repo;
         if (s.base) gh.base.value = s.base;
       } catch (e) {}
+      // Token leído del archivo .env local: se usa, pero nunca se copia a localStorage.
+      let envToken = "";
       Object.values(gh).forEach((inp) =>
         inp.addEventListener("change", () => {
+          const token = gh.token.value.trim();
           try {
             localStorage.setItem(
               GH_SETTINGS_KEY,
               JSON.stringify({
-                token: gh.token.value.trim(),
+                token: token === envToken ? "" : token,
                 owner: gh.owner.value.trim(),
                 repo: gh.repo.value.trim(),
                 base: gh.base.value.trim(),
@@ -2243,6 +2255,50 @@
           } catch (e) {}
         })
       );
+      /* ---------- .env local ----------
+         Solo en localhost: lee GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO y
+         GITHUB_BASE de un archivo .env junto a admin.html. En el sitio
+         publicado no se intenta, para no exponer ni pedir ese archivo. */
+      function isLocalHost() {
+        return /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+      }
+
+      function parseEnv(text) {
+        const vars = {};
+        text.split(/\r?\n/).forEach((line) => {
+          const m = line.match(/^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
+          if (!m) return;
+          let v = m[2];
+          const quoted = v.match(/^(["'])(.*?)\1/);
+          v = quoted ? quoted[2] : v.replace(/\s+#.*$/, "");
+          vars[m[1]] = v;
+        });
+        return vars;
+      }
+
+      async function loadEnv() {
+        if (!isLocalHost()) return;
+        let text;
+        try {
+          const res = await fetch(".env", { cache: "no-store" });
+          if (!res.ok) return;
+          text = await res.text();
+        } catch (e) {
+          return;
+        }
+        // Si el servidor devuelve una página HTML (p. ej. un 404 personalizado), no es un .env.
+        if (/^\s*</.test(text)) return;
+        const env = parseEnv(text);
+        if (env.GITHUB_TOKEN) {
+          envToken = env.GITHUB_TOKEN;
+          gh.token.value = envToken;
+          $("#tokenSource").textContent = "· cargado desde .env";
+        }
+        if (env.GITHUB_OWNER) gh.owner.value = env.GITHUB_OWNER;
+        if (env.GITHUB_REPO) gh.repo.value = env.GITHUB_REPO;
+        if (env.GITHUB_BASE) gh.base.value = env.GITHUB_BASE;
+      }
+
       $("#btnToggleToken").addEventListener("click", (e) => {
         const showing = gh.token.type === "text";
         gh.token.type = showing ? "password" : "text";
@@ -2378,6 +2434,7 @@
          Inicio
          ================================================================== */
       buildTabs();
+      loadEnv();
       if (location.protocol === "file:") {
         setStatus(
           'Abriste el panel desde tu computador: usa "Cargar desde archivo…" y elige tu index.html.',
