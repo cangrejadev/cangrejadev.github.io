@@ -439,7 +439,6 @@ p {
 .tag-yellow { background: var(--plum-soft); color: var(--plum-ink); }
 .tag-blue { background: var(--teal-soft); color: var(--teal-ink); }
 .tag-green { background: var(--green-soft); color: var(--green-ink); }
-.tag-gray { background: var(--surface-2); color: var(--muted); }
 
 /* ---------- Hero ---------- */
 .hero-grid {
@@ -449,41 +448,6 @@ p {
   align-items: start;
   padding-top: 56px;
   padding-bottom: 40px;
-}
-.nb-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 14px;
-  font-family: var(--f-mono);
-}
-.nb-file {
-  background: var(--plum);
-  color: var(--on-plum);
-  font-size: 12.5px;
-  font-weight: 700;
-  padding: 6px 13px;
-  border-radius: 5px;
-}
-.nb-kernel {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 11.5px;
-  color: var(--muted);
-}
-.nb-kernel i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 3px var(--green-soft);
-}
-.prompt {
-  margin-top: 30px;
-  font-family: var(--f-mono);
-  font-size: 13.5px;
-  color: var(--brand);
 }
 .hero-title {
   margin-top: 10px;
@@ -515,9 +479,6 @@ p {
     background: var(--brand-soft);
     color: var(--text-strong);
   }
-}
-.hl-dot {
-  color: var(--brand);
 }
 .hero-script {
   margin: 10px 0 0;
@@ -570,10 +531,6 @@ p {
 }
 :root[data-theme="dark"] .term-line{
   color: var(--text-strong);
-}
-.term-prompt {
-  color: var(--green);
-  margin-right: 4px;
 }
 .stats dl {
   display: grid;
@@ -1476,9 +1433,6 @@ main {
   }
   .hero-grid {
     padding-top: 36px;
-  }
-  .prompt {
-    margin-top: 22px;
   }
   .hero-actions .btn {
     flex: 1 1 100%;
