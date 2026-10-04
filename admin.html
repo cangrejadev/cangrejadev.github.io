@@ -2048,9 +2048,11 @@
       }
 
       function serializeDoc() {
-        // El salto de línea final del archivo acaba dentro de <body> al volver a
+        // El salto de línea final del archivo acaba dentro del body al volver a
         // leerlo; se normaliza para que cargar y guardar no agregue líneas vacías.
-        const html = parsedDoc.documentElement.outerHTML.replace(/\s*<\/body>/, "\n  </body>");
+        // (Se escribe <\/body> para que el archivo solo tenga la etiqueta real de
+        // cierre: algunos visores insertan código antes de la primera que encuentran.)
+        const html = parsedDoc.documentElement.outerHTML.replace(/\s*<\/body>/, "\n  <\/body>");
         return "<!DOCTYPE html>\n" + html + "\n";
       }
 
