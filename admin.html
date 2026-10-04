@@ -5,774 +5,818 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Panel de contenido — Alejandra Zerdá</title>
+    <link rel="icon" href="assets/img/favicon.ico" />
+    <link rel="stylesheet" href="assets/css/fonts.css" />
     <style>
+      /* Mismos tokens que assets/css/site.css para que el panel se vea como el sitio. */
       :root {
-        --bg: #f4f5f7;
-        --panel: #ffffff;
-        --border: #e1e4e8;
-        --text: #1f2430;
-        --muted: #6b7280;
-        --accent: #630e53;
-        --accent-dark: #4a0c3d;
-        --ok: #1a7f37;
-        --warn: #b45309;
-        --err: #c0392b;
+        --paper: #fcf8fa;
+        --surface: #ffffff;
+        --surface-2: #f8eef3;
+        --ink: #33093e;
+        --text: #333333;
+        --muted: #7a6573;
+        --line: rgba(77, 19, 63, 0.14);
+        --brand: #3caac1;
+        --brand-hover: #2f8a9e;
+        --brand-soft: #ddf1f5;
+        --plum: #7d5392;
+        --plum-soft: #f2e3ee;
+        --green-ink: #4b6b25;
+        --green-soft: #e4f1d6;
+        --warn: #8a5a00;
+        --warn-soft: #fdf1d8;
+        --err: #a3123a;
+        --err-soft: #fbe3ea;
+        --f-head: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+        --f-body: "Fira Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        --f-hand: "Caveat", cursive;
+        color-scheme: light;
       }
       * {
         box-sizing: border-box;
       }
+      html,
       body {
         margin: 0;
-        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-          sans-serif;
-        background: var(--bg);
+        height: 100%;
+      }
+      body {
+        font-family: var(--f-body);
+        font-size: 15px;
         color: var(--text);
+        background: var(--paper);
       }
-      header {
-        background: var(--accent);
-        color: #fff;
-        padding: 18px 24px;
+      a {
+        color: var(--brand-hover);
       }
-      header h1 {
-        margin: 0 0 4px;
-        font-size: 1.3rem;
-      }
-      header p {
+      h1,
+      h2,
+      h3 {
+        font-family: var(--f-head);
+        color: var(--ink);
         margin: 0;
-        opacity: 0.85;
-        font-size: 0.85rem;
       }
-      .wrap {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-        gap: 20px;
+
+      /* ---------- Barra superior ---------- */
+      .adm-top {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 20px;
+        background: var(--surface);
+        border-bottom: 2px solid var(--ink);
       }
-      @media (max-width: 960px) {
-        .wrap {
-          grid-template-columns: 1fr;
-        }
+      .adm-top img {
+        height: 38px;
+        width: auto;
       }
-      .card {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 18px 20px;
-        margin-bottom: 18px;
+      .adm-title {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
       }
-      .card h2 {
-        font-size: 1rem;
-        margin: 0 0 14px;
-        color: var(--accent-dark);
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 8px;
+      .adm-title h1 {
+        font-size: 1.05rem;
       }
-      .card h3 {
-        font-size: 0.92rem;
-        margin: 0 0 12px;
-        color: var(--accent-dark);
-      }
-      .field {
-        margin-bottom: 14px;
-      }
-      .field label {
-        display: block;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-bottom: 4px;
+      .adm-title span {
+        font-family: var(--f-mono);
+        font-size: 11.5px;
         color: var(--muted);
       }
-      .field input,
-      .field textarea {
-        width: 100%;
-        padding: 8px 10px;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        font: inherit;
-        font-size: 0.9rem;
-        resize: vertical;
-      }
-      .field textarea {
-        min-height: 64px;
-      }
-      .toolbar {
+      .adm-top-actions {
+        margin-left: auto;
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-bottom: 16px;
+        align-items: center;
       }
-      button {
+      .dirty-pill {
+        font-family: var(--f-mono);
+        font-size: 11.5px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1.5px solid var(--line);
+        color: var(--muted);
+      }
+      .dirty-pill.on {
+        border-color: var(--plum);
+        background: var(--plum-soft);
+        color: var(--ink);
+      }
+
+      /* ---------- Botones ---------- */
+      .btn {
         cursor: pointer;
-        border: none;
-        border-radius: 6px;
-        padding: 9px 16px;
-        font-size: 0.85rem;
-        font-weight: 600;
+        font: 600 13.5px var(--f-body);
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 2px solid var(--ink);
+        background: var(--surface);
+        color: var(--ink);
+        box-shadow: 3px 3px 0 var(--ink);
+        transition: transform 0.1s, box-shadow 0.1s;
+        white-space: nowrap;
+      }
+      .btn:hover:not(:disabled) {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+      .btn:active:not(:disabled) {
+        transform: translate(2px, 2px);
+        box-shadow: 1px 1px 0 var(--ink);
       }
       .btn-primary {
-        background: var(--accent);
+        background: var(--brand);
         color: #fff;
       }
-      .btn-primary:hover {
-        background: var(--accent-dark);
+      .btn-plum {
+        background: var(--plum);
+        color: #fff;
       }
-      .btn-secondary {
-        background: #eef0f3;
-        color: var(--text);
-      }
-      .btn-secondary:hover {
-        background: #e2e5ea;
-      }
-      button:disabled {
-        opacity: 0.5;
+      .btn:disabled {
+        opacity: 0.45;
         cursor: not-allowed;
       }
-      #fileFallback {
+      .btn-sm {
+        padding: 5px 10px;
+        font-size: 12.5px;
+        box-shadow: 2px 2px 0 var(--ink);
+      }
+      .icon-btn {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 8px;
+        border: 1.5px solid var(--line);
+        background: var(--surface);
+        color: var(--ink);
+        font-size: 14px;
+        padding: 0;
+      }
+      .icon-btn:hover {
+        border-color: var(--ink);
+      }
+      .icon-btn.danger:hover {
+        border-color: var(--err);
+        color: var(--err);
+      }
+
+      /* ---------- Distribución ---------- */
+      .adm-layout {
+        display: grid;
+        grid-template-columns: 210px minmax(0, 1fr) minmax(0, 46%);
+        height: calc(100vh - 62px);
+      }
+      .adm-nav {
+        border-right: 2px solid var(--ink);
+        background: var(--surface);
+        padding: 14px 10px;
+        overflow-y: auto;
+      }
+      .adm-nav p {
+        font-family: var(--f-mono);
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 4px 8px 8px;
+      }
+      .tab-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        font: 500 14px var(--f-body);
+        color: var(--text);
+        background: none;
+        border: 2px solid transparent;
+        border-radius: 9px;
+        padding: 7px 10px;
+        margin-bottom: 2px;
+      }
+      .tab-btn:hover {
+        background: var(--surface-2);
+      }
+      .tab-btn.active {
+        background: var(--brand-soft);
+        border-color: var(--ink);
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .tab-btn .ico {
+        width: 20px;
+        text-align: center;
+      }
+      .adm-editor {
+        overflow-y: auto;
+        padding: 18px 22px 60px;
+      }
+      .adm-preview {
+        border-left: 2px solid var(--ink);
+        display: flex;
+        flex-direction: column;
+        background: var(--surface-2);
+        min-height: 0;
+      }
+      .preview-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-bottom: 2px solid var(--ink);
+        background: var(--surface);
+        font-family: var(--f-mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .preview-bar .grow {
+        flex: 1;
+      }
+      .seg {
+        display: inline-flex;
+        border: 1.5px solid var(--ink);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .seg button {
+        cursor: pointer;
+        border: 0;
+        background: var(--surface);
+        font: 600 12px var(--f-mono);
+        color: var(--ink);
+        padding: 4px 9px;
+      }
+      .seg button + button {
+        border-left: 1.5px solid var(--ink);
+      }
+      .seg button[aria-pressed="true"] {
+        background: var(--ink);
+        color: #fff;
+      }
+      #preview {
+        flex: 1;
+        width: 100%;
+        border: 0;
+        background: #fff;
+      }
+      @media (max-width: 1200px) {
+        .adm-layout {
+          grid-template-columns: 190px minmax(0, 1fr);
+          height: auto;
+        }
+        .adm-preview {
+          grid-column: 1 / -1;
+          border-left: 0;
+          border-top: 2px solid var(--ink);
+          height: 80vh;
+        }
+        .adm-editor {
+          overflow: visible;
+        }
+      }
+      @media (max-width: 760px) {
+        .adm-layout {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .adm-nav {
+          border-right: 0;
+          border-bottom: 2px solid var(--ink);
+          display: flex;
+          overflow-x: auto;
+          gap: 4px;
+          padding: 8px;
+        }
+        .adm-nav p {
+          display: none;
+        }
+        .tab-btn {
+          width: auto;
+          white-space: nowrap;
+        }
+        .adm-top {
+          flex-wrap: wrap;
+        }
+        .adm-editor {
+          padding: 14px 16px 40px;
+        }
+      }
+
+      /* ---------- Tarjetas y campos ---------- */
+      .card {
+        background: var(--surface);
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        box-shadow: 4px 4px 0 var(--ink);
+        padding: 16px 18px;
+        margin-bottom: 20px;
+      }
+      .card > h3 {
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
+      .card > h3::before {
+        content: "// ";
+        color: var(--brand);
+        font-family: var(--f-mono);
+      }
+      .section-head {
+        margin: 2px 0 16px;
+      }
+      .section-head h2 {
+        font-size: 1.5rem;
+      }
+      .section-head p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .section-head .kicker {
+        font-family: var(--f-mono);
+        font-size: 12px;
+        color: var(--brand-hover);
+        margin: 0 0 2px;
+      }
+      .hint {
+        font-size: 13px;
+        color: var(--muted);
+        margin: 0 0 12px;
+        line-height: 1.45;
+      }
+      .field {
+        margin-top: 12px;
+      }
+      .field > label,
+      .field-label {
+        display: block;
+        font-family: var(--f-mono);
+        font-size: 11.5px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .bi {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .bi.single {
+        grid-template-columns: 1fr;
+      }
+      .lang {
+        position: relative;
+      }
+      .lang::before {
+        content: attr(data-l);
+        position: absolute;
+        top: 7px;
+        right: 8px;
+        font: 600 10px var(--f-mono);
+        color: var(--muted);
+        background: var(--surface-2);
+        border-radius: 4px;
+        padding: 1px 5px;
+        pointer-events: none;
+      }
+      input[type="text"],
+      input[type="password"],
+      textarea,
+      select {
+        width: 100%;
+        font: 14px var(--f-body);
+        color: var(--text);
+        background: #fff;
+        padding: 7px 10px;
+        border: 1.5px solid var(--line);
+        border-radius: 8px;
+      }
+      .lang input,
+      .lang textarea {
+        padding-right: 34px;
+      }
+      textarea {
+        min-height: 60px;
+        resize: vertical;
+        line-height: 1.45;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--brand);
+        box-shadow: 0 0 0 3px var(--brand-soft);
+      }
+      .with-btn {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .with-btn > input {
+        flex: 1;
+      }
+      .thumb {
+        width: 44px;
+        height: 44px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1.5px solid var(--line);
+        background: var(--surface-2);
+        flex-shrink: 0;
+      }
+      .thumb.broken {
+        opacity: 0.25;
+      }
+
+      /* ---------- Listas (componentes repetibles) ---------- */
+      .rows {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 10px 0 12px;
+      }
+      .row {
+        border: 1.5px solid var(--line);
+        border-radius: 10px;
+        background: var(--paper);
+      }
+      .row[open] {
+        border-color: var(--ink);
+        background: #fff;
+      }
+      .row > summary {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 8px 7px 12px;
+        cursor: pointer;
+      }
+      .row > summary::-webkit-details-marker {
         display: none;
       }
+      .row > summary::before {
+        content: "▸";
+        color: var(--brand-hover);
+        font-size: 12px;
+        transition: transform 0.15s;
+      }
+      .row[open] > summary::before {
+        transform: rotate(90deg);
+      }
+      .row-num {
+        font: 600 11px var(--f-mono);
+        color: var(--muted);
+        min-width: 18px;
+      }
+      .row-title {
+        flex: 1;
+        min-width: 0;
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .row-title.empty {
+        color: var(--muted);
+        font-style: italic;
+      }
+      .row-actions {
+        display: flex;
+        gap: 4px;
+      }
+      .row-body {
+        padding: 0 14px 14px;
+      }
+      .row-body > .field:first-child {
+        margin-top: 4px;
+      }
+      .list-foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+      .count {
+        font-family: var(--f-mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* ---------- Textos automáticos (pares EN/ES) ---------- */
+      .pair {
+        display: grid;
+        grid-template-columns: 120px 1fr 1fr;
+        gap: 8px;
+        align-items: center;
+        padding: 6px 0;
+        border-top: 1px dashed var(--line);
+      }
+      .pair:first-of-type {
+        border-top: 0;
+      }
+      .pair .ctx {
+        font-family: var(--f-mono);
+        font-size: 11px;
+        color: var(--muted);
+      }
+      @media (max-width: 760px) {
+        .bi,
+        .pair {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ---------- Estado, conexión, modal ---------- */
       #status {
-        font-size: 0.85rem;
-        padding: 10px 12px;
-        border-radius: 6px;
-        margin-bottom: 16px;
         display: none;
+        font-size: 13.5px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 2px solid var(--ink);
+        margin-bottom: 16px;
       }
       #status.show {
         display: block;
       }
       #status.ok {
-        background: #e6f4ea;
-        color: var(--ok);
+        background: var(--green-soft);
+        color: var(--green-ink);
       }
       #status.warn {
-        background: #fef3e2;
+        background: var(--warn-soft);
         color: var(--warn);
       }
       #status.err {
-        background: #fdecea;
+        background: var(--err-soft);
         color: var(--err);
       }
-      .preview-frame-wrap {
-        position: sticky;
-        top: 20px;
-      }
-      iframe {
-        width: 100%;
-        height: 78vh;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: #fff;
-      }
-      .hint {
-        font-size: 0.78rem;
-        color: var(--muted);
-        margin-top: -8px;
-        margin-bottom: 14px;
-      }
-      details summary {
+      details.setup > summary {
         cursor: pointer;
-        font-size: 0.85rem;
-        color: var(--accent-dark);
-        font-weight: 600;
+        list-style: none;
+        font-family: var(--f-head);
+        font-weight: 700;
+        color: var(--ink);
       }
-      .token-row,
-      .link-row {
-        display: flex;
-        gap: 8px;
+      details.setup > summary::-webkit-details-marker {
+        display: none;
       }
-      .token-row input,
-      .link-row input {
-        flex: 1;
+      details.setup > summary::before {
+        content: "⚙️ ";
       }
-      .image-row {
-        display: flex;
-        align-items: center;
+      details.setup > summary .state {
+        font: 500 12px var(--f-mono);
+        color: var(--muted);
+        margin-left: 6px;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
       }
-      .image-row input {
-        flex: 1;
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
       }
-      .image-preview {
-        width: 48px;
-        height: 48px;
-        object-fit: contain;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        background: #fff;
-        flex-shrink: 0;
+      #fileFallback {
+        display: none;
       }
-      .image-preview-broken {
-        opacity: 0.25;
+      .tab-panel[hidden] {
+        display: none;
       }
-      .modal-overlay {
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+      }
+      .empty-state p {
+        font-family: var(--f-hand);
+        font-size: 1.7rem;
+        color: var(--plum);
+        margin: 0 0 6px;
+      }
+      .modal {
         position: fixed;
         inset: 0;
-        background: rgba(20, 20, 25, 0.55);
+        z-index: 50;
         display: none;
         align-items: center;
         justify-content: center;
-        z-index: 100;
         padding: 16px;
+        background: rgba(51, 9, 62, 0.45);
       }
-      .modal-overlay.show {
+      .modal.show {
         display: flex;
       }
-      .modal-box {
-        background: var(--panel);
-        border-radius: 10px;
-        max-width: 440px;
+      .modal .card {
+        max-width: 460px;
         width: 100%;
-        padding: 22px 24px;
+        margin: 0;
       }
-      .modal-box h3 {
-        margin: 0 0 10px;
-        font-size: 1.05rem;
-        color: var(--accent-dark);
-      }
-      .modal-box p {
-        font-size: 0.88rem;
-        color: var(--text);
-        line-height: 1.4;
+      .modal .card p {
+        line-height: 1.5;
+        font-size: 14px;
       }
       .modal-actions {
         display: flex;
         justify-content: flex-end;
         gap: 8px;
-        margin-top: 18px;
-      }
-      .tabs {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-bottom: 14px;
-      }
-      .tab-btn {
-        background: #eef0f3;
-        color: var(--text);
-        border-radius: 6px 6px 0 0;
-        padding: 9px 16px;
-        font-size: 0.82rem;
-      }
-      .tab-btn.active {
-        background: var(--accent);
-        color: #fff;
-      }
-      .tab-panel[hidden] {
-        display: none;
-      }
-      .list-row {
-        position: relative;
-      }
-      .list-row-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-      }
-      .list-row-header strong {
-        font-size: 0.8rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
-      .list-row-actions {
-        display: flex;
-        gap: 6px;
-      }
-      .list-row-actions button {
-        padding: 6px 11px;
+        margin-top: 14px;
       }
     </style>
   </head>
   <body>
-    <header>
-      <h1>Panel de contenido del sitio</h1>
-      <p>
-        Edita el contenido de index.html por secciones, igual que están
-        organizadas en el sitio. Al aplicar los cambios se crea
-        automáticamente un Pull Request en el repositorio para publicarlos.
-      </p>
+    <header class="adm-top">
+      <img src="assets/img/logo-az.png" alt="" width="52" height="38" />
+      <div class="adm-title">
+        <h1>Panel de contenido</h1>
+        <span>index.html · alejandrazerda</span>
+      </div>
+      <div class="adm-top-actions">
+        <span class="dirty-pill" id="dirtyPill">sin cambios</span>
+        <button type="button" class="btn btn-sm btn-plum" id="btnDraft" hidden>Recuperar borrador</button>
+        <button type="button" class="btn btn-sm" id="btnDownload" disabled>Descargar index.html</button>
+        <button type="button" class="btn btn-sm btn-primary" id="btnApply" disabled>Publicar (crear Pull Request)</button>
+      </div>
     </header>
 
-    <div class="wrap">
-      <div>
-        <div id="status"></div>
+    <div class="adm-layout">
+      <nav class="adm-nav" id="tabNav" aria-label="Secciones">
+        <p>Secciones del sitio</p>
+      </nav>
 
-        <div class="card">
-          <h2>0. Conexión con GitHub</h2>
-          <div class="field">
-            <label for="ghToken">Token de acceso personal (GitHub)</label>
-            <div class="token-row">
-              <input type="password" id="ghToken" autocomplete="off" />
-              <button class="btn-secondary" id="btnToggleToken" type="button">
-                Mostrar
-              </button>
+      <main class="adm-editor">
+        <div id="status" role="status"></div>
+
+        <details class="card setup" id="setupCard" open>
+          <summary>Conexión y carga <span class="state" id="setupState"></span></summary>
+          <p class="hint" style="margin-top: 12px">
+            El panel lee el <code>index.html</code> publicado, te deja editar cada texto, enlace y componente, y al
+            publicar crea un Pull Request en GitHub con el archivo actualizado. Los cambios se guardan como
+            borrador en este navegador mientras trabajas.
+          </p>
+          <div class="toolbar" style="margin-top: 0">
+            <button type="button" class="btn btn-sm btn-primary" id="btnLoad">Cargar contenido publicado</button>
+            <button type="button" class="btn btn-sm" id="btnPickFile">Cargar desde archivo…</button>
+            <input type="file" id="fileFallback" accept=".html,text/html" />
+          </div>
+          <div class="field" style="margin-top: 18px">
+            <label for="ghToken">Token de acceso personal de GitHub</label>
+            <div class="with-btn">
+              <input type="password" id="ghToken" autocomplete="off" spellcheck="false" />
+              <button type="button" class="btn btn-sm" id="btnToggleToken">Mostrar</button>
             </div>
           </div>
-          <div class="field">
-            <label for="ghOwner">Owner</label>
-            <input type="text" id="ghOwner" value="cangreja533" />
-          </div>
-          <div class="field">
-            <label for="ghRepo">Repositorio</label>
-            <input type="text" id="ghRepo" value="cangreja533.github.io" />
+          <div class="grid-2">
+            <div class="field">
+              <label for="ghOwner">Owner</label>
+              <input type="text" id="ghOwner" value="cangrejadev" spellcheck="false" />
+            </div>
+            <div class="field">
+              <label for="ghRepo">Repositorio</label>
+              <input type="text" id="ghRepo" value="cangrejadev.github.io" spellcheck="false" />
+            </div>
           </div>
           <div class="field">
             <label for="ghBase">Rama base</label>
-            <input type="text" id="ghBase" value="main" />
+            <input type="text" id="ghBase" value="main" spellcheck="false" />
           </div>
-          <p class="hint" style="margin-bottom: 0">
-            Crea un token de acceso personal (fine-grained) en
-            <a
-              href="https://github.com/settings/tokens?type=beta"
-              target="_blank"
-              rel="noopener"
-              >github.com/settings/tokens</a
-            >, con acceso limitado a este repositorio y permisos de
-            "Contents: Read and write" y "Pull requests: Read and write". El
-            token se guarda solo en este navegador (localStorage) y se envía
-            únicamente a api.github.com; no lo compartas ni lo uses en un
-            equipo público.
+          <p class="hint" style="margin: 10px 0 0">
+            Crea un token <em>fine-grained</em> en
+            <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>
+            con acceso solo a este repositorio y permisos "Contents: Read and write" y "Pull requests: Read and
+            write". Se guarda únicamente en este navegador y solo se envía a api.github.com; no lo uses en un equipo
+            compartido.
           </p>
-        </div>
+        </details>
 
-        <div class="card">
-          <div class="toolbar">
-            <button class="btn-primary" id="btnLoad">
-              Cargar contenido actual (index.html)
-            </button>
-            <button class="btn-secondary" id="btnPickFile">
-              Cargar desde archivo…
-            </button>
-            <button class="btn-secondary" id="btnDraft">
-              Recuperar borrador guardado
-            </button>
-            <input type="file" id="fileFallback" accept=".html,text/html" />
-          </div>
-          <p class="hint">
-            Si abres este panel directamente desde tu computador (file://) el
-            navegador puede bloquear la carga automática; en ese caso usa
-            "Cargar desde archivo…" y selecciona tu index.html. Si lo abres
-            desde el sitio publicado, "Cargar contenido actual" funciona
-            directo.
-          </p>
-        </div>
-
-        <div class="tabs">
-          <button type="button" class="tab-btn active" data-tab="hero">Hero</button>
-          <button type="button" class="tab-btn" data-tab="about">Sobre mí</button>
-          <button type="button" class="tab-btn" data-tab="experience">Experience</button>
-          <button type="button" class="tab-btn" data-tab="estudios">Estudios</button>
-          <button type="button" class="tab-btn" data-tab="services">Servicios</button>
-          <button type="button" class="tab-btn" data-tab="process">Cómo trabajo</button>
-          <button type="button" class="tab-btn" data-tab="portfolio">Portfolio</button>
-          <button type="button" class="tab-btn" data-tab="testimonial">Testimonios</button>
-          <button type="button" class="tab-btn" data-tab="blog">Blog</button>
-          <button type="button" class="tab-btn" data-tab="contact">Contacto</button>
-          <button type="button" class="tab-btn" data-tab="menu">Menú</button>
-          <button type="button" class="tab-btn" data-tab="titulos">Títulos</button>
-          <button type="button" class="tab-btn" data-tab="imagenes">Imágenes</button>
-        </div>
-
-        <form id="editorForm">
-          <div id="tab-hero" class="tab-panel" data-tab-panel="hero">
-            <div class="card" id="emptyState">
-              <p class="hint" style="margin: 0">
-                Aún no se ha cargado ningún contenido. Usa "Cargar contenido
-                actual" o "Cargar desde archivo…" arriba antes de editar.
-              </p>
-            </div>
-          </div>
-          <div id="tab-about" class="tab-panel" data-tab-panel="about" hidden></div>
-          <div id="tab-process" class="tab-panel" data-tab-panel="process" hidden></div>
-          <div id="tab-contact" class="tab-panel" data-tab-panel="contact" hidden></div>
-          <div id="tab-menu" class="tab-panel" data-tab-panel="menu" hidden></div>
-          <div id="tab-titulos" class="tab-panel" data-tab-panel="titulos" hidden></div>
-          <div id="tab-imagenes" class="tab-panel" data-tab-panel="imagenes" hidden></div>
-        </form>
-
-        <div id="tab-experience" class="tab-panel" data-tab-panel="experience" hidden>
-          <div class="card">
-            <h2>Experience</h2>
-            <p class="hint">
-              Agrega, edita, elimina o reordena (↑/↓) puestos de trabajo.
-              Corresponden a la tabla "Experiencia" del sitio. Si dejas la
-              descripción vacía, la fila se muestra sin desplegable.
-            </p>
-            <div id="experienceList"></div>
-            <button type="button" class="btn-secondary" id="btnAddExperience" disabled>
-              + Agregar experiencia
-            </button>
+        <div id="panels">
+          <div class="card empty-state" id="emptyState">
+            <p>Carga el contenido para empezar ✍️</p>
+            <span class="hint">Usa "Cargar contenido publicado" o "Cargar desde archivo…".</span>
           </div>
         </div>
+      </main>
 
-        <div id="tab-estudios" class="tab-panel" data-tab-panel="estudios" hidden>
-          <div class="card">
-            <h2>Estudios</h2>
-            <p class="hint">
-              Agrega, edita, elimina o reordena (↑/↓) cursos, títulos o
-              certificaciones. Corresponden a "Formación y certificaciones"
-              del sitio.
-            </p>
-            <div id="educationList"></div>
-            <button type="button" class="btn-secondary" id="btnAddEducation" disabled>
-              + Agregar curso
-            </button>
+      <section class="adm-preview" aria-label="Vista previa">
+        <div class="preview-bar">
+          <span>vista previa</span>
+          <span class="grow"></span>
+          <div class="seg" id="segLang" role="group" aria-label="Idioma de la vista previa">
+            <button type="button" data-v="es" aria-pressed="true">ES</button>
+            <button type="button" data-v="en" aria-pressed="false">EN</button>
           </div>
-        </div>
-
-        <div id="tab-services" class="tab-panel" data-tab-panel="services" hidden>
-          <div class="card">
-            <h2>Servicios</h2>
-            <p class="hint">
-              Agrega, edita, elimina o reordena (↑/↓) los servicios que se
-              muestran en la sección "Servicios". Cada texto tiene versión en
-              inglés (EN) y en español (ES).
-            </p>
-            <div id="servicesList"></div>
-            <button type="button" class="btn-secondary" id="btnAddServices" disabled>
-              + Agregar servicio
-            </button>
+          <div class="seg" id="segTheme" role="group" aria-label="Tema de la vista previa">
+            <button type="button" data-v="light" aria-pressed="true">☀︎</button>
+            <button type="button" data-v="dark" aria-pressed="false">☾</button>
           </div>
-        </div>
-
-        <div id="tab-portfolio" class="tab-panel" data-tab-panel="portfolio" hidden>
-          <div class="card">
-            <h2>Portfolio</h2>
-            <p class="hint">
-              Agrega, edita, elimina o reordena (↑/↓) proyectos del
-              portafolio. La categoría controla los filtros del sitio: usa
-              una o más de estas palabras separadas por espacio —
-              delivery, public, ai, community.
-            </p>
-            <div id="portfolioList"></div>
-            <button type="button" class="btn-secondary" id="btnAddPortfolio" disabled>
-              + Agregar proyecto
-            </button>
-          </div>
-        </div>
-
-        <div id="tab-testimonial" class="tab-panel" data-tab-panel="testimonial" hidden>
-          <div class="card">
-            <h2>Testimonios</h2>
-            <p class="hint">
-              Agrega, edita, elimina o reordena (↑/↓) testimonios de
-              clientes.
-            </p>
-            <div id="testimonialList"></div>
-            <button type="button" class="btn-secondary" id="btnAddTestimonial" disabled>
-              + Agregar testimonio
-            </button>
-          </div>
-        </div>
-
-        <div id="tab-blog" class="tab-panel" data-tab-panel="blog" hidden>
-          <div class="card">
-            <h2>Blog</h2>
-            <p class="hint">
-              Agrega, edita, elimina o reordena (↑/↓) publicaciones del
-              blog.
-            </p>
-            <div id="blogList"></div>
-            <button type="button" class="btn-secondary" id="btnAddBlog" disabled>
-              + Agregar publicación
-            </button>
-          </div>
-        </div>
-
-        <div id="tab-menu-list" class="tab-panel" data-tab-panel="menu" hidden>
-          <div class="card">
-            <h2>Menú — Orden de los enlaces</h2>
-            <p class="hint">
-              Reordena (↑/↓) o edita el texto de los enlaces del menú
-              del menú superior. Cada uno sigue apuntando a su sección real del
-              sitio; no se pueden agregar ni quitar enlaces aquí.
-            </p>
-            <div id="menuNavList"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2>Guardar cambios</h2>
-          <div class="toolbar">
-            <button class="btn-primary" id="btnApply" disabled>
-              Aplicar y crear Pull Request
-            </button>
-            <button class="btn-secondary" id="btnDownload" disabled>
-              Descargar index.html actualizado
-            </button>
-          </div>
-          <p class="hint">
-            "Aplicar y crear Pull Request" actualiza la vista previa y, tras
-            confirmar, crea una rama nueva en GitHub con estos cambios (de
-            todas las pestañas) y abre un Pull Request contra la rama base
-            para revisarlos antes de publicarlos. "Descargar" sigue
-            disponible como respaldo manual si prefieres subir el archivo tú
-            misma.
-          </p>
-        </div>
-      </div>
-
-      <div class="preview-frame-wrap">
-        <div class="card" style="margin-bottom: 10px">
-          <h2>Vista previa</h2>
         </div>
         <iframe id="preview" title="Vista previa del sitio"></iframe>
-      </div>
+      </section>
     </div>
 
-    <div class="modal-overlay" id="confirmModal">
-      <div class="modal-box">
-        <h3>Confirmar guardado</h3>
+    <div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="card">
+        <h3 id="confirmTitle">¿Publicar los cambios?</h3>
         <p>
-          Se guardará esta información y se creará un Pull Request en el
-          repositorio de GitHub para actualizar <code>index.html</code> con
-          los cambios que hiciste. ¿Confirmas que deseas continuar?
+          Se creará una rama nueva y un Pull Request en GitHub con el <code>index.html</code> actualizado. El sitio
+          cambia cuando fusiones ese Pull Request.
         </p>
         <div class="modal-actions">
-          <button class="btn-secondary" id="btnModalCancel">Cancelar</button>
-          <button class="btn-primary" id="btnModalConfirm">
-            Sí, guardar y crear PR
-          </button>
+          <button type="button" class="btn btn-sm" id="btnModalCancel">Cancelar</button>
+          <button type="button" class="btn btn-sm btn-primary" id="btnModalConfirm">Crear Pull Request</button>
         </div>
       </div>
     </div>
 
     <script>
-      const DRAFT_KEY = "site-admin-draft-v3";
+      "use strict";
+
+      const DRAFT_KEY = "site-admin-draft-v4";
       const GH_SETTINGS_KEY = "site-admin-gh-settings-v1";
+      const COLORS = ["orange", "blue", "green", "purple", "yellow", "pink"];
+      const TAG_COLORS = ["purple", "blue", "green", "orange", "pink", "yellow"];
 
-      // Human-friendly grouping/labels for known fields, grouped by which
-      // tab they belong to. Any [data-edit] found in the loaded HTML that
-      // isn't listed here still gets a generic field (added to the
-      // "contact" tab), so the form never silently drops content.
-      const GROUPS = [
-        {
-          tab: "hero",
-          title: "Portada",
-          fields: [
-            { key: "hero-name", label: "Nombre mostrado", type: "text" },
-            {
-              key: "hero-roles",
-              label: "Roles (etiquetas; separados por coma)",
-              type: "text",
-            },
-            { key: "hero-script", label: "Frase manuscrita bajo el nombre (EN)", type: "text" },
-            { key: "hero-script-es", label: "Frase manuscrita bajo el nombre (ES)", type: "text" },
-            { key: "hero-tagline", label: "Párrafo de presentación (EN)", type: "textarea" },
-            { key: "hero-tagline-es", label: "Párrafo de presentación (ES)", type: "textarea" },
-            { key: "hero-intro", label: "Recuadro 💡 de Sobre mí (EN)", type: "textarea" },
-            { key: "hero-intro-es", label: "Recuadro 💡 de Sobre mí (ES)", type: "textarea" },
-            { key: "hero-cta-text", label: "Botón principal — WhatsApp (EN)", type: "text" },
-            { key: "hero-cta-text-es", label: "Botón principal — WhatsApp (ES)", type: "text" },
-            { key: "hero-cv-text", label: "Botón secundario (EN)", type: "text" },
-            { key: "hero-cv-text-es", label: "Botón secundario (ES)", type: "text" },
-            {
-              key: "hero-cv-href",
-              label: "Enlace del botón secundario (LinkedIn, CV en PDF…)",
-              type: "link",
-            },
-          ],
-        },
-        {
-          tab: "about",
-          title: "Sobre mí",
-          fields: [
-            { key: "about-quote", label: "Cita destacada (EN)", type: "text" },
-            { key: "about-quote-es", label: "Cita destacada (ES)", type: "text" },
-            { key: "about-bio", label: "Biografía (EN; deja una línea en blanco entre párrafos)", type: "textarea" },
-            { key: "about-bio-es", label: "Biografía (ES; deja una línea en blanco entre párrafos)", type: "textarea" },
-            { key: "about-community", label: "Recuadro de comunidad 🌎 (EN)", type: "textarea" },
-            { key: "about-community-es", label: "Recuadro de comunidad 🌎 (ES)", type: "textarea" },
-            { key: "about-role-bold", label: "Enfoque — primera palabra (resaltada)", type: "text" },
-            { key: "about-role-rest", label: "Enfoque — resto del texto", type: "text" },
-            { key: "about-degree", label: "Título académico (EN)", type: "text" },
-            { key: "about-degree-es", label: "Título académico (ES)", type: "text" },
-            { key: "about-specialization", label: "Especialización (EN)", type: "text" },
-            { key: "about-specialization-es", label: "Especialización (ES)", type: "text" },
-            { key: "about-cv-text", label: "Botón de hoja de vida (EN)", type: "text" },
-            { key: "about-cv-text-es", label: "Botón de hoja de vida (ES)", type: "text" },
-            { key: "about-linkedin-href", label: "Enlace del botón de hoja de vida", type: "link" },
-          ],
-        },
-        {
-          tab: "about",
-          title: "Propiedades de la portada",
-          fields: [
-            { key: "about-city", label: "Ubicación (EN)", type: "text" },
-            { key: "about-city-es", label: "Ubicación (ES)", type: "text" },
-            { key: "about-freelance", label: "Disponibilidad (EN)", type: "text" },
-            { key: "about-freelance-es", label: "Disponibilidad (ES)", type: "text" },
-            { key: "about-email", label: "Correo mostrado", type: "text" },
-            { key: "about-hire-email", label: "Correo de los botones de contacto", type: "text" },
-            { key: "about-website", label: "Sitio web (texto mostrado)", type: "text" },
-            { key: "about-website-href", label: "Sitio web (enlace real)", type: "link" },
-          ],
-        },
-        {
-          tab: "process",
-          title: "Cómo trabajo",
-          fields: [
-            { key: "process-intro", label: "Introducción (EN)", type: "textarea" },
-            { key: "process-intro-es", label: "Introducción (ES)", type: "textarea" },
-            { key: "process-1-title", label: "Paso 1 — título (EN)", type: "text" },
-            { key: "process-1-title-es", label: "Paso 1 — título (ES)", type: "text" },
-            { key: "process-1-text", label: "Paso 1 — texto (EN)", type: "textarea" },
-            { key: "process-1-text-es", label: "Paso 1 — texto (ES)", type: "textarea" },
-            { key: "process-2-title", label: "Paso 2 — título (EN)", type: "text" },
-            { key: "process-2-title-es", label: "Paso 2 — título (ES)", type: "text" },
-            { key: "process-2-text", label: "Paso 2 — texto (EN)", type: "textarea" },
-            { key: "process-2-text-es", label: "Paso 2 — texto (ES)", type: "textarea" },
-            { key: "process-3-title", label: "Paso 3 — título (EN)", type: "text" },
-            { key: "process-3-title-es", label: "Paso 3 — título (ES)", type: "text" },
-            { key: "process-3-text", label: "Paso 3 — texto (EN)", type: "textarea" },
-            { key: "process-3-text-es", label: "Paso 3 — texto (ES)", type: "textarea" },
-            { key: "process-4-title", label: "Paso 4 — título (EN)", type: "text" },
-            { key: "process-4-title-es", label: "Paso 4 — título (ES)", type: "text" },
-            { key: "process-4-text", label: "Paso 4 — texto (EN)", type: "textarea" },
-            { key: "process-4-text-es", label: "Paso 4 — texto (ES)", type: "textarea" },
-          ],
-        },
-        {
-          tab: "contact",
-          title: "Contacto",
-          fields: [
-            { key: "contact-intro", label: "Texto de invitación (EN)", type: "textarea" },
-            { key: "contact-intro-es", label: "Texto de invitación (ES)", type: "textarea" },
-            { key: "contact-email", label: "Correo mostrado", type: "text" },
-            { key: "contact-phone", label: "Teléfono", type: "text" },
-            { key: "contact-location", label: "Ubicación (EN)", type: "text" },
-            { key: "contact-location-es", label: "Ubicación (ES)", type: "text" },
-            { key: "contact-whatsapp-href", label: "Enlace de WhatsApp", type: "link" },
-            { key: "contact-calendar-href", label: "Enlace para agendar llamada", type: "link" },
-          ],
-        },
-        {
-          tab: "contact",
-          title: "Pie de página",
-          fields: [
-            { key: "footer-quote", label: "Frase final (EN)", type: "text" },
-            { key: "footer-quote-es", label: "Frase final (ES)", type: "text" },
-            { key: "footer-copyright", label: "Texto de copyright", type: "text" },
-          ],
-        },
-        {
-          tab: "menu",
-          title: "Redes sociales",
-          fields: [
-            { key: "menu-social-linkedin", label: "LinkedIn", type: "link" },
-            { key: "menu-social-github", label: "GitHub", type: "link" },
-            { key: "menu-social-twitter", label: "X / Twitter", type: "link" },
-          ],
-        },
-        {
-          tab: "titulos",
-          title: "Títulos de sección",
-          fields: [
-            { key: "section-about", label: "Sobre mí (EN)", type: "text" },
-            { key: "section-about-es", label: "Sobre mí (ES)", type: "text" },
-            { key: "section-services", label: "Servicios (EN)", type: "text" },
-            { key: "section-services-es", label: "Servicios (ES)", type: "text" },
-            { key: "section-process", label: "Cómo trabajo (EN)", type: "text" },
-            { key: "section-process-es", label: "Cómo trabajo (ES)", type: "text" },
-            { key: "section-portfolio", label: "Proyectos (EN)", type: "text" },
-            { key: "section-portfolio-es", label: "Proyectos (ES)", type: "text" },
-            { key: "section-webdesign", label: "Diseños web (EN)", type: "text" },
-            { key: "section-webdesign-es", label: "Diseños web (ES)", type: "text" },
-            { key: "section-resume", label: "Experiencia (EN)", type: "text" },
-            { key: "section-resume-es", label: "Experiencia (ES)", type: "text" },
-            { key: "section-testimonial", label: "Testimonios (EN)", type: "text" },
-            { key: "section-testimonial-es", label: "Testimonios (ES)", type: "text" },
-            { key: "section-blog", label: "Blog (EN)", type: "text" },
-            { key: "section-blog-es", label: "Blog (ES)", type: "text" },
-            { key: "section-contact", label: "Contacto (EN)", type: "text" },
-            { key: "section-contact-es", label: "Contacto (ES)", type: "text" },
-          ],
-        },
-        {
-          tab: "titulos",
-          title: "Textos introductorios",
-          fields: [
-            { key: "services-intro", label: "Introducción de servicios (EN)", type: "textarea" },
-            { key: "services-intro-es", label: "Introducción de servicios (ES)", type: "textarea" },
-            { key: "webdesign-intro", label: "Introducción de diseños web (EN)", type: "textarea" },
-            { key: "webdesign-intro-es", label: "Introducción de diseños web (ES)", type: "textarea" },
-          ],
-        },
-        {
-          tab: "contact",
-          title: "Google Analytics",
-          fields: [
-            {
-              key: "ga-id",
-              label: "ID de medición (ej. G-XXXXXXXXXX). Déjalo en G-XXXXXXXXXX para desactivar.",
-              type: "text",
-            },
-          ],
-        },
-        {
-          tab: "imagenes",
-          title: "Marca y foto de perfil",
-          fields: [
-            { key: "profile-photo", label: "Foto de perfil (portada y menú)", type: "image" },
-            { key: "site-logo", label: "Logo (pie de página)", type: "image" },
-          ],
-        },
-      ];
+      /* ==================================================================
+         Utilidades
+         ================================================================== */
+      const $ = (sel, root) => (root || document).querySelector(sel);
+      const $$ = (sel, root) => [...(root || document).querySelectorAll(sel)];
 
-      let parsedDoc = null; // live DOM we mutate and re-serialize
-      let autosaveTimer = null;
-
-      const statusEl = document.getElementById("status");
-      const form = document.getElementById("editorForm");
-      const preview = document.getElementById("preview");
-
-      function setStatus(msg, kind) {
-        statusEl.textContent = msg;
-        statusEl.className = "show " + (kind || "ok");
-      }
-
-      function escapeHtml(str) {
-        return str
+      function esc(str) {
+        return String(str == null ? "" : str)
           .replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;");
       }
-
-      function scheduleAutosave() {
-        clearTimeout(autosaveTimer);
-        autosaveTimer = setTimeout(() => saveDraft(true), 500);
+      function escAttr(str) {
+        return esc(str).replace(/"/g, "&quot;");
+      }
+      function clean(el) {
+        return el ? el.textContent.replace(/\s+/g, " ").trim() : "";
+      }
+      // Texto de un idioma dentro de un elemento bilingüe (o el texto plano).
+      function langText(scope, lang) {
+        if (!scope) return "";
+        const el = scope.querySelector(`[data-lang="${lang}"]`);
+        return el ? clean(el) : clean(scope);
+      }
+      function bi(en, es) {
+        return (
+          '<span data-lang="en">' + esc(en || es) + '</span><span data-lang="es">' + esc(es || en) + "</span>"
+        );
+      }
+      // Igual que bi(), pero si ambos idiomas coinciden deja texto plano.
+      function biOrPlain(en, es) {
+        return (en || es) === (es || en) ? esc(en || es) : bi(en, es);
+      }
+      function colorOf(el, prefix) {
+        if (!el) return "";
+        const c = [...el.classList].find((k) => k.startsWith(prefix));
+        return c ? c.slice(prefix.length) : "";
+      }
+      function pickColor(color, idx, palette) {
+        color = (color || "").trim().toLowerCase();
+        return palette.includes(color) ? color : palette[idx % palette.length];
+      }
+      function splitList(str) {
+        return (str || "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
+      }
+      function lines(str) {
+        return (str || "")
+          .split("\n")
+          .map((s) => s.trim())
+          .filter(Boolean);
       }
 
-      function getFieldEl(key) {
-        return parsedDoc
-          ? parsedDoc.querySelector(`[data-edit="${CSS.escape(key)}"]`)
-          : null;
+      /* ==================================================================
+         Campos simples: elementos con data-edit en index.html
+         - data-edit-attr: el valor vive en ese atributo (href, src, content…)
+         - data-edit-prefix: prefijo que se quita/pone (ej. mailto:)
+         - data-edit-join="br": párrafos separados por <br />
+         - data-edit-join="tags" | "chips": lista separada por comas
+         - .obf-email / .obf-email-link: correo ofuscado en data-user/data-domain
+         ================================================================== */
+      function isObfEmail(el) {
+        return (
+          (el.classList.contains("obf-email") || el.classList.contains("obf-email-link")) &&
+          el.hasAttribute("data-user")
+        );
       }
-
-      // Some keys (e.g. section titles) tag more than one element that
-      // should always show the same text — used when writing values back.
-      function getFieldEls(key) {
-        return parsedDoc
-          ? [...parsedDoc.querySelectorAll(`[data-edit="${CSS.escape(key)}"]`)]
-          : [];
-      }
-
       function readValue(el) {
-        // Obfuscated email: the real address lives in data-user/data-domain.
-        // Join them and ignore the placeholder text and the "#" href.
-        if (
-          (el.classList.contains("obf-email") ||
-            el.classList.contains("obf-email-link")) &&
-          el.hasAttribute("data-user") &&
-          el.hasAttribute("data-domain")
-        ) {
-          return (
-            el.getAttribute("data-user") + "@" + el.getAttribute("data-domain")
-          );
-        }
+        if (isObfEmail(el)) return el.getAttribute("data-user") + "@" + el.getAttribute("data-domain");
         const attr = el.getAttribute("data-edit-attr");
         const prefix = el.getAttribute("data-edit-prefix") || "";
         const join = el.getAttribute("data-edit-join");
@@ -784,33 +828,30 @@
         if (join === "br") {
           return el.innerHTML
             .split(/<br\s*\/?>/i)
-            .map((s) => s.replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim())
+            .map((s) => {
+              const t = document.createElement("textarea");
+              t.innerHTML = s;
+              return t.value.replace(/\s+/g, " ").trim();
+            })
             .join("\n")
+            .replace(/\n{3,}/g, "\n\n")
             .trim();
         }
-        return el.textContent.replace(/\s+/g, " ").trim();
+        if (join === "tags" || join === "chips") {
+          return $$("span", el).map(clean).filter(Boolean).join(", ");
+        }
+        return clean(el);
       }
-
       function writeValue(el, value) {
-        // Obfuscated email: split "user@domain" back into data attributes
-        // and keep the placeholder text / "#" href so no plaintext address
-        // ever lands in the saved HTML. Also propagate to any sibling
-        // .obf-email descendants so the pair stays in sync.
-        if (
-          (el.classList.contains("obf-email") ||
-            el.classList.contains("obf-email-link")) &&
-          /@/.test(value)
-        ) {
+        if (isObfEmail(el)) {
+          if (!/@/.test(value)) return;
           const parts = value.trim().split("@");
-          const user = parts[0] || "";
+          const user = parts[0];
           const domain = parts.slice(1).join("@");
-          el.setAttribute("data-user", user);
-          el.setAttribute("data-domain", domain);
-          if (el.classList.contains("obf-email")) el.textContent = "";
-          el.querySelectorAll(".obf-email").forEach((inner) => {
-            inner.setAttribute("data-user", user);
-            inner.setAttribute("data-domain", domain);
-            inner.textContent = "";
+          [el, ...$$(".obf-email", el)].forEach((e) => {
+            e.setAttribute("data-user", user);
+            e.setAttribute("data-domain", domain);
+            if (e.classList.contains("obf-email")) e.textContent = "";
           });
           return;
         }
@@ -819,897 +860,1324 @@
         const join = el.getAttribute("data-edit-join");
         if (attr) {
           el.setAttribute(attr, prefix + value);
-          return;
-        }
-        if (join === "br") {
+        } else if (join === "br") {
           el.innerHTML = value
             .split("\n")
-            .map((line) => escapeHtml(line.trim()))
+            .map((l) => esc(l.trim()))
             .join("<br />");
-          return;
+        } else if (join === "tags") {
+          el.innerHTML = splitList(value)
+            .map((t, i) => `<span class="tag tag-${TAG_COLORS[i % TAG_COLORS.length]}">${esc(t)}</span>`)
+            .join(" ");
+        } else if (join === "chips") {
+          el.innerHTML = splitList(value)
+            .map((t) => `<span>${esc(t)}</span>`)
+            .join("");
+        } else {
+          el.textContent = value;
         }
-        el.textContent = value;
       }
 
-      function allKnownKeys() {
-        const keys = new Set();
-        GROUPS.forEach((g) => g.fields.forEach((f) => keys.add(f.key)));
-        return keys;
-      }
-
-      function setActionsEnabled(enabled) {
-        [
-          "btnApply",
-          "btnDownload",
-          "btnAddEducation",
-          "btnAddExperience",
-          "btnAddServices",
-          "btnAddPortfolio",
-          "btnAddTestimonial",
-          "btnAddBlog",
-        ].forEach((id) => {
-          document.getElementById(id).disabled = !enabled;
-        });
-      }
-
-      function buildForm() {
-        const formTabs = [
-          "hero",
-          "about",
-          "process",
-          "contact",
-          "menu",
-          "titulos",
-          "imagenes",
-        ];
-        formTabs.forEach((tab) => {
-          document.getElementById("tab-" + tab).innerHTML = "";
-        });
-        if (!parsedDoc) {
-          const empty = document.createElement("div");
-          empty.className = "card";
-          empty.innerHTML =
-            '<p class="hint" style="margin:0">Aún no se ha cargado ningún contenido. Usa "Cargar contenido actual" o "Cargar desde archivo…" arriba antes de editar.</p>';
-          document.getElementById("tab-hero").appendChild(empty);
-          return;
-        }
-        setActionsEnabled(true);
-
-        const known = allKnownKeys();
-
-        GROUPS.forEach((group) => {
-          const panel = document.getElementById("tab-" + group.tab);
-          const card = document.createElement("div");
-          card.className = "card";
-          const h2 = document.createElement("h2");
-          h2.textContent = group.title;
-          card.appendChild(h2);
-
-          group.fields.forEach((f) => {
-            const el = getFieldEl(f.key);
-            if (!el) return; // field not present in this HTML, skip silently
-            card.appendChild(renderField(f.key, f.label, f.type, readValue(el)));
-          });
-
-          if (card.children.length > 1) panel.appendChild(card);
-        });
-
-        // Any [data-edit] present in the doc but not covered above still
-        // gets an editable field, generically labeled, in the Contact tab.
-        const extras = [...parsedDoc.querySelectorAll("[data-edit]")].filter(
-          (el) => !known.has(el.getAttribute("data-edit"))
-        );
-        if (extras.length) {
-          const panel = document.getElementById("tab-contact");
-          const card = document.createElement("div");
-          card.className = "card";
-          const h2 = document.createElement("h2");
-          h2.textContent = "Otros campos detectados";
-          card.appendChild(h2);
-          extras.forEach((el) => {
-            const key = el.getAttribute("data-edit");
-            card.appendChild(renderField(key, key, "textarea", readValue(el)));
-          });
-          panel.appendChild(card);
-        }
-
-        scheduleAutosaveBindings();
-      }
-
-      function renderField(key, label, type, value) {
-        const wrap = document.createElement("div");
-        wrap.className = "field";
-        const labelEl = document.createElement("label");
-        labelEl.textContent = label;
-        labelEl.setAttribute("for", "f_" + key);
-        wrap.appendChild(labelEl);
-
-        if (type === "link") {
-          const row = document.createElement("div");
-          row.className = "link-row";
-          const input = document.createElement("input");
-          input.type = "text";
-          input.id = "f_" + key;
-          input.dataset.key = key;
-          input.value = value;
-          input.placeholder = "https://... o una ruta como assets/cv/mi-cv.pdf";
-          const openBtn = document.createElement("button");
-          openBtn.type = "button";
-          openBtn.className = "btn-secondary";
-          openBtn.textContent = "Probar ↗";
-          openBtn.addEventListener("click", () => {
-            const url = input.value.trim();
-            if (!url || url === "javascript:void(0);") {
-              setStatus("Este campo todavía no tiene un enlace para probar.", "warn");
-              return;
-            }
-            window.open(url, "_blank", "noopener");
-          });
-          row.appendChild(input);
-          row.appendChild(openBtn);
-          wrap.appendChild(row);
-          return wrap;
-        }
-
-        if (type === "image") {
-          const row = document.createElement("div");
-          row.className = "image-row";
-          const preview = document.createElement("img");
-          preview.className = "image-preview";
-          preview.alt = "";
-          preview.src = value;
-          preview.onerror = () => {
-            preview.classList.add("image-preview-broken");
-          };
-          const input = document.createElement("input");
-          input.type = "text";
-          input.id = "f_" + key;
-          input.dataset.key = key;
-          input.value = value;
-          input.placeholder = "assets/img/... o https://...";
-          input.addEventListener("input", () => {
-            preview.classList.remove("image-preview-broken");
-            preview.src = input.value.trim();
-          });
-          row.appendChild(preview);
-          row.appendChild(input);
-          wrap.appendChild(row);
-          return wrap;
-        }
-
-        const input =
-          type === "textarea"
-            ? document.createElement("textarea")
-            : document.createElement("input");
-        if (type !== "textarea") input.type = "text";
-        input.id = "f_" + key;
-        input.dataset.key = key;
-        input.value = value;
-        wrap.appendChild(input);
-        return wrap;
-      }
-
-      function scheduleAutosaveBindings() {
-        form.querySelectorAll("input, textarea").forEach((inp) => {
-          inp.addEventListener("input", scheduleAutosave);
-        });
-      }
-
-      function collectFormValues() {
-        const values = {};
-        form.querySelectorAll("input, textarea").forEach((inp) => {
-          values[inp.dataset.key] = inp.value;
-        });
-        return values;
-      }
-
-      // ------------------------------------------------------------------
-      // Generic repeatable-list UI: used by Resume (experience/education),
-      // Servicios, Portfolio, Testimonial, Blog and the menu nav links.
-      // Each list has its own field spec (for rendering/collecting rows)
-      // and its own parse/write functions (since the underlying HTML
-      // shape differs per section). Rows can be reordered with ↑/↓; a
-      // list can also carry hidden per-item metadata (metaKeys) that
-      // isn't shown as a field but is preserved on write (e.g. a menu
-      // link's real href), and can disable add/remove (allowRemove).
-      // ------------------------------------------------------------------
-      function renderListRow(fields, data, opts) {
-        data = data || {};
-        opts = opts || {};
-        const metaKeys = opts.metaKeys || [];
-        const allowRemove = opts.allowRemove !== false;
-        const row = document.createElement("div");
-        row.className = "list-row card";
-        metaKeys.forEach((mk) => {
-          row.dataset[mk] = data[mk] || "";
-        });
-
-        const header = document.createElement("div");
-        header.className = "list-row-header";
-        header.innerHTML = "<strong>Elemento</strong>";
-
-        const actions = document.createElement("div");
-        actions.className = "list-row-actions";
-
-        const upBtn = document.createElement("button");
-        upBtn.type = "button";
-        upBtn.className = "btn-secondary";
-        upBtn.textContent = "↑";
-        upBtn.title = "Subir";
-        upBtn.addEventListener("click", () => {
-          const prev = row.previousElementSibling;
-          if (prev) row.parentElement.insertBefore(row, prev);
-          scheduleAutosave();
-        });
-
-        const downBtn = document.createElement("button");
-        downBtn.type = "button";
-        downBtn.className = "btn-secondary";
-        downBtn.textContent = "↓";
-        downBtn.title = "Bajar";
-        downBtn.addEventListener("click", () => {
-          const next = row.nextElementSibling;
-          if (next) row.parentElement.insertBefore(next, row);
-          scheduleAutosave();
-        });
-
-        actions.appendChild(upBtn);
-        actions.appendChild(downBtn);
-
-        if (allowRemove) {
-          const removeBtn = document.createElement("button");
-          removeBtn.type = "button";
-          removeBtn.className = "btn-secondary";
-          removeBtn.textContent = "Eliminar";
-          removeBtn.addEventListener("click", () => {
-            row.remove();
-            scheduleAutosave();
-          });
-          actions.appendChild(removeBtn);
-        }
-
-        header.appendChild(actions);
-        row.appendChild(header);
-
-        fields.forEach((f) => {
-          const wrap = document.createElement("div");
-          wrap.className = "field";
-          const label = document.createElement("label");
-          label.textContent = f.label;
-          wrap.appendChild(label);
-          const input =
-            f.type === "textarea"
-              ? document.createElement("textarea")
-              : document.createElement("input");
-          if (f.type !== "textarea") input.type = "text";
-          input.className = "lrow-" + f.key;
-          input.value = data[f.key] || "";
-          input.addEventListener("input", scheduleAutosave);
-          wrap.appendChild(input);
-          row.appendChild(wrap);
-        });
-        return row;
-      }
-
-      function buildListForm(listEl, fields, items, opts) {
-        listEl.innerHTML = "";
-        items.forEach((item) => listEl.appendChild(renderListRow(fields, item, opts)));
-      }
-
-      function collectListRows(listEl, fields, metaKeys) {
-        metaKeys = metaKeys || [];
-        return [...listEl.querySelectorAll(":scope > .list-row")]
-          .map((row) => {
-            const obj = {};
-            fields.forEach((f) => {
-              obj[f.key] = row.querySelector(".lrow-" + f.key).value.trim();
-            });
-            metaKeys.forEach((mk) => {
-              obj[mk] = row.dataset[mk] || "";
-            });
-            return obj;
-          })
-          .filter((obj) => fields.some((f) => obj[f.key]));
-      }
-
-      // ------------------------------------------------------------------
-      // Bilingual helpers. The site keeps both languages in the HTML as
-      // sibling elements marked data-lang="en" / data-lang="es".
-      // ------------------------------------------------------------------
-      function cleanText(el) {
-        return el ? el.textContent.replace(/\s+/g, " ").trim() : "";
-      }
-      function langText(scope, lang) {
-        if (!scope) return "";
-        const el = scope.querySelector(`[data-lang="${lang}"]`);
-        return el ? cleanText(el) : cleanText(scope);
-      }
-      function biSpan(en, es) {
-        return (
-          '<span data-lang="en">' +
-          escapeHtml(en || es || "") +
-          '</span><span data-lang="es">' +
-          escapeHtml(es || en || "") +
-          "</span>"
-        );
-      }
-      function escapeAttr(str) {
-        return escapeHtml(str || "").replace(/"/g, "&quot;");
-      }
-      const COVER_COLORS = ["orange", "blue", "green", "purple", "yellow", "pink"];
-      function coverColorOf(item) {
-        const cover = item.querySelector(".card-cover");
-        if (!cover) return "";
-        const c = [...cover.classList].find((k) => k.startsWith("cover-"));
-        return c ? c.slice(6) : "";
-      }
-      function safeColor(color, idx) {
-        color = (color || "").trim().toLowerCase();
-        return COVER_COLORS.includes(color)
-          ? color
-          : COVER_COLORS[idx % COVER_COLORS.length];
-      }
-
-      // --- Resume tab: Experiencia + Estudios (shared "timeline" shape) ---
-      const TIMELINE_FIELDS = [
-        { key: "title", label: "Cargo / título (EN)" },
-        { key: "title_es", label: "Cargo / título (ES)" },
-        { key: "institution", label: "Empresa / institución" },
-        { key: "year", label: "Periodo (EN, ej. Apr 2024 – Jun 2025)" },
-        { key: "year_es", label: "Periodo (ES, ej. abr 2024 – jun 2025)" },
-        {
-          key: "description",
-          label: "Descripción EN (opcional; una línea por viñeta)",
-          type: "textarea",
-        },
-        {
-          key: "description_es",
-          label: "Descripción ES (opcional; una línea por viñeta)",
-          type: "textarea",
-        },
-      ];
-      const educationListEl = document.getElementById("educationList");
-      const experienceListEl = document.getElementById("experienceList");
-
-      function getTimelineContainer(listKey) {
-        return parsedDoc
-          ? parsedDoc.querySelector(`[data-edu-list="${listKey}"]`)
-          : null;
-      }
-
-      function readTimelineDescription(content, lang) {
-        if (!content) return "";
-        const el = content.querySelector(`[data-lang="${lang}"]`);
-        if (!el) return "";
-        if (el.tagName === "UL") {
-          return [...el.querySelectorAll("li")].map(cleanText).join("\n");
-        }
-        return cleanText(el);
-      }
-
-      function parseTimelineFromDoc(listKey) {
-        const container = getTimelineContainer(listKey);
-        if (!container) return [];
-        return [...container.querySelectorAll(":scope > .timeline-item")].map(
-          (item) => {
-            const title = item.querySelector(".timeline-title");
-            const year = item.querySelector(".timeline-year");
-            const content = item.querySelector(".timeline-content");
+      /* ==================================================================
+         Componentes repetibles (listas). Cada lista sabe leer sus elementos
+         del HTML (parse) y volver a generarlos (render).
+         Tipos de campo: text, textarea, link, image, select, tags.
+         bi: true crea dos campos, EN (key) y ES (key_es).
+         ================================================================== */
+      const LISTS = {
+        menu: {
+          title: "Menú de navegación",
+          hint: "Enlaces de la barra superior. El destino es el ancla de la sección (ej. #about).",
+          container: "#myMenu",
+          item: ":scope > li",
+          add: "Agregar enlace",
+          fields: [
+            { key: "label", label: "Texto", bi: true },
+            { key: "href", label: "Destino" },
+            { key: "anchor", hidden: true },
+          ],
+          parse: (li) => {
+            const a = $("a", li);
             return {
-              title: langText(title, "en"),
-              title_es: langText(title, "es"),
-              institution: cleanText(item.querySelector(".timeline-org")),
-              year: langText(year, "en"),
-              year_es: langText(year, "es"),
-              description: readTimelineDescription(content, "en"),
-              description_es: readTimelineDescription(content, "es"),
+              label: langText(a, "en"),
+              label_es: langText(a, "es"),
+              href: a ? a.getAttribute("href") || "" : "",
+              anchor: li.getAttribute("data-menuanchor") || "",
             };
-          }
-        );
-      }
-
-      function descriptionHtml(text, lang) {
-        const lines = (text || "")
-          .split("\n")
-          .map((s) => s.trim())
-          .filter(Boolean);
-        if (!lines.length) return "";
-        if (lines.length === 1) {
-          return '<p data-lang="' + lang + '">' + escapeHtml(lines[0]) + "</p>";
-        }
-        return (
-          '<ul data-lang="' +
-          lang +
-          '">' +
-          lines.map((l) => "<li>" + escapeHtml(l) + "</li>").join("") +
-          "</ul>"
-        );
-      }
-
-      function writeTimelineToDoc(listKey, listEl) {
-        const container = getTimelineContainer(listKey);
-        if (!container) return;
-        const rows = collectListRows(listEl, TIMELINE_FIELDS);
-        container.innerHTML = "";
-        rows.forEach((item) => {
-          const details = parsedDoc.createElement("details");
-          details.className = "timeline-item";
-          const descEn = item.description || item.description_es;
-          const descEs = item.description_es || item.description;
-          const body =
-            descEn || descEs
-              ? '<div class="timeline-content">' +
-                descriptionHtml(descEn, "en") +
-                descriptionHtml(descEs, "es") +
-                "</div>"
-              : "";
-          details.innerHTML =
-            "<summary>" +
-            '<span class="timeline-title">' +
-            biSpan(item.title, item.title_es) +
-            "</span>" +
-            '<span class="timeline-org">' +
-            escapeHtml(item.institution) +
-            "</span>" +
-            '<span class="timeline-year">' +
-            biSpan(item.year, item.year_es) +
-            "</span>" +
-            "</summary>" +
-            body;
-          container.appendChild(details);
-        });
-      }
-
-      document.getElementById("btnAddEducation").addEventListener("click", () => {
-        educationListEl.appendChild(renderListRow(TIMELINE_FIELDS));
-        scheduleAutosave();
-      });
-      document.getElementById("btnAddExperience").addEventListener("click", () => {
-        experienceListEl.appendChild(renderListRow(TIMELINE_FIELDS));
-        scheduleAutosave();
-      });
-
-      // --- Servicios tab ---
-      const SERVICES_FIELDS = [
-        { key: "icon", label: "Ícono (un emoji, ej. 🧭)" },
-        {
-          key: "color",
-          label: "Color de portada (orange, blue, green, purple, yellow, pink)",
+          },
+          render: (o) => {
+            const href = o.href || "#";
+            const anchor = o.anchor || href.replace(/^#/, "");
+            return `<li data-menuanchor="${escAttr(anchor)}"><a href="${escAttr(href)}">${bi(o.label, o.label_es)}</a></li>`;
+          },
         },
-        { key: "title", label: "Título (EN)" },
-        { key: "title_es", label: "Título (ES)" },
-        { key: "description", label: "Descripción (EN)", type: "textarea" },
-        { key: "description_es", label: "Descripción (ES)", type: "textarea" },
-        { key: "cta", label: "Texto del enlace (EN)" },
-        { key: "cta_es", label: "Texto del enlace (ES)" },
-        { key: "link", label: "Enlace (URL de agenda, WhatsApp, etc.)" },
-      ];
-      const servicesListEl = document.getElementById("servicesList");
-
-      function getServicesContainer() {
-        return parsedDoc
-          ? parsedDoc.querySelector('[data-services-list="items"]')
-          : null;
-      }
-
-      function parseServicesFromDoc() {
-        const container = getServicesContainer();
-        if (!container) return [];
-        return [...container.querySelectorAll(":scope > .service-card")].map(
-          (item) => {
-            const h3 = item.querySelector("h3");
-            const p = item.querySelector(".card-body > p");
-            const a = item.querySelector(".card-link");
+        stats: {
+          title: "Cifras destacadas",
+          hint: "Recuadro de cifras bajo los botones de la portada.",
+          container: "[data-stats-list]",
+          item: ":scope > div",
+          add: "Agregar cifra",
+          rowTitle: (o) => [o.value, o.label_es || o.label].filter(Boolean).join(" · "),
+          fields: [
+            { key: "value", label: "Cifra (ej. 10+)" },
+            { key: "label", label: "Descripción", bi: true },
+          ],
+          parse: (div) => ({
+            value: clean($("dt", div)),
+            label: langText($("dd", div), "en"),
+            label_es: langText($("dd", div), "es"),
+          }),
+          render: (o) => `<div><dt>${esc(o.value)}</dt><dd>${bi(o.label, o.label_es)}</dd></div>`,
+        },
+        services: {
+          title: "Tarjetas de servicios",
+          container: '[data-services-list="items"]',
+          item: ":scope > .service-card",
+          add: "Agregar servicio",
+          fields: [
+            { key: "title", label: "Título", bi: true },
+            { key: "icon", label: "Ícono (emoji)", half: true },
+            { key: "color", label: "Color de portada", type: "select", options: COLORS, half: true },
+            { key: "description", label: "Descripción", bi: true, type: "textarea" },
+            { key: "cta", label: "Texto del enlace", bi: true },
+            { key: "link", label: "Enlace (agenda, WhatsApp…)", type: "link" },
+          ],
+          parse: (item) => {
+            const h3 = $("h3", item);
+            const p = $(".card-body > p", item);
+            const a = $(".card-link", item);
             return {
-              icon: cleanText(item.querySelector(".svc-icon")),
-              color: coverColorOf(item),
               title: langText(h3, "en"),
               title_es: langText(h3, "es"),
+              icon: clean($(".svc-icon", item)),
+              color: colorOf($(".card-cover", item), "cover-"),
               description: langText(p, "en"),
               description_es: langText(p, "es"),
               cta: a ? langText(a, "en").replace(/\s*[→↗]$/, "") : "",
               cta_es: a ? langText(a, "es").replace(/\s*[→↗]$/, "") : "",
               link: a ? a.getAttribute("href") || "" : "",
             };
-          }
-        );
-      }
-
-      function writeServicesToDoc() {
-        const container = getServicesContainer();
-        if (!container) return;
-        const rows = collectListRows(servicesListEl, SERVICES_FIELDS);
-        container.innerHTML = "";
-        rows.forEach((item, idx) => {
-          const card = parsedDoc.createElement("article");
-          card.className = "service-card";
-          const link =
-            item.link && (item.cta || item.cta_es)
-              ? '<a class="card-link" href="' +
-                escapeAttr(item.link) +
-                '" target="_blank" rel="noopener">' +
-                biSpan(item.cta, item.cta_es) +
-                " →</a>"
-              : "";
-          card.innerHTML =
-            '<div class="card-cover cover-' +
-            safeColor(item.color, idx) +
-            '"><span class="svc-icon">' +
-            escapeHtml(item.icon) +
-            "</span></div>" +
-            '<div class="card-body">' +
-            "<h3>" +
-            biSpan(item.title, item.title_es) +
-            "</h3>" +
-            "<p>" +
-            biSpan(item.description, item.description_es) +
-            "</p>" +
-            link +
-            "</div>";
-          container.appendChild(card);
-        });
-      }
-
-      document.getElementById("btnAddServices").addEventListener("click", () => {
-        servicesListEl.appendChild(renderListRow(SERVICES_FIELDS));
-        scheduleAutosave();
-      });
-
-      // --- Menú — orden de enlaces ---
-      const MENU_NAV_FIELDS = [
-        { key: "label", label: "Texto del enlace (EN)" },
-        { key: "label_es", label: "Texto del enlace (ES)" },
-      ];
-      const MENU_NAV_META = ["href", "menuanchor"];
-      const menuNavListEl = document.getElementById("menuNavList");
-
-      function getMenuNavContainer() {
-        return parsedDoc ? parsedDoc.querySelector("#myMenu") : null;
-      }
-
-      function parseMenuNavFromDoc() {
-        const container = getMenuNavContainer();
-        if (!container) return [];
-        return [...container.querySelectorAll(":scope > li")].map((li) => {
-          const a = li.querySelector("a");
-          return {
-            label: langText(a, "en"),
-            label_es: langText(a, "es"),
-            href: a ? a.getAttribute("href") || "" : "",
-            menuanchor: li.getAttribute("data-menuanchor") || "",
-          };
-        });
-      }
-
-      function writeMenuNavToDoc() {
-        const container = getMenuNavContainer();
-        if (!container) return;
-        const rows = collectListRows(menuNavListEl, MENU_NAV_FIELDS, MENU_NAV_META);
-        container.innerHTML = "";
-        rows.forEach((item) => {
-          const li = parsedDoc.createElement("li");
-          if (item.menuanchor) li.setAttribute("data-menuanchor", item.menuanchor);
-          const a = parsedDoc.createElement("a");
-          a.setAttribute("href", item.href || "#");
-          a.innerHTML = biSpan(item.label, item.label_es);
-          li.appendChild(a);
-          container.appendChild(li);
-        });
-      }
-
-      // --- Portfolio tab ---
-      const PORTFOLIO_FIELDS = [
-        { key: "icon", label: "Ícono (un emoji, ej. 📊)" },
-        {
-          key: "color",
-          label: "Color de portada (orange, blue, green, purple, yellow, pink)",
+          },
+          render: (o, i) => {
+            const link =
+              o.link && (o.cta || o.cta_es)
+                ? `<a class="card-link" href="${escAttr(o.link)}" target="_blank" rel="noopener">${bi(o.cta, o.cta_es)} →</a>`
+                : "";
+            return (
+              `<article class="service-card"><div class="card-cover cover-${pickColor(o.color, i, COLORS)}">` +
+              `<span class="svc-icon">${esc(o.icon)}</span></div><div class="card-body">` +
+              `<h3>${bi(o.title, o.title_es)}</h3><p>${bi(o.description, o.description_es)}</p>${link}</div></article>`
+            );
+          },
         },
-        {
-          key: "category",
-          label: "Categorías para los filtros (separadas por espacio: delivery, public, ai, community)",
+        process: {
+          title: "Pasos",
+          hint: "El número de cada paso se pone solo según el orden.",
+          container: "[data-process-list]",
+          item: ":scope > li",
+          add: "Agregar paso",
+          fields: [
+            { key: "title", label: "Título", bi: true },
+            { key: "text", label: "Texto", bi: true, type: "textarea" },
+          ],
+          parse: (li) => ({
+            title: langText($("h3", li), "en"),
+            title_es: langText($("h3", li), "es"),
+            text: langText($("p", li), "en"),
+            text_es: langText($("p", li), "es"),
+          }),
+          render: (o, i) =>
+            `<li><span class="step-num">${i + 1}</span><div><h3>${bi(o.title, o.title_es)}</h3><p>${bi(o.text, o.text_es)}</p></div></li>`,
         },
-        { key: "title", label: "Título (EN)" },
-        { key: "title_es", label: "Título (ES)" },
-        { key: "description", label: "Descripción (EN)", type: "textarea" },
-        { key: "description_es", label: "Descripción (ES)", type: "textarea" },
-        { key: "tags", label: "Etiquetas (separadas por coma)" },
-        { key: "link", label: "Enlace al proyecto (opcional)" },
-      ];
-      const portfolioListEl = document.getElementById("portfolioList");
-
-      function getPortfolioContainer() {
-        return parsedDoc
-          ? parsedDoc.querySelector('[data-portfolio-list="items"]')
-          : null;
-      }
-
-      function parsePortfolioFromDoc() {
-        const container = getPortfolioContainer();
-        if (!container) return [];
-        return [...container.querySelectorAll(":scope > .portfolio-item")].map(
-          (item) => {
-            const h3 = item.querySelector("h3");
-            const p = item.querySelector(".card-body > p:not(.tags)");
-            const a = item.querySelector(".card-link");
+        portfolioFilters: filterList("portfolio", "data-filter", "Filtros de proyectos"),
+        portfolio: {
+          title: "Proyectos",
+          container: '[data-portfolio-list="items"]',
+          item: ":scope > .portfolio-item",
+          add: "Agregar proyecto",
+          fields: [
+            { key: "title", label: "Título", bi: true },
+            { key: "icon", label: "Ícono (emoji)", half: true },
+            { key: "color", label: "Color de portada", type: "select", options: COLORS, half: true },
+            { key: "category", label: "Categorías (claves de los filtros, separadas por espacio)" },
+            { key: "description", label: "Descripción", bi: true, type: "textarea" },
+            { key: "tags", label: "Etiquetas (separadas por coma)", type: "tags" },
+            { key: "link", label: "Enlace al proyecto (opcional)", type: "link" },
+            { key: "cta", label: "Texto del enlace", bi: true },
+          ],
+          parse: (item) => {
+            const h3 = $("h3", item);
+            const p = $(".card-body > p:not(.tags)", item);
+            const a = $(".card-link", item);
             return {
-              icon: cleanText(item.querySelector(".svc-icon")),
-              color: coverColorOf(item),
-              category: item.getAttribute("data-category") || "",
               title: langText(h3, "en"),
               title_es: langText(h3, "es"),
+              icon: clean($(".svc-icon", item)),
+              color: colorOf($(".card-cover", item), "cover-"),
+              category: item.getAttribute("data-category") || "",
               description: langText(p, "en"),
               description_es: langText(p, "es"),
-              tags: cleanText(item.querySelector(".tags")),
+              tags: clean($(".tags", item)),
               link: a ? a.getAttribute("href") || "" : "",
+              cta: a ? langText(a, "en").replace(/\s*[→↗]$/, "") : "See the project",
+              cta_es: a ? langText(a, "es").replace(/\s*[→↗]$/, "") : "Ver el proyecto",
             };
-          }
-        );
-      }
-
-      function writePortfolioToDoc() {
-        const container = getPortfolioContainer();
-        if (!container) return;
-        const rows = collectListRows(portfolioListEl, PORTFOLIO_FIELDS);
-        container.innerHTML = "";
-        rows.forEach((item, idx) => {
-          const card = parsedDoc.createElement("article");
-          card.className = "portfolio-item";
-          card.setAttribute(
-            "data-category",
-            (item.category || "").replace(/,/g, " ").replace(/\s+/g, " ").trim()
-          );
-          const tags = item.tags
-            ? '<p class="tags">' + escapeHtml(item.tags) + "</p>"
-            : "";
-          const link = item.link
-            ? '<a class="card-link" href="' +
-              escapeAttr(item.link) +
-              '" target="_blank" rel="noopener">' +
-              biSpan("See the project", "Ver el proyecto") +
-              " ↗</a>"
-            : "";
-          card.innerHTML =
-            '<div class="card-cover cover-' +
-            safeColor(item.color, idx) +
-            '"><span class="svc-icon">' +
-            escapeHtml(item.icon) +
-            "</span></div>" +
-            '<div class="card-body">' +
-            "<h3>" +
-            biSpan(item.title, item.title_es) +
-            "</h3>" +
-            "<p>" +
-            biSpan(item.description, item.description_es) +
-            "</p>" +
-            tags +
-            link +
-            "</div>";
-          container.appendChild(card);
-        });
-      }
-
-      document.getElementById("btnAddPortfolio").addEventListener("click", () => {
-        portfolioListEl.appendChild(renderListRow(PORTFOLIO_FIELDS));
-        scheduleAutosave();
-      });
-
-      // --- Testimonial tab ---
-      const TESTIMONIAL_FIELDS = [
-        { key: "quote", label: "Testimonio (en su idioma original)", type: "textarea" },
-        { key: "name", label: "Nombre" },
-        { key: "role", label: "Cargo / empresa" },
-      ];
-      const testimonialListEl = document.getElementById("testimonialList");
-
-      function getTestimonialContainer() {
-        return parsedDoc
-          ? parsedDoc.querySelector('[data-testimonial-list="items"]')
-          : null;
-      }
-
-      function parseTestimonialFromDoc() {
-        const container = getTestimonialContainer();
-        if (!container) return [];
-        return [...container.querySelectorAll(":scope > .testimonial-item")].map(
-          (item) => ({
-            quote: cleanText(item.querySelector("blockquote")),
-            name: cleanText(item.querySelector(".t-name")),
-            role: cleanText(item.querySelector(".t-role")),
-          })
-        );
-      }
-
-      function writeTestimonialToDoc() {
-        const container = getTestimonialContainer();
-        if (!container) return;
-        const rows = collectListRows(testimonialListEl, TESTIMONIAL_FIELDS);
-        container.innerHTML = "";
-        rows.forEach((item) => {
-          const fig = parsedDoc.createElement("figure");
-          fig.className = "testimonial-item";
-          fig.innerHTML =
-            "<blockquote><p>" +
-            escapeHtml(item.quote) +
-            "</p></blockquote>" +
-            '<figcaption><span class="t-name">' +
-            escapeHtml(item.name) +
-            '</span><span class="t-role">' +
-            escapeHtml(item.role) +
-            "</span></figcaption>";
-          container.appendChild(fig);
-        });
-      }
-
-      document.getElementById("btnAddTestimonial").addEventListener("click", () => {
-        testimonialListEl.appendChild(renderListRow(TESTIMONIAL_FIELDS));
-        scheduleAutosave();
-      });
-
-      // --- Blog tab ---
-      const BLOG_FIELDS = [
-        { key: "title", label: "Título" },
-        { key: "date", label: "Fecha (formato AAAA-MM-DD, ej. 2024-07-01)" },
-        { key: "excerpt", label: "Resumen", type: "textarea" },
-        { key: "link", label: "Enlace al artículo (URL)" },
-      ];
-      const blogListEl = document.getElementById("blogList");
-
-      function getBlogContainer() {
-        return parsedDoc
-          ? parsedDoc.querySelector('[data-blog-list="posts"]')
-          : null;
-      }
-
-      function parseBlogFromDoc() {
-        const container = getBlogContainer();
-        if (!container) return [];
-        return [...container.querySelectorAll(":scope > .blog-item")].map(
-          (item) => {
-            const time = item.querySelector("time");
+          },
+          render: (o, i) => {
+            const tags = o.tags ? `<p class="tags">${esc(o.tags)}</p>` : "";
+            const link = o.link
+              ? `<a class="card-link" href="${escAttr(o.link)}" target="_blank" rel="noopener">${bi(
+                  o.cta || "See the project",
+                  o.cta_es || "Ver el proyecto"
+                )} ↗</a>`
+              : "";
+            const cat = (o.category || "").replace(/,/g, " ").replace(/\s+/g, " ").trim();
+            return (
+              `<article class="portfolio-item" data-category="${escAttr(cat)}">` +
+              `<div class="card-cover cover-${pickColor(o.color, i, COLORS)}"><span class="svc-icon">${esc(o.icon)}</span></div>` +
+              `<div class="card-body"><h3>${bi(o.title, o.title_es)}</h3><p>${bi(o.description, o.description_es)}</p>${tags}${link}</div></article>`
+            );
+          },
+        },
+        webdesignFilters: filterList("webdesign", "data-wd-filter", "Filtros de diseños web"),
+        webdesign: {
+          title: "Sitios web",
+          container: '[data-webdesign-list="items"]',
+          item: ":scope > .wd-card",
+          add: "Agregar sitio",
+          fields: [
+            { key: "title", label: "Nombre del sitio" },
+            { key: "image", label: "Imagen (captura)", type: "image" },
+            { key: "alt", label: "Texto alternativo de la imagen" },
+            { key: "link", label: "Enlace", type: "link" },
+            { key: "category", label: "Categorías (claves de los filtros, separadas por espacio)" },
+            { key: "cat", label: "Tipo mostrado", bi: true },
+          ],
+          parse: (a) => {
+            const img = $("img", a);
             return {
-              title: cleanText(item.querySelector(".b-title")),
-              date: time ? time.getAttribute("datetime") || cleanText(time) : "",
-              excerpt: cleanText(item.querySelector(".b-excerpt")),
-              link: item.getAttribute("href") || "",
+              title: clean($(".wd-title", a)),
+              image: img ? img.getAttribute("src") || "" : "",
+              alt: img ? img.getAttribute("alt") || "" : "",
+              link: a.getAttribute("href") || "",
+              category: a.getAttribute("data-category") || "",
+              cat: langText($(".wd-cat", a), "en"),
+              cat_es: langText($(".wd-cat", a), "es"),
             };
+          },
+          render: (o) =>
+            `<a class="wd-card" data-category="${escAttr(o.category)}" href="${escAttr(o.link || "#")}" target="_blank" rel="noopener">` +
+            `<span class="wd-thumb"><img src="${escAttr(o.image)}" alt="${escAttr(o.alt || o.title)}" loading="lazy" /></span>` +
+            `<span class="wd-body"><span class="wd-title">${esc(o.title)}</span><span class="wd-cat">${bi(o.cat, o.cat_es)}</span></span></a>`,
+        },
+        experience: timelineList("experience", "Experiencia laboral", "Agregar experiencia"),
+        education: timelineList("education", "Formación y certificaciones", "Agregar estudio"),
+        skills: {
+          title: "Habilidades y herramientas",
+          container: "[data-skill-list]",
+          item: ":scope > .skill-group",
+          add: "Agregar grupo",
+          fields: [
+            { key: "label", label: "Nombre del grupo", bi: true },
+            { key: "color", label: "Color de las etiquetas", type: "select", options: TAG_COLORS },
+            { key: "tags", label: "Habilidades (separadas por coma)", type: "tags" },
+          ],
+          parse: (g) => {
+            const lab = $(".skill-label", g);
+            return {
+              label: langText(lab, "en"),
+              label_es: langText(lab, "es"),
+              color: colorOf($(".skill-tags", g), "tag-color-"),
+              tags: clean($(".skill-tags", g)),
+            };
+          },
+          render: (o, i) =>
+            `<div class="skill-group"><p class="skill-label">${biOrPlain(o.label, o.label_es)}</p>` +
+            `<p class="skill-tags tag-color-${pickColor(o.color, i, TAG_COLORS)}">${esc(o.tags)}</p></div>`,
+        },
+        testimonials: {
+          title: "Recomendaciones",
+          container: '[data-testimonial-list="items"]',
+          item: ":scope > .testimonial-item",
+          add: "Agregar recomendación",
+          rowTitle: (o) => o.name,
+          fields: [
+            { key: "quote", label: "Testimonio (en su idioma original)", type: "textarea" },
+            { key: "name", label: "Nombre" },
+            { key: "role", label: "Cargo / empresa" },
+          ],
+          parse: (f) => ({
+            quote: clean($("blockquote", f)),
+            name: clean($(".t-name", f)),
+            role: clean($(".t-role", f)),
+          }),
+          render: (o) =>
+            `<figure class="testimonial-item"><blockquote><p>${esc(o.quote)}</p></blockquote>` +
+            `<figcaption><span class="t-name">${esc(o.name)}</span><span class="t-role">${esc(o.role)}</span></figcaption></figure>`,
+        },
+        blog: {
+          title: "Artículos",
+          container: '[data-blog-list="posts"]',
+          item: ":scope > .blog-item",
+          add: "Agregar artículo",
+          fields: [
+            { key: "title", label: "Título" },
+            { key: "date", label: "Fecha (AAAA-MM-DD)", half: true },
+            { key: "icon", label: "Ícono (emoji)", half: true },
+            { key: "excerpt", label: "Resumen", type: "textarea" },
+            { key: "link", label: "Enlace al artículo", type: "link" },
+          ],
+          parse: (a) => {
+            const t = $("time", a);
+            return {
+              title: clean($(".b-title", a)),
+              date: t ? t.getAttribute("datetime") || clean(t) : "",
+              icon: clean($(".b-icon", a)) || "📄",
+              excerpt: clean($(".b-excerpt", a)),
+              link: a.getAttribute("href") || "",
+            };
+          },
+          render: (o) =>
+            `<a class="blog-item" href="${escAttr(o.link || "#")}" target="_blank" rel="noopener">` +
+            `<span class="b-icon" aria-hidden="true">${esc(o.icon || "📄")}</span>` +
+            `<span class="b-main"><span class="b-title">${esc(o.title)}</span><span class="b-excerpt">${esc(o.excerpt)}</span></span>` +
+            `<time class="b-date" datetime="${escAttr(o.date)}">${esc(o.date)}</time></a>`,
+        },
+        social: {
+          title: "Redes",
+          container: "[data-social-list]",
+          item: ":scope > a",
+          add: "Agregar red",
+          fields: [
+            { key: "label", label: "Nombre" },
+            { key: "href", label: "Enlace", type: "link" },
+          ],
+          parse: (a) => ({ label: clean(a), href: a.getAttribute("href") || "" }),
+          render: (o) =>
+            `<a class="link" href="${escAttr(o.href || "#")}" target="_blank" rel="noopener">${esc(o.label)}</a>`,
+        },
+      };
+
+      function filterList(name, attr, title) {
+        return {
+          title,
+          hint:
+            'Botones para filtrar. "Clave" es la palabra que deben tener las tarjetas en su campo Categorías; usa * para "Todos" (el primer botón queda activo).',
+          container: `[data-filter-list="${name}"]`,
+          item: ":scope > button",
+          add: "Agregar filtro",
+          fields: [
+            { key: "label", label: "Texto del botón", bi: true },
+            { key: "key", label: "Clave" },
+          ],
+          parse: (b) => ({
+            label: langText(b, "en"),
+            label_es: langText(b, "es"),
+            key: b.getAttribute(attr) || "",
+          }),
+          render: (o, i) =>
+            `<button type="button" class="db-view${i === 0 ? " active" : ""}" ${attr}="${escAttr(o.key || "*")}" role="tab" aria-selected="${i === 0}">${bi(o.label, o.label_es)}</button>`,
+        };
+      }
+
+      function timelineList(name, title, add) {
+        return {
+          title,
+          hint: "Si dejas la descripción vacía, la fila se muestra sin desplegable. Una línea por viñeta.",
+          container: `[data-edu-list="${name}"]`,
+          item: ":scope > .timeline-item",
+          add,
+          rowTitle: (o) => [o.title_es || o.title, o.institution].filter(Boolean).join(" · "),
+          fields: [
+            { key: "title", label: "Cargo / título", bi: true },
+            { key: "institution", label: "Empresa / institución" },
+            { key: "year", label: "Periodo", bi: true },
+            { key: "description", label: "Descripción (opcional)", bi: true, type: "textarea" },
+          ],
+          parse: (item) => {
+            const t = $(".timeline-title", item);
+            const y = $(".timeline-year", item);
+            const c = $(".timeline-content", item);
+            const desc = (lang) => {
+              const el = c && $(`[data-lang="${lang}"]`, c);
+              if (!el) return "";
+              return el.tagName === "UL" ? $$("li", el).map(clean).join("\n") : clean(el);
+            };
+            return {
+              title: langText(t, "en"),
+              title_es: langText(t, "es"),
+              institution: clean($(".timeline-org", item)),
+              year: langText(y, "en"),
+              year_es: langText(y, "es"),
+              description: desc("en"),
+              description_es: desc("es"),
+            };
+          },
+          render: (o) => {
+            const descHtml = (text, lang) => {
+              const ls = lines(text);
+              if (!ls.length) return "";
+              if (ls.length === 1) return `<p data-lang="${lang}">${esc(ls[0])}</p>`;
+              return `<ul data-lang="${lang}">${ls.map((l) => `<li>${esc(l)}</li>`).join("")}</ul>`;
+            };
+            const en = o.description || o.description_es;
+            const es = o.description_es || o.description;
+            const body =
+              en || es ? `<div class="timeline-content">${descHtml(en, "en")}${descHtml(es, "es")}</div>` : "";
+            return (
+              `<details class="timeline-item"><summary><span class="timeline-title">${bi(o.title, o.title_es)}</span>` +
+              `<span class="timeline-org">${esc(o.institution)}</span><span class="timeline-year">${bi(o.year, o.year_es)}</span></summary>${body}</details>`
+            );
+          },
+        };
+      }
+
+      /* ==================================================================
+         Secciones del panel (mismo orden que la página).
+         Bloques: { fields } | { list } | { auto } | { extras }
+         "auto" muestra los textos fijos EN/ES de la sección que no tienen
+         un campo propio (etiquetas, botones, subtítulos…).
+         ================================================================== */
+      const SECTIONS = [
+        {
+          id: "general",
+          label: "General",
+          ico: "⚙️",
+          intro: "Lo que se ve en todas las páginas: menú, marca, pie de página, buscadores y analítica.",
+          blocks: [
+            { list: "menu" },
+            {
+              title: "Marca",
+              fields: [{ key: "site-logo", label: "Logo (barra superior y pie de página)", type: "image" }],
+            },
+            {
+              title: "Pie de página",
+              fields: [
+                { key: "footer-quote", label: "Frase final", bi: true },
+                { key: "footer-copyright", label: "Texto de copyright" },
+              ],
+            },
+            {
+              title: "Buscadores y redes sociales (SEO)",
+              hint: "Título y descripción de la pestaña del navegador y de Google, y la tarjeta que aparece al compartir el enlace.",
+              fields: [
+                { key: "meta-title", label: "Título de la página", bi: true },
+                { key: "meta-description", label: "Descripción", bi: true, type: "textarea" },
+                { key: "og-title", label: "Título al compartir" },
+                { key: "og-description", label: "Descripción al compartir", type: "textarea" },
+                { key: "og-image", label: "Imagen al compartir (URL completa)", type: "image" },
+              ],
+            },
+            {
+              title: "Google Analytics",
+              fields: [{ key: "ga-id", label: "ID de medición (G-XXXXXXXXXX desactiva el seguimiento)" }],
+            },
+            { auto: ".skip-link, header.topbar, footer", title: "Otros textos de la barra superior y el pie" },
+            { extras: true },
+          ],
+        },
+        {
+          id: "hero",
+          label: "Portada",
+          ico: "👋",
+          anchor: "hero",
+          blocks: [
+            {
+              title: "Presentación",
+              fields: [
+                { key: "hero-name", label: "Nombre" },
+                { key: "hero-roles", label: "Roles (etiquetas de colores, separados por coma)" },
+                { key: "hero-script", label: "Frase manuscrita", bi: true },
+                { key: "hero-tagline", label: "Párrafo de presentación", bi: true, type: "textarea" },
+                { key: "profile-photo", label: "Foto de perfil", type: "image" },
+              ],
+            },
+            {
+              title: "Botones",
+              fields: [
+                { key: "hero-cta-text", label: "Botón principal", bi: true },
+                { key: "contact-whatsapp-href", label: "Enlace del botón principal (WhatsApp, también en Contacto)", type: "link" },
+                { key: "hero-cv-text", label: "Botón secundario", bi: true },
+                { key: "hero-cv-href", label: "Enlace del botón secundario", type: "link" },
+              ],
+            },
+            { list: "stats" },
+            {
+              title: "Notas laterales",
+              hint: "Las notas que acompañan la foto.",
+              fields: [
+                { key: "hero-note-quote", label: "Cita (nota rosada)", type: "textarea" },
+                { key: "hero-note-author", label: "Autor de la cita" },
+                { key: "hero-before-by", label: "Firma de la nota Antes / Ahora" },
+                { key: "hero-chips-code", label: "Encabezado de la nota de habilidades" },
+                { key: "hero-chips", label: "Habilidades de la nota (separadas por coma)", type: "tags" },
+              ],
+            },
+            { auto: "#hero" },
+          ],
+        },
+        {
+          id: "about",
+          label: "Sobre mí",
+          ico: "💡",
+          anchor: "about",
+          blocks: [
+            {
+              title: "Encabezado y biografía",
+              fields: [
+                { key: "section-about", label: "Título de la sección", bi: true },
+                { key: "hero-intro", label: "Recuadro 💡", bi: true, type: "textarea" },
+                { key: "about-quote", label: "Cita destacada", bi: true },
+                { key: "about-bio", label: "Biografía (línea en blanco entre párrafos)", bi: true, type: "textarea", rows: 8 },
+                { key: "about-community", label: "Recuadro de comunidad 🌎", bi: true, type: "textarea" },
+              ],
+            },
+            {
+              title: "Datos rápidos",
+              fields: [
+                { key: "about-city", label: "Ubicación", bi: true },
+                { key: "about-freelance", label: "Disponibilidad", bi: true },
+                { key: "about-email", label: "Correo mostrado" },
+                { key: "about-hire-email", label: "Correo de los botones “Enviar correo” (también en Contacto)" },
+                { key: "about-website", label: "Sitio web (texto)" },
+                { key: "about-website-href", label: "Sitio web (enlace)", type: "link" },
+                { key: "about-role-bold", label: "Enfoque — palabra resaltada" },
+                { key: "about-role-rest", label: "Enfoque — resto" },
+                { key: "about-degree", label: "Título académico", bi: true },
+                { key: "about-specialization", label: "Especialización", bi: true },
+                { key: "about-certs", label: "Certificaciones (separadas por coma)", type: "tags" },
+              ],
+            },
+            {
+              title: "Botón",
+              fields: [
+                { key: "about-cv-text", label: "Texto del botón", bi: true },
+                { key: "about-linkedin-href", label: "Enlace del botón", type: "link" },
+              ],
+            },
+            { auto: "#about" },
+          ],
+        },
+        {
+          id: "services",
+          label: "Servicios",
+          ico: "🧭",
+          anchor: "services",
+          blocks: [
+            {
+              title: "Encabezado",
+              fields: [
+                { key: "section-services", label: "Título de la sección", bi: true },
+                { key: "services-intro", label: "Introducción", bi: true, type: "textarea" },
+              ],
+            },
+            { list: "services" },
+            { auto: "#services" },
+          ],
+        },
+        {
+          id: "process",
+          label: "Cómo trabajo",
+          ico: "🔁",
+          anchor: "process",
+          blocks: [
+            {
+              title: "Encabezado",
+              fields: [
+                { key: "section-process", label: "Título de la sección", bi: true },
+                { key: "process-intro", label: "Introducción", bi: true, type: "textarea" },
+              ],
+            },
+            { list: "process" },
+            { auto: "#process" },
+          ],
+        },
+        {
+          id: "portfolio",
+          label: "Proyectos",
+          ico: "📊",
+          anchor: "portfolio",
+          blocks: [
+            { title: "Encabezado", fields: [{ key: "section-portfolio", label: "Título de la sección", bi: true }] },
+            { list: "portfolioFilters" },
+            { list: "portfolio" },
+            { auto: "#portfolio" },
+          ],
+        },
+        {
+          id: "web-design",
+          label: "Diseños web",
+          ico: "🖥️",
+          anchor: "web-design",
+          blocks: [
+            {
+              title: "Encabezado",
+              fields: [
+                { key: "section-webdesign", label: "Título de la sección", bi: true },
+                { key: "webdesign-intro", label: "Introducción", bi: true, type: "textarea" },
+              ],
+            },
+            { list: "webdesignFilters" },
+            { list: "webdesign" },
+            { auto: "#web-design" },
+          ],
+        },
+        {
+          id: "resume",
+          label: "Experiencia",
+          ico: "💼",
+          anchor: "resume",
+          blocks: [
+            { title: "Encabezado", fields: [{ key: "section-resume", label: "Título de la sección", bi: true }] },
+            { list: "experience" },
+            { list: "education" },
+            { list: "skills" },
+            { auto: "#resume" },
+          ],
+        },
+        {
+          id: "testimonial",
+          label: "Recomendaciones",
+          ico: "💬",
+          anchor: "testimonial",
+          blocks: [
+            { title: "Encabezado", fields: [{ key: "section-testimonial", label: "Título de la sección", bi: true }] },
+            { list: "testimonials" },
+            { auto: "#testimonial" },
+          ],
+        },
+        {
+          id: "blog",
+          label: "Blog",
+          ico: "📄",
+          anchor: "blog",
+          blocks: [
+            {
+              title: "Encabezado",
+              fields: [
+                { key: "section-blog", label: "Título de la sección", bi: true },
+                { key: "blog-all-href", label: "Enlace “Ver todos los artículos”", type: "link" },
+              ],
+            },
+            { list: "blog" },
+            { auto: "#blog" },
+          ],
+        },
+        {
+          id: "contact",
+          label: "Contacto",
+          ico: "✉️",
+          anchor: "contact",
+          blocks: [
+            {
+              title: "Invitación y botones",
+              fields: [
+                { key: "section-contact", label: "Título de la sección", bi: true },
+                { key: "contact-intro", label: "Texto de invitación", bi: true, type: "textarea" },
+                { key: "contact-whatsapp-text", label: "Texto del botón de WhatsApp" },
+                { key: "contact-whatsapp-href", label: "Enlace de WhatsApp (también en la portada)", type: "link" },
+                { key: "contact-calendar-href", label: "Enlace para agendar llamada", type: "link" },
+                { key: "about-hire-email", label: "Correo del botón “Enviar correo” (también en Sobre mí)" },
+              ],
+            },
+            {
+              title: "Datos de contacto",
+              fields: [
+                { key: "contact-email", label: "Correo mostrado" },
+                { key: "contact-phone", label: "Teléfono" },
+                { key: "contact-location", label: "Ubicación", bi: true },
+              ],
+            },
+            { list: "social" },
+            { auto: "#contact" },
+          ],
+        },
+      ];
+
+      /* ==================================================================
+         Estado
+         ================================================================== */
+      let parsedDoc = null; // DOM de index.html que se edita y se vuelve a serializar
+      let PAIRS = []; // textos fijos EN/ES detectados: { en, es, ctx }
+      // Valores tal como se cargaron. Solo se reescribe en el HTML lo que cambia,
+      // así el Pull Request toca únicamente las líneas editadas.
+      let ORIGINAL = { fields: {}, lists: {} };
+      let dirty = false;
+      let previewLang = "es";
+      let previewTheme = "light";
+      let currentTab = "general";
+      let previewTimer = null;
+      let draftTimer = null;
+
+      const statusEl = $("#status");
+      const panelsEl = $("#panels");
+      const preview = $("#preview");
+
+      function setStatus(msg, kind) {
+        statusEl.textContent = msg;
+        statusEl.className = "show " + (kind || "ok");
+      }
+      function setDirty(on) {
+        dirty = on;
+        const pill = $("#dirtyPill");
+        pill.textContent = on ? "cambios sin publicar" : "sin cambios";
+        pill.classList.toggle("on", on);
+      }
+      function onEdit() {
+        setDirty(true);
+        clearTimeout(previewTimer);
+        previewTimer = setTimeout(() => {
+          applyAll();
+          updatePreview();
+        }, 450);
+        clearTimeout(draftTimer);
+        draftTimer = setTimeout(saveDraft, 600);
+      }
+
+      function fieldEls(key) {
+        return parsedDoc ? $$(`[data-edit="${CSS.escape(key)}"]`, parsedDoc) : [];
+      }
+
+      /* ==================================================================
+         Construcción del formulario
+         ================================================================== */
+      function autoGrow(t) {
+        t.style.height = "auto";
+        t.style.height = Math.min(t.scrollHeight + 2, 420) + "px";
+      }
+
+      // Crea un control (input/textarea/select) con botones auxiliares.
+      function makeControl(spec, value) {
+        const type = spec.type || "text";
+        let input;
+        if (type === "textarea") {
+          input = document.createElement("textarea");
+          input.rows = spec.rows || 3;
+        } else if (type === "select") {
+          input = document.createElement("select");
+          const opts = spec.options.slice();
+          if (value && !opts.includes(value)) opts.unshift(value);
+          opts.forEach((o) => input.add(new Option(o, o)));
+        } else {
+          input = document.createElement("input");
+          input.type = "text";
+          if (type === "link") input.placeholder = "https://…  o  #seccion";
+          if (type === "image") input.placeholder = "assets/img/…  o  https://…";
+          if (type === "tags") input.placeholder = "uno, dos, tres";
+        }
+        input.value = value == null ? "" : value;
+        input.spellcheck = type !== "link" && type !== "image";
+
+        if (type === "link") {
+          const wrap = document.createElement("div");
+          wrap.className = "with-btn";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "icon-btn";
+          btn.title = "Abrir enlace";
+          btn.textContent = "↗";
+          btn.addEventListener("click", () => {
+            const url = input.value.trim();
+            if (!url || url.startsWith("#")) return setStatus("Ese enlace no se puede abrir desde aquí.", "warn");
+            window.open(url, "_blank", "noopener");
+          });
+          wrap.append(input, btn);
+          return { input, node: wrap };
+        }
+        if (type === "image") {
+          const wrap = document.createElement("div");
+          wrap.className = "with-btn";
+          const img = document.createElement("img");
+          img.className = "thumb";
+          img.alt = "";
+          const refresh = () => {
+            img.classList.remove("broken");
+            img.src = input.value.trim();
+          };
+          img.onerror = () => img.classList.add("broken");
+          input.addEventListener("input", refresh);
+          refresh();
+          wrap.append(img, input);
+          return { input, node: wrap };
+        }
+        if (type === "textarea") requestAnimationFrame(() => autoGrow(input));
+        return { input, node: input };
+      }
+
+      function bindInput(input) {
+        input.addEventListener("input", () => {
+          if (input.tagName === "TEXTAREA") autoGrow(input);
+          onEdit();
+        });
+        input.addEventListener("change", onEdit);
+      }
+
+      // Campo simple ligado a data-edit (key y, si es bilingüe, key-es).
+      function renderSimpleField(spec) {
+        const keys = spec.bi ? [spec.key, spec.key + "-es"] : [spec.key];
+        const present = keys.filter((k) => fieldEls(k).length);
+        if (!present.length) return null;
+        const wrap = document.createElement("div");
+        wrap.className = "field";
+        const label = document.createElement("span");
+        label.className = "field-label";
+        label.textContent = spec.label;
+        wrap.appendChild(label);
+        const grid = document.createElement("div");
+        grid.className = "bi" + (present.length === 1 ? " single" : "");
+        present.forEach((k) => {
+          const { input, node } = makeControl(spec, readValue(fieldEls(k)[0]));
+          input.dataset.key = k;
+          input.classList.add("fld");
+          bindInput(input);
+          // Un mismo campo puede aparecer en dos secciones: se mantienen sincronizados.
+          input.addEventListener("input", () => {
+            $$(`.fld[data-key="${CSS.escape(k)}"]`).forEach((o) => {
+              if (o !== input) o.value = input.value;
+            });
+          });
+          const cell = document.createElement("div");
+          if (spec.bi) {
+            cell.className = "lang";
+            cell.dataset.l = k.endsWith("-es") ? "ES" : "EN";
           }
+          cell.appendChild(node);
+          grid.appendChild(cell);
+        });
+        wrap.appendChild(grid);
+        return wrap;
+      }
+
+      function card(title, hint) {
+        const c = document.createElement("div");
+        c.className = "card";
+        if (title) {
+          const h = document.createElement("h3");
+          h.textContent = title;
+          c.appendChild(h);
+        }
+        if (hint) {
+          const p = document.createElement("p");
+          p.className = "hint";
+          p.textContent = hint;
+          c.appendChild(p);
+        }
+        return c;
+      }
+
+      /* ---------- Listas ---------- */
+      function rowTitleOf(spec, o) {
+        if (spec.rowTitle) return spec.rowTitle(o);
+        return o.title_es || o.title || o.label_es || o.label || o.name || "";
+      }
+
+      function renderRow(name, data, open) {
+        const spec = LISTS[name];
+        data = data || {};
+        const row = document.createElement("details");
+        row.className = "row";
+        row.open = !!open;
+        spec.fields.filter((f) => f.hidden).forEach((f) => (row.dataset[f.key] = data[f.key] || ""));
+
+        const summary = document.createElement("summary");
+        const num = document.createElement("span");
+        num.className = "row-num";
+        const title = document.createElement("span");
+        title.className = "row-title";
+        const actions = document.createElement("span");
+        actions.className = "row-actions";
+        const mk = (txt, tip, fn, cls) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "icon-btn" + (cls ? " " + cls : "");
+          b.textContent = txt;
+          b.title = tip;
+          b.setAttribute("aria-label", tip);
+          b.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const list = row.parentElement;
+            fn();
+            renumber(list);
+            onEdit();
+          });
+          return b;
+        };
+        actions.append(
+          mk("↑", "Subir", () => row.previousElementSibling && row.parentElement.insertBefore(row, row.previousElementSibling)),
+          mk("↓", "Bajar", () => row.nextElementSibling && row.parentElement.insertBefore(row.nextElementSibling, row)),
+          mk("⧉", "Duplicar", () => row.after(renderRow(name, readRow(name, row), true))),
+          mk(
+            "✕",
+            "Eliminar",
+            () => {
+              if (confirm("¿Eliminar este elemento?")) row.remove();
+            },
+            "danger"
+          )
         );
+        summary.append(num, title, actions);
+        row.appendChild(summary);
+
+        const body = document.createElement("div");
+        body.className = "row-body";
+        let halfGrid = null;
+        spec.fields
+          .filter((f) => !f.hidden)
+          .forEach((f) => {
+            const wrap = document.createElement("div");
+            wrap.className = "field";
+            const label = document.createElement("span");
+            label.className = "field-label";
+            label.textContent = f.label;
+            wrap.appendChild(label);
+            const keys = f.bi ? [f.key, f.key + "_es"] : [f.key];
+            const grid = document.createElement("div");
+            grid.className = "bi" + (keys.length === 1 ? " single" : "");
+            keys.forEach((k) => {
+              const { input, node } = makeControl(f, data[k]);
+              input.classList.add("lf");
+              input.dataset.k = k;
+              bindInput(input);
+              input.addEventListener("input", () => updateRowTitle(name, row));
+              const cell = document.createElement("div");
+              if (f.bi) {
+                cell.className = "lang";
+                cell.dataset.l = k.endsWith("_es") ? "ES" : "EN";
+              }
+              cell.appendChild(node);
+              grid.appendChild(cell);
+            });
+            wrap.appendChild(grid);
+            // Campos "half" consecutivos se muestran lado a lado.
+            if (f.half) {
+              if (!halfGrid) {
+                halfGrid = document.createElement("div");
+                halfGrid.className = "bi";
+                body.appendChild(halfGrid);
+              }
+              halfGrid.appendChild(wrap);
+              if (halfGrid.children.length === 2) halfGrid = null;
+            } else {
+              halfGrid = null;
+              body.appendChild(wrap);
+            }
+          });
+        row.appendChild(body);
+        row.addEventListener("toggle", () => row.open && $$("textarea", body).forEach(autoGrow));
+        updateRowTitle(name, row);
+        return row;
       }
 
-      function writeBlogToDoc() {
-        const container = getBlogContainer();
-        if (!container) return;
-        const rows = collectListRows(blogListEl, BLOG_FIELDS);
-        container.innerHTML = "";
-        rows.forEach((item) => {
-          const a = parsedDoc.createElement("a");
-          a.className = "blog-item";
-          a.setAttribute("href", item.link || "#");
-          a.setAttribute("target", "_blank");
-          a.setAttribute("rel", "noopener");
-          a.innerHTML =
-            '<span class="b-icon" aria-hidden="true">📄</span>' +
-            '<span class="b-main"><span class="b-title">' +
-            escapeHtml(item.title) +
-            '</span><span class="b-excerpt">' +
-            escapeHtml(item.excerpt) +
-            "</span></span>" +
-            '<time class="b-date" datetime="' +
-            escapeAttr(item.date) +
-            '">' +
-            escapeHtml(item.date) +
-            "</time>";
-          container.appendChild(a);
+      function updateRowTitle(name, row) {
+        const t = rowTitleOf(LISTS[name], readRow(name, row));
+        const el = $(".row-title", row);
+        el.textContent = t || "(sin título)";
+        el.classList.toggle("empty", !t);
+      }
+
+      function renumber(rowsEl) {
+        if (!rowsEl) return;
+        const rows = $$(":scope > .row", rowsEl);
+        rows.forEach((r, i) => ($(".row-num", r).textContent = i + 1));
+        const count = rowsEl.parentElement && $(".count", rowsEl.parentElement);
+        if (count) count.textContent = rows.length + (rows.length === 1 ? " elemento" : " elementos");
+      }
+
+      function readRow(name, row) {
+        const o = {};
+        LISTS[name].fields.forEach((f) => {
+          if (f.hidden) o[f.key] = row.dataset[f.key] || "";
+        });
+        $$(".lf", row).forEach((inp) => {
+          if (inp.closest(".row") === row) o[inp.dataset.k] = inp.value.trim();
+        });
+        return o;
+      }
+
+      function rowsEl(name) {
+        return $(`.rows[data-list="${name}"]`);
+      }
+
+      function collectList(name) {
+        const el = rowsEl(name);
+        if (!el) return null;
+        const spec = LISTS[name];
+        return $$(":scope > .row", el)
+          .map((r) => readRow(name, r))
+          .filter((o) => spec.fields.some((f) => !f.hidden && (o[f.key] || o[f.key + "_es"])));
+      }
+
+      function fillList(name, items) {
+        const el = rowsEl(name);
+        if (!el) return;
+        el.innerHTML = "";
+        items.forEach((it) => el.appendChild(renderRow(name, it, false)));
+        renumber(el);
+      }
+
+      function renderListBlock(name) {
+        const spec = LISTS[name];
+        const container = parsedDoc && $(spec.container, parsedDoc);
+        if (!container) return null;
+        const c = card(spec.title, spec.hint);
+        const rows = document.createElement("div");
+        rows.className = "rows";
+        rows.dataset.list = name;
+        c.appendChild(rows);
+        const foot = document.createElement("div");
+        foot.className = "list-foot";
+        const add = document.createElement("button");
+        add.type = "button";
+        add.className = "btn btn-sm";
+        add.textContent = "+ " + spec.add;
+        add.addEventListener("click", () => {
+          const r = renderRow(name, {}, true);
+          rows.appendChild(r);
+          renumber(rows);
+          const first = $("input, textarea", r);
+          if (first) first.focus();
+          onEdit();
+        });
+        const count = document.createElement("span");
+        count.className = "count";
+        foot.append(add, count);
+        c.appendChild(foot);
+        return c;
+      }
+
+      /* ---------- Textos fijos EN/ES ---------- */
+      function pairContext(el) {
+        const checks = [
+          [".skip-link", "Accesibilidad"],
+          [".topbar-cta", "Botón superior"],
+          [".db-head", "Columna"],
+          ["dt", "Etiqueta"],
+          ["dd", "Valor"],
+          ["figcaption", "Pie de foto"],
+          [".note", "Nota lateral"],
+          ["button", "Botón"],
+          ["a", "Enlace"],
+          ["h1, h2, h3, h4", "Subtítulo"],
+          [".muted", "Nota"],
+        ];
+        for (const [sel, label] of checks) if (el.closest(sel)) return label;
+        return "Texto";
+      }
+
+      function detectPairs() {
+        const listSel = Object.values(LISTS)
+          .map((s) => s.container)
+          .join(", ");
+        PAIRS = [];
+        $$('body [data-lang="en"]', parsedDoc).forEach((en) => {
+          const es = en.nextElementSibling;
+          if (!es || es.getAttribute("data-lang") !== "es") return;
+          if (en.children.length || es.children.length) return;
+          if (en.hasAttribute("data-edit") || es.hasAttribute("data-edit")) return;
+          if (en.closest(listSel)) return;
+          // Dentro de un elemento cuyo texto ya se edita con un campo propio.
+          const owner = en.parentElement.closest("[data-edit]");
+          if (owner && !owner.hasAttribute("data-edit-attr")) return;
+          PAIRS.push({ en, es, ctx: pairContext(en) });
         });
       }
 
-      document.getElementById("btnAddBlog").addEventListener("click", () => {
-        blogListEl.appendChild(renderListRow(BLOG_FIELDS));
-        scheduleAutosave();
-      });
-
-      // --- Tabs ---
-      document.querySelectorAll(".tab-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          document.querySelectorAll(".tab-panel").forEach((p) => (p.hidden = true));
-          document
-            .querySelectorAll(`[data-tab-panel="${btn.dataset.tab}"]`)
-            .forEach((p) => (p.hidden = false));
+      function renderAutoBlock(block) {
+        const scopes = $$(block.auto, parsedDoc);
+        const idx = PAIRS.map((p, i) => i).filter((i) => scopes.some((s) => s.contains(PAIRS[i].en)));
+        if (!idx.length) return null;
+        const c = card(
+          block.title || "Otros textos de la sección",
+          "Etiquetas, botones y subtítulos fijos de esta sección, en inglés y en español."
+        );
+        idx.forEach((i) => {
+          const p = PAIRS[i];
+          const row = document.createElement("div");
+          row.className = "pair";
+          const ctx = document.createElement("span");
+          ctx.className = "ctx";
+          ctx.textContent = p.ctx;
+          row.appendChild(ctx);
+          [
+            ["en", p.en],
+            ["es", p.es],
+          ].forEach(([lang, el]) => {
+            const cell = document.createElement("div");
+            cell.className = "lang";
+            cell.dataset.l = lang.toUpperCase();
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = clean(el);
+            input.dataset.pair = i;
+            input.dataset.lang = lang;
+            bindInput(input);
+            cell.appendChild(input);
+            row.appendChild(cell);
+          });
+          c.appendChild(row);
         });
-      });
+        return c;
+      }
 
-      // --- Draft persistence ---
-      function saveDraft(silent) {
+      function knownKeys() {
+        const keys = new Set();
+        SECTIONS.forEach((s) =>
+          s.blocks.forEach((b) =>
+            (b.fields || []).forEach((f) => {
+              keys.add(f.key);
+              if (f.bi) keys.add(f.key + "-es");
+            })
+          )
+        );
+        return keys;
+      }
+
+      function renderExtras() {
+        const known = knownKeys();
+        const extras = [...new Set($$("[data-edit]", parsedDoc).map((e) => e.getAttribute("data-edit")))].filter(
+          (k) => !known.has(k)
+        );
+        if (!extras.length) return null;
+        const c = card("Otros campos detectados", "Campos marcados con data-edit que el panel no tiene clasificados.");
+        extras.forEach((k) => c.appendChild(renderSimpleField({ key: k, label: k, type: "textarea" })));
+        return c;
+      }
+
+      function buildTabs() {
+        const nav = $("#tabNav");
+        $$(".tab-btn", nav).forEach((b) => b.remove());
+        SECTIONS.forEach((s) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "tab-btn" + (s.id === currentTab ? " active" : "");
+          b.dataset.tab = s.id;
+          b.innerHTML = `<span class="ico">${s.ico}</span><span>${esc(s.label)}</span>`;
+          b.addEventListener("click", () => showTab(s.id, true));
+          nav.appendChild(b);
+        });
+      }
+
+      function buildForm() {
+        panelsEl.innerHTML = "";
+        detectPairs();
+        SECTIONS.forEach((s) => {
+          const panel = document.createElement("div");
+          panel.className = "tab-panel";
+          panel.dataset.panel = s.id;
+          panel.hidden = s.id !== currentTab;
+          const head = document.createElement("div");
+          head.className = "section-head";
+          head.innerHTML =
+            `<p class="kicker">${s.anchor ? "#" + esc(s.anchor) : "// todo el sitio"}</p><h2>${esc(s.label)}</h2>` +
+            (s.intro ? `<p>${esc(s.intro)}</p>` : "");
+          panel.appendChild(head);
+          s.blocks.forEach((b) => {
+            let node = null;
+            if (b.fields) {
+              const c = card(b.title, b.hint);
+              b.fields.forEach((f) => {
+                const el = renderSimpleField(f);
+                if (el) c.appendChild(el);
+              });
+              if ($(".field", c)) node = c;
+            } else if (b.list) {
+              node = renderListBlock(b.list);
+            } else if (b.auto) {
+              node = renderAutoBlock(b);
+            } else if (b.extras) {
+              node = renderExtras();
+            }
+            if (node) panel.appendChild(node);
+          });
+          panelsEl.appendChild(panel);
+        });
+        ORIGINAL = { fields: {}, lists: {} };
+        $$(".fld").forEach((inp) => (ORIGINAL.fields[inp.dataset.key] = inp.value));
+        Object.keys(LISTS).forEach((name) => {
+          const container = $(LISTS[name].container, parsedDoc);
+          if (!container) return;
+          fillList(name, $$(LISTS[name].item, container).map(LISTS[name].parse));
+          ORIGINAL.lists[name] = JSON.stringify(collectList(name));
+        });
+      }
+
+      function showTab(id, scrollPreview) {
+        currentTab = id;
+        $$(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === id));
+        $$(".tab-panel").forEach((p) => (p.hidden = p.dataset.panel !== id));
+        // Las áreas de texto de pestañas ocultas no se pueden medir hasta que se muestran.
+        $$(`[data-panel="${id}"] textarea`).forEach(autoGrow);
+        $(".adm-editor").scrollTop = 0;
+        if (scrollPreview) scrollPreviewTo(id);
+      }
+
+      /* ==================================================================
+         Aplicar cambios al documento
+         ================================================================== */
+      function writeList(name) {
+        const spec = LISTS[name];
+        const container = $(spec.container, parsedDoc);
+        const items = collectList(name);
+        if (!container || !items) return;
+        const json = JSON.stringify(items);
+        if (json === ORIGINAL.lists[name]) return;
+        ORIGINAL.lists[name] = json; // ya reescrita: la próxima vez solo si vuelve a cambiar
+        // Conserva la sangría del HTML original para que el diff sea legible.
+        const first = container.firstChild;
+        const indent = first && first.nodeType === 3 && /\n/.test(first.nodeValue) ? first.nodeValue.replace(/[^\n ]/g, "") : "";
+        const closing = indent ? indent.replace(/ {2}$/, "") : "";
+        container.innerHTML = items.map((o, i) => indent + spec.render(o, i)).join("") + closing;
+      }
+
+      function applyAll() {
+        if (!parsedDoc) return false;
+        const values = {};
+        $$(".fld").forEach((inp) => (values[inp.dataset.key] = inp.value));
+        Object.entries(values).forEach(([k, v]) => {
+          if (v === ORIGINAL.fields[k]) return;
+          ORIGINAL.fields[k] = v;
+          fieldEls(k).forEach((el) => writeValue(el, v));
+        });
+        Object.keys(LISTS).forEach(writeList);
+        $$("input[data-pair]").forEach((inp) => {
+          const el = PAIRS[+inp.dataset.pair] && PAIRS[+inp.dataset.pair][inp.dataset.lang];
+          if (el && el.textContent !== inp.value) el.textContent = inp.value;
+        });
+        return true;
+      }
+
+      function serializeDoc() {
+        // El salto de línea final del archivo acaba dentro de <body> al volver a
+        // leerlo; se normaliza para que cargar y guardar no agregue líneas vacías.
+        const html = parsedDoc.documentElement.outerHTML.replace(/\s*<\/body>/, "\n  </body>");
+        return "<!DOCTYPE html>\n" + html + "\n";
+      }
+
+      /* ==================================================================
+         Vista previa en vivo
+         ================================================================== */
+      function updatePreview() {
         if (!parsedDoc) return;
-        const values = collectFormValues();
-        const education = collectListRows(educationListEl, TIMELINE_FIELDS);
-        const experience = collectListRows(experienceListEl, TIMELINE_FIELDS);
-        const services = collectListRows(servicesListEl, SERVICES_FIELDS);
-        const portfolio = collectListRows(portfolioListEl, PORTFOLIO_FIELDS);
-        const testimonial = collectListRows(testimonialListEl, TESTIMONIAL_FIELDS);
-        const blog = collectListRows(blogListEl, BLOG_FIELDS);
-        const menuNav = collectListRows(menuNavListEl, MENU_NAV_FIELDS, MENU_NAV_META);
-        localStorage.setItem(
-          DRAFT_KEY,
-          JSON.stringify({
-            values,
-            education,
-            experience,
-            services,
-            portfolio,
-            testimonial,
-            blog,
-            menuNav,
-            savedAt: Date.now(),
+        const clone = parsedDoc.documentElement.cloneNode(true);
+        // La vista previa no debe contar visitas en Google Analytics.
+        const ga = clone.querySelector('meta[name="ga-measurement-id"]');
+        if (ga) ga.setAttribute("content", "G-XXXXXXXXXX");
+        let scroll = 0;
+        try {
+          scroll = preview.contentWindow.scrollY || 0;
+        } catch (e) {}
+        preview.onload = () => {
+          applyPreviewPrefs();
+          try {
+            preview.contentWindow.scrollTo(0, scroll);
+          } catch (e) {}
+        };
+        preview.srcdoc = "<!DOCTYPE html>\n" + clone.outerHTML;
+      }
+
+      function applyPreviewPrefs() {
+        try {
+          const root = preview.contentDocument.documentElement;
+          root.setAttribute("data-ui-lang", previewLang);
+          root.setAttribute("lang", previewLang);
+          root.setAttribute("data-theme", previewTheme);
+          preview.contentDocument
+            .querySelectorAll("[data-set-lang]")
+            .forEach((btn) => btn.setAttribute("aria-pressed", String(btn.dataset.setLang === previewLang)));
+        } catch (e) {}
+      }
+
+      function scrollPreviewTo(id) {
+        const s = SECTIONS.find((x) => x.id === id);
+        try {
+          const doc = preview.contentDocument;
+          if (!s || !s.anchor) return preview.contentWindow.scrollTo({ top: 0, behavior: "smooth" });
+          const el = doc.getElementById(s.anchor);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (e) {}
+      }
+
+      function bindSeg(id, set) {
+        $$("#" + id + " button").forEach((b) =>
+          b.addEventListener("click", () => {
+            $$("#" + id + " button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+            set(b.dataset.v);
+            applyPreviewPrefs();
           })
         );
-        if (!silent) {
-          setStatus("Borrador guardado automáticamente en este navegador.", "ok");
-        }
+      }
+      bindSeg("segLang", (v) => (previewLang = v));
+      bindSeg("segTheme", (v) => (previewTheme = v));
+
+      /* ==================================================================
+         Borrador local
+         ================================================================== */
+      function saveDraft() {
+        if (!parsedDoc) return;
+        const fields = {};
+        $$(".fld").forEach((inp) => (fields[inp.dataset.key] = inp.value));
+        const lists = {};
+        Object.keys(LISTS).forEach((n) => {
+          const items = collectList(n);
+          if (items) lists[n] = items;
+        });
+        const pairs = PAIRS.map(() => ["", ""]);
+        $$("input[data-pair]").forEach((inp) => (pairs[+inp.dataset.pair][inp.dataset.lang === "en" ? 0 : 1] = inp.value));
+        try {
+          localStorage.setItem(DRAFT_KEY, JSON.stringify({ fields, lists, pairs, savedAt: Date.now() }));
+        } catch (e) {}
       }
 
-      function loadDraftIntoForm() {
-        const raw = localStorage.getItem(DRAFT_KEY);
-        if (!raw) {
-          setStatus("No hay ningún borrador guardado todavía.", "warn");
-          return;
-        }
-        if (!parsedDoc) {
-          setStatus(
-            "Primero carga el contenido actual, luego recupera el borrador.",
-            "warn"
-          );
-          return;
-        }
-        const {
-          values,
-          education,
-          experience,
-          services,
-          portfolio,
-          testimonial,
-          blog,
-          menuNav,
-          savedAt,
-        } = JSON.parse(raw);
-        Object.entries(values || {}).forEach(([key, val]) => {
-          const inp = form.querySelector(`[data-key="${CSS.escape(key)}"]`);
-          if (inp) inp.value = val;
+      function restoreDraft() {
+        let raw = null;
+        try {
+          raw = localStorage.getItem(DRAFT_KEY);
+        } catch (e) {}
+        if (!raw) return setStatus("No hay ningún borrador guardado en este navegador.", "warn");
+        if (!parsedDoc) return setStatus("Primero carga el contenido; luego recupera el borrador.", "warn");
+        const d = JSON.parse(raw);
+        Object.entries(d.fields || {}).forEach(([k, v]) =>
+          $$(`.fld[data-key="${CSS.escape(k)}"]`).forEach((inp) => (inp.value = v))
+        );
+        Object.entries(d.lists || {}).forEach(([n, items]) => LISTS[n] && fillList(n, items));
+        (d.pairs || []).forEach(([en, es], i) => {
+          const a = $(`input[data-pair="${i}"][data-lang="en"]`);
+          const b = $(`input[data-pair="${i}"][data-lang="es"]`);
+          if (a && en) a.value = en;
+          if (b && es) b.value = es;
         });
-        if (education) buildListForm(educationListEl, TIMELINE_FIELDS, education);
-        if (experience) buildListForm(experienceListEl, TIMELINE_FIELDS, experience);
-        if (services) buildListForm(servicesListEl, SERVICES_FIELDS, services);
-        if (portfolio) buildListForm(portfolioListEl, PORTFOLIO_FIELDS, portfolio);
-        if (testimonial) buildListForm(testimonialListEl, TESTIMONIAL_FIELDS, testimonial);
-        if (blog) buildListForm(blogListEl, BLOG_FIELDS, blog);
-        if (menuNav)
-          buildListForm(menuNavListEl, MENU_NAV_FIELDS, menuNav, {
-            metaKeys: MENU_NAV_META,
-            allowRemove: false,
-          });
+        $$("textarea").forEach(autoGrow);
+        applyAll();
+        updatePreview();
+        setDirty(true);
+        setStatus("Borrador recuperado (guardado el " + new Date(d.savedAt).toLocaleString() + ").", "ok");
+      }
+
+      /* ==================================================================
+         Carga del contenido
+         ================================================================== */
+      function loadHtml(text, source) {
+        parsedDoc = new DOMParser().parseFromString(text, "text/html");
+        buildForm();
+        $("#btnApply").disabled = false;
+        $("#btnDownload").disabled = false;
+        $("#setupCard").open = false;
+        $("#setupState").textContent = "· " + source;
+        setDirty(false);
+        updatePreview();
+        let hasDraft = false;
+        try {
+          hasDraft = !!localStorage.getItem(DRAFT_KEY);
+        } catch (e) {}
+        $("#btnDraft").hidden = !hasDraft;
         setStatus(
-          "Borrador cargado (guardado " + new Date(savedAt).toLocaleString() + ").",
+          "Contenido cargado desde " +
+            source +
+            "." +
+            (hasDraft ? ' Tienes un borrador guardado: usa "Recuperar borrador" (arriba) si quieres continuarlo.' : ""),
           "ok"
         );
-      }
-
-      function parseHtml(htmlText) {
-        const doc = new DOMParser().parseFromString(htmlText, "text/html");
-        parsedDoc = doc;
-        buildForm();
-        buildListForm(educationListEl, TIMELINE_FIELDS, parseTimelineFromDoc("education"));
-        buildListForm(experienceListEl, TIMELINE_FIELDS, parseTimelineFromDoc("experience"));
-        buildListForm(servicesListEl, SERVICES_FIELDS, parseServicesFromDoc());
-        buildListForm(portfolioListEl, PORTFOLIO_FIELDS, parsePortfolioFromDoc());
-        buildListForm(testimonialListEl, TESTIMONIAL_FIELDS, parseTestimonialFromDoc());
-        buildListForm(blogListEl, BLOG_FIELDS, parseBlogFromDoc());
-        buildListForm(menuNavListEl, MENU_NAV_FIELDS, parseMenuNavFromDoc(), {
-          metaKeys: MENU_NAV_META,
-          allowRemove: false,
-        });
-        updatePreview();
       }
 
       async function loadFromServer() {
@@ -1717,265 +2185,179 @@
         try {
           const res = await fetch("index.html", { cache: "no-store" });
           if (!res.ok) throw new Error("HTTP " + res.status);
-          const text = await res.text();
-          parseHtml(text);
-          setStatus("Contenido actual cargado correctamente.", "ok");
+          loadHtml(await res.text(), "el sitio publicado");
         } catch (err) {
           setStatus(
-            "No se pudo cargar index.html automáticamente (" +
-              err.message +
-              '). Usa "Cargar desde archivo…" en su lugar.',
+            "No se pudo cargar index.html (" + err.message + '). Usa "Cargar desde archivo…".',
             "err"
           );
         }
       }
 
-      function applyValuesToDoc() {
-        if (!parsedDoc) return false;
-        const values = collectFormValues();
-        Object.entries(values).forEach(([key, val]) => {
-          getFieldEls(key).forEach((el) => writeValue(el, val));
-        });
-        writeTimelineToDoc("education", educationListEl);
-        writeTimelineToDoc("experience", experienceListEl);
-        writeServicesToDoc();
-        writePortfolioToDoc();
-        writeTestimonialToDoc();
-        writeBlogToDoc();
-        writeMenuNavToDoc();
-        return true;
-      }
+      $("#btnLoad").addEventListener("click", () => {
+        if (dirty && !confirm("Tienes cambios sin publicar. ¿Recargar y descartarlos?")) return;
+        loadFromServer();
+      });
+      $("#btnPickFile").addEventListener("click", () => $("#fileFallback").click());
+      $("#fileFallback").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => loadHtml(reader.result, "el archivo " + file.name);
+        reader.readAsText(file);
+        e.target.value = "";
+      });
+      $("#btnDraft").addEventListener("click", restoreDraft);
 
-      function serializeDoc() {
-        return "<!DOCTYPE html>\n" + parsedDoc.documentElement.outerHTML;
-      }
-
-      function updatePreview() {
-        if (!parsedDoc) return;
-        preview.srcdoc = serializeDoc();
-      }
-
-      // --- GitHub settings persistence (token stays local to this browser) ---
-      const ghTokenInput = document.getElementById("ghToken");
-      const ghOwnerInput = document.getElementById("ghOwner");
-      const ghRepoInput = document.getElementById("ghRepo");
-      const ghBaseInput = document.getElementById("ghBase");
-
-      function loadGhSettings() {
-        try {
-          const raw = localStorage.getItem(GH_SETTINGS_KEY);
-          if (!raw) return;
-          const { token, owner, repo, base } = JSON.parse(raw);
-          if (token) ghTokenInput.value = token;
-          if (owner) ghOwnerInput.value = owner;
-          if (repo) ghRepoInput.value = repo;
-          if (base) ghBaseInput.value = base;
-        } catch (e) {
-          /* ignore malformed local settings */
-        }
-      }
-
-      function saveGhSettings() {
-        localStorage.setItem(
-          GH_SETTINGS_KEY,
-          JSON.stringify({
-            token: ghTokenInput.value.trim(),
-            owner: ghOwnerInput.value.trim(),
-            repo: ghRepoInput.value.trim(),
-            base: ghBaseInput.value.trim(),
-          })
-        );
-      }
-
-      [ghTokenInput, ghOwnerInput, ghRepoInput, ghBaseInput].forEach((inp) =>
-        inp.addEventListener("change", saveGhSettings)
+      /* ==================================================================
+         GitHub: rama + commit + Pull Request
+         ================================================================== */
+      const gh = {
+        token: $("#ghToken"),
+        owner: $("#ghOwner"),
+        repo: $("#ghRepo"),
+        base: $("#ghBase"),
+      };
+      try {
+        const s = JSON.parse(localStorage.getItem(GH_SETTINGS_KEY) || "{}");
+        // Los valores antiguos apuntaban a otra cuenta; se usan los actuales si no coinciden.
+        if (s.token) gh.token.value = s.token;
+        if (s.owner && s.owner !== "cangreja533") gh.owner.value = s.owner;
+        if (s.repo && s.repo !== "cangreja533.github.io") gh.repo.value = s.repo;
+        if (s.base) gh.base.value = s.base;
+      } catch (e) {}
+      Object.values(gh).forEach((inp) =>
+        inp.addEventListener("change", () => {
+          try {
+            localStorage.setItem(
+              GH_SETTINGS_KEY,
+              JSON.stringify({
+                token: gh.token.value.trim(),
+                owner: gh.owner.value.trim(),
+                repo: gh.repo.value.trim(),
+                base: gh.base.value.trim(),
+              })
+            );
+          } catch (e) {}
+        })
       );
-
-      document.getElementById("btnToggleToken").addEventListener("click", (e) => {
-        const showing = ghTokenInput.type === "text";
-        ghTokenInput.type = showing ? "password" : "text";
+      $("#btnToggleToken").addEventListener("click", (e) => {
+        const showing = gh.token.type === "text";
+        gh.token.type = showing ? "password" : "text";
         e.target.textContent = showing ? "Mostrar" : "Ocultar";
       });
 
-      loadGhSettings();
-
-      // --- GitHub API: create branch + commit + Pull Request ---
-      function b64EncodeUnicode(str) {
-        return btoa(unescape(encodeURIComponent(str)));
+      function b64(str) {
+        const bytes = new TextEncoder().encode(str);
+        let bin = "";
+        bytes.forEach((b) => (bin += String.fromCharCode(b)));
+        return btoa(bin);
       }
 
       async function ghRequest(path, opts) {
         opts = opts || {};
-        const token = ghTokenInput.value.trim();
-        if (!token) {
-          throw new Error("Falta el token de acceso de GitHub (sección 0 arriba).");
-        }
+        const token = gh.token.value.trim();
+        if (!token) throw new Error("Falta el token de GitHub (en Conexión y carga).");
         const res = await fetch("https://api.github.com/" + path, {
           ...opts,
           headers: {
             Authorization: "Bearer " + token,
             Accept: "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
-            ...(opts.headers || {}),
+            ...(opts.body ? { "Content-Type": "application/json" } : {}),
           },
         });
         if (!res.ok) {
           let detail = "";
           try {
-            const body = await res.json();
-            detail = body && body.message ? body.message : "";
-          } catch (e) {
-            /* response wasn't JSON */
-          }
-          throw new Error(
-            "GitHub API " +
-              res.status +
-              " en " +
-              path.split("?")[0] +
-              (detail ? ": " + detail : "")
-          );
+            detail = (await res.json()).message || "";
+          } catch (e) {}
+          throw new Error("GitHub " + res.status + " en " + path.split("?")[0] + (detail ? ": " + detail : ""));
         }
         return res.status === 204 ? null : res.json();
       }
 
-      async function createContentPullRequest() {
-        const owner = ghOwnerInput.value.trim();
-        const repo = ghRepoInput.value.trim();
-        const base = ghBaseInput.value.trim() || "main";
-        if (!owner || !repo) {
-          throw new Error("Falta el owner/repositorio de GitHub (sección 0).");
-        }
-
-        const html = serializeDoc();
-        const branch = "content-update-" + Date.now();
-
-        setStatus("Obteniendo la rama base (" + base + ")…", "warn");
-        const baseRef = await ghRequest(
-          "repos/" + owner + "/" + repo + "/git/ref/heads/" + base
-        );
-
+      async function createPullRequest() {
+        const owner = gh.owner.value.trim();
+        const repo = gh.repo.value.trim();
+        const base = gh.base.value.trim() || "main";
+        if (!owner || !repo) throw new Error("Falta el owner o el repositorio (en Conexión y carga).");
+        const r = "repos/" + owner + "/" + repo;
+        const branch = "content-update-" + new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
+        setStatus("Leyendo la rama " + base + "…", "warn");
+        const baseRef = await ghRequest(r + "/git/ref/heads/" + encodeURIComponent(base));
         setStatus("Creando la rama " + branch + "…", "warn");
-        await ghRequest("repos/" + owner + "/" + repo + "/git/refs", {
+        await ghRequest(r + "/git/refs", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ref: "refs/heads/" + branch,
-            sha: baseRef.object.sha,
-          }),
+          body: JSON.stringify({ ref: "refs/heads/" + branch, sha: baseRef.object.sha }),
         });
-
-        setStatus("Leyendo la versión actual de index.html…", "warn");
-        const currentFile = await ghRequest(
-          "repos/" +
-            owner +
-            "/" +
-            repo +
-            "/contents/index.html?ref=" +
-            encodeURIComponent(branch)
-        );
-
-        setStatus("Subiendo el contenido actualizado…", "warn");
-        await ghRequest("repos/" + owner + "/" + repo + "/contents/index.html", {
+        const current = await ghRequest(r + "/contents/index.html?ref=" + encodeURIComponent(branch));
+        setStatus("Subiendo index.html…", "warn");
+        await ghRequest(r + "/contents/index.html", {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             message: "Actualizar contenido del sitio desde el panel de edición",
-            content: b64EncodeUnicode(html),
-            sha: currentFile.sha,
-            branch: branch,
+            content: b64(serializeDoc()),
+            sha: current.sha,
+            branch,
           }),
         });
-
         setStatus("Creando el Pull Request…", "warn");
-        const pr = await ghRequest("repos/" + owner + "/" + repo + "/pulls", {
+        return ghRequest(r + "/pulls", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title: "Actualización de contenido del sitio",
             head: branch,
-            base: base,
+            base,
             body: "Cambios de contenido generados desde el panel admin.html.",
           }),
         });
-
-        return pr;
       }
 
-      // --- Confirmation modal ---
-      const confirmModal = document.getElementById("confirmModal");
-
-      function showConfirmModal() {
-        confirmModal.classList.add("show");
-      }
-
-      function hideConfirmModal() {
-        confirmModal.classList.remove("show");
-      }
-
-      document.getElementById("btnModalCancel").addEventListener("click", hideConfirmModal);
-
-      document.getElementById("btnModalConfirm").addEventListener("click", async () => {
-        hideConfirmModal();
-        const applyBtn = document.getElementById("btnApply");
-        applyBtn.disabled = true;
+      const modal = $("#confirmModal");
+      $("#btnApply").addEventListener("click", () => {
+        if (!applyAll()) return setStatus("Primero carga el contenido.", "err");
+        updatePreview();
+        saveDraft();
+        modal.classList.add("show");
+        $("#btnModalConfirm").focus();
+      });
+      $("#btnModalCancel").addEventListener("click", () => modal.classList.remove("show"));
+      modal.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") modal.classList.remove("show");
+      });
+      $("#btnModalConfirm").addEventListener("click", async () => {
+        modal.classList.remove("show");
+        const btn = $("#btnApply");
+        btn.disabled = true;
         try {
-          const pr = await createContentPullRequest();
+          const pr = await createPullRequest();
+          statusEl.className = "show ok";
           statusEl.innerHTML =
             'Pull Request creado: <a href="' +
-            pr.html_url +
+            escAttr(pr.html_url) +
             '" target="_blank" rel="noopener">' +
-            pr.html_url +
-            "</a>";
-          statusEl.className = "show ok";
+            esc(pr.html_url) +
+            "</a>. El sitio se actualiza cuando lo fusiones.";
+          setDirty(false);
+          // El borrador ya quedó en el Pull Request; se descarta para no confundirlo con trabajo pendiente.
+          try {
+            localStorage.removeItem(DRAFT_KEY);
+          } catch (e) {}
+          $("#btnDraft").hidden = true;
         } catch (err) {
           let msg = "No se pudo crear el Pull Request: " + err.message;
-          if (/403/.test(err.message)) {
-            msg +=
-              ' — revisa que tu token tenga permisos "Contents: Read and write" y "Pull requests: Read and write" para este repositorio (github.com/settings/tokens).';
-          }
+          if (/40[13]/.test(err.message))
+            msg += ' — revisa que el token sea válido y tenga "Contents" y "Pull requests" en Read and write.';
           setStatus(msg, "err");
         } finally {
-          applyBtn.disabled = false;
+          btn.disabled = false;
         }
       });
 
-      document.getElementById("btnLoad").addEventListener("click", loadFromServer);
-
-      document.getElementById("btnPickFile").addEventListener("click", () => {
-        document.getElementById("fileFallback").click();
-      });
-
-      document.getElementById("fileFallback").addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          parseHtml(reader.result);
-          setStatus("Contenido cargado desde el archivo " + file.name + ".", "ok");
-        };
-        reader.readAsText(file);
-      });
-
-      document.getElementById("btnDraft").addEventListener("click", loadDraftIntoForm);
-
-      document.getElementById("btnApply").addEventListener("click", () => {
-        if (!applyValuesToDoc()) {
-          setStatus("Primero carga el contenido actual.", "err");
-          return;
-        }
-        updatePreview();
-        saveDraft(true);
-        showConfirmModal();
-      });
-
-      document.getElementById("btnDownload").addEventListener("click", () => {
-        if (!applyValuesToDoc()) {
-          setStatus("Primero carga el contenido actual.", "err");
-          return;
-        }
-        const html = serializeDoc();
-        const blob = new Blob([html], { type: "text/html" });
-        const url = URL.createObjectURL(blob);
+      $("#btnDownload").addEventListener("click", () => {
+        if (!applyAll()) return setStatus("Primero carga el contenido.", "err");
+        const url = URL.createObjectURL(new Blob([serializeDoc()], { type: "text/html" }));
         const a = document.createElement("a");
         a.href = url;
         a.download = "index.html";
@@ -1983,18 +2365,20 @@
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
-        setStatus(
-          "index.html descargado. Reemplaza el archivo en el repositorio y publica los cambios.",
-          "ok"
-        );
+        setStatus("index.html descargado. Reemplaza el archivo del repositorio para publicarlo.", "ok");
       });
 
-      // Try loading automatically on open (works when served over http/https).
-      // Over file:// the browser blocks this fetch by CORS policy, so skip
-      // straight to asking for the file instead of showing a confusing error.
+      window.addEventListener("beforeunload", (e) => {
+        if (dirty) e.preventDefault();
+      });
+
+      /* ==================================================================
+         Inicio
+         ================================================================== */
+      buildTabs();
       if (location.protocol === "file:") {
         setStatus(
-          'Abriste este panel directamente desde tu computador. Usa el botón "Cargar desde archivo…" y selecciona tu index.html para empezar.',
+          'Abriste el panel desde tu computador: usa "Cargar desde archivo…" y elige tu index.html.',
           "warn"
         );
       } else {
