@@ -1,3 +1,6 @@
 
 # Graphify build artifacts
 graphify-out/
+
+# macOS metadata
+.DS_Store

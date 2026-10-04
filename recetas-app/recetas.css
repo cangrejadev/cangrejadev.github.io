@@ -107,13 +107,6 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--f-head); color: var(--text-strong); 
   width: auto;
   max-width: 64px;
 }
-.rb-brand-txt {
-  font-family: var(--f-head);
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-  color: var(--text-strong);
-}
 .rb-brand-sep {
   color: var(--faint);
   font-family: var(--f-mono);
@@ -269,8 +262,7 @@ input:focus, select:focus, textarea:focus {
 #recipe-grid > a:hover h3 { color: var(--brand) !important; }
 
 /* Pills/tags inside cards */
-#recipe-grid > a .text-\[10px\],
-.rb-pill {
+#recipe-grid > a .text-\[10px\] {
   font-family: var(--f-mono) !important;
   font-size: 10.5px !important;
   font-weight: 700 !important;
@@ -443,6 +435,6 @@ footer p { font-family: var(--f-mono); color: var(--muted); font-size: 13px; }
 @media (max-width: 640px) {
   .rb-top { height: 60px; padding: 0 14px; gap: 10px; }
   .rb-brand img { height: 36px; }
-  .rb-brand-txt, .rb-brand-cur { font-size: 0.95rem; }
+  .rb-brand-cur { font-size: 0.95rem; }
   .rb-brand-sep, .rb-brand-cur { display: none; }
 }

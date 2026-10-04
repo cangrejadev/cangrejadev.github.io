@@ -439,7 +439,6 @@ p {
 .tag-yellow { background: var(--plum-soft); color: var(--plum-ink); }
 .tag-blue { background: var(--teal-soft); color: var(--teal-ink); }
 .tag-green { background: var(--green-soft); color: var(--green-ink); }
-.tag-gray { background: var(--surface-2); color: var(--muted); }
 
 /* ---------- Hero ---------- */
 .hero-grid {
@@ -516,9 +515,6 @@ p {
     color: var(--text-strong);
   }
 }
-.hl-dot {
-  color: var(--brand);
-}
 .hero-script {
   margin: 10px 0 0;
   font-family: var(--f-hand);
@@ -570,10 +566,6 @@ p {
 }
 :root[data-theme="dark"] .term-line{
   color: var(--text-strong);
-}
-.term-prompt {
-  color: var(--green);
-  margin-right: 4px;
 }
 .stats dl {
   display: grid;
