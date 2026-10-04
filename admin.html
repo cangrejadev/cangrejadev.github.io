@@ -591,7 +591,26 @@
       #fileFallback {
         display: none;
       }
-      #tokenSource {
+      .token-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .token-state {
+        flex: 1;
+        min-width: 240px;
+        margin: 0;
+        font-size: 13.5px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1.5px solid var(--line);
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .token-state.ok {
+        background: var(--green-soft);
         color: var(--green-ink);
       }
       .tab-panel[hidden] {
@@ -672,12 +691,10 @@
             <button type="button" class="btn btn-sm" id="btnPickFile">Cargar desde archivo…</button>
             <input type="file" id="fileFallback" accept=".html,text/html" />
           </div>
-          <div class="field" style="margin-top: 18px">
-            <label for="ghToken">Token de acceso personal de GitHub <span id="tokenSource"></span></label>
-            <div class="with-btn">
-              <input type="password" id="ghToken" autocomplete="off" spellcheck="false" />
-              <button type="button" class="btn btn-sm" id="btnToggleToken">Mostrar</button>
-            </div>
+          <div class="token-row">
+            <p class="token-state" id="tokenState">Token de GitHub: buscando .env…</p>
+            <button type="button" class="btn btn-sm" id="btnPickEnv">Elegir archivo .env…</button>
+            <input type="file" id="envFile" hidden />
           </div>
           <div class="grid-2">
             <div class="field">
@@ -694,17 +711,14 @@
             <input type="text" id="ghBase" value="main" spellcheck="false" />
           </div>
           <p class="hint" style="margin: 10px 0 0">
-            Crea un token <em>fine-grained</em> en
-            <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>
-            con acceso solo a este repositorio y permisos "Contents: Read and write" y "Pull requests: Read and
-            write". Se guarda únicamente en este navegador y solo se envía a api.github.com; no lo uses en un equipo
-            compartido.
-          </p>
-          <p class="hint" style="margin: 8px 0 0">
-            <strong>En tu computador:</strong> copia <code>.env.example</code> como <code>.env</code>, pon ahí tu token
-            y sirve la carpeta con <code>python3 -m http.server</code>. Al abrir
-            <code>http://localhost:8000/admin.html</code> el panel lo carga solo. <code>.env</code> está en
-            <code>.gitignore</code> y en el sitio publicado no se busca.
+            El token se lee del archivo <code>.env</code> de tu computador: copia <code>.env.example</code> como
+            <code>.env</code>, pon tu token en <code>GITHUB_TOKEN</code>, sirve la carpeta con
+            <code>python3 -m http.server</code> y abre <code>http://localhost:8000/admin.html</code>. Crea el token
+            <em>fine-grained</em> en
+            <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub</a>
+            con acceso solo a este repositorio y permisos "Contents" y "Pull requests" en Read and write.
+            Si tu servidor no entrega el <code>.env</code>, usa “Elegir archivo .env…”: se lee en este navegador y no
+            se guarda. <code>.env</code> está en <code>.gitignore</code>; sin él puedes usar "Descargar index.html".
           </p>
         </details>
 
@@ -2224,29 +2238,30 @@
          GitHub: rama + commit + Pull Request
          ================================================================== */
       const gh = {
-        token: $("#ghToken"),
         owner: $("#ghOwner"),
         repo: $("#ghRepo"),
         base: $("#ghBase"),
       };
       try {
         const s = JSON.parse(localStorage.getItem(GH_SETTINGS_KEY) || "{}");
+        // Versiones anteriores guardaban el token en el navegador: se elimina.
+        if (s.token) {
+          delete s.token;
+          localStorage.setItem(GH_SETTINGS_KEY, JSON.stringify(s));
+        }
         // Los valores antiguos apuntaban a otra cuenta; se usan los actuales si no coinciden.
-        if (s.token) gh.token.value = s.token;
         if (s.owner && s.owner !== "cangreja533") gh.owner.value = s.owner;
         if (s.repo && s.repo !== "cangreja533.github.io") gh.repo.value = s.repo;
         if (s.base) gh.base.value = s.base;
       } catch (e) {}
-      // Token leído del archivo .env local: se usa, pero nunca se copia a localStorage.
+      // El token solo viene del archivo .env local y nunca se guarda en el navegador.
       let envToken = "";
       Object.values(gh).forEach((inp) =>
         inp.addEventListener("change", () => {
-          const token = gh.token.value.trim();
           try {
             localStorage.setItem(
               GH_SETTINGS_KEY,
               JSON.stringify({
-                token: token === envToken ? "" : token,
                 owner: gh.owner.value.trim(),
                 repo: gh.repo.value.trim(),
                 base: gh.base.value.trim(),
@@ -2276,33 +2291,69 @@
         return vars;
       }
 
-      async function loadEnv() {
-        if (!isLocalHost()) return;
-        let text;
-        try {
-          const res = await fetch(".env", { cache: "no-store" });
-          if (!res.ok) return;
-          text = await res.text();
-        } catch (e) {
-          return;
+      function setTokenState(msg, ok) {
+        const el = $("#tokenState");
+        el.textContent = msg;
+        el.classList.toggle("ok", !!ok);
+      }
+
+      // Aplica las variables de un .env (leído del servidor local o elegido a mano).
+      function applyEnv(text, origin) {
+        if (/^\s*</.test(text)) {
+          return setTokenState(
+            "Token de GitHub: el servidor devolvió una página web en lugar del .env. Usa “Elegir archivo .env…”.",
+            false
+          );
         }
-        // Si el servidor devuelve una página HTML (p. ej. un 404 personalizado), no es un .env.
-        if (/^\s*</.test(text)) return;
         const env = parseEnv(text);
-        if (env.GITHUB_TOKEN) {
-          envToken = env.GITHUB_TOKEN;
-          gh.token.value = envToken;
-          $("#tokenSource").textContent = "· cargado desde .env";
-        }
+        const token = env.GITHUB_TOKEN || env.GH_TOKEN || env.GITHUB_PAT;
         if (env.GITHUB_OWNER) gh.owner.value = env.GITHUB_OWNER;
         if (env.GITHUB_REPO) gh.repo.value = env.GITHUB_REPO;
         if (env.GITHUB_BASE) gh.base.value = env.GITHUB_BASE;
+        if (!token) {
+          const keys = Object.keys(env);
+          return setTokenState(
+            "Token de GitHub: " + origin + " no tiene GITHUB_TOKEN" +
+              (keys.length ? " (variables encontradas: " + keys.join(", ") + ")." : " (el archivo está vacío o no tiene variables)."),
+            false
+          );
+        }
+        envToken = token;
+        setTokenState("Token de GitHub: cargado desde " + origin + " ✓", true);
       }
 
-      $("#btnToggleToken").addEventListener("click", (e) => {
-        const showing = gh.token.type === "text";
-        gh.token.type = showing ? "password" : "text";
-        e.target.textContent = showing ? "Mostrar" : "Ocultar";
+      async function loadEnv() {
+        if (!isLocalHost()) {
+          return setTokenState(
+            "Token de GitHub: aquí no se lee el .env automáticamente (solo en localhost). Usa “Elegir archivo .env…” o descarga index.html.",
+            false
+          );
+        }
+        let res;
+        try {
+          res = await fetch(".env", { cache: "no-store" });
+        } catch (e) {
+          return setTokenState("Token de GitHub: no se pudo pedir el .env al servidor. Usa “Elegir archivo .env…”.", false);
+        }
+        if (!res.ok) {
+          return setTokenState(
+            "Token de GitHub: el servidor no entrega el .env (HTTP " +
+              res.status +
+              "; algunos servidores ocultan los archivos que empiezan con punto). Usa “Elegir archivo .env…” o abre el panel con python3 -m http.server.",
+            false
+          );
+        }
+        applyEnv(await res.text(), "el .env");
+      }
+
+      $("#btnPickEnv").addEventListener("click", () => $("#envFile").click());
+      $("#envFile").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => applyEnv(String(reader.result), "el archivo " + file.name);
+        reader.readAsText(file);
+        e.target.value = "";
       });
 
       function b64(str) {
@@ -2314,8 +2365,8 @@
 
       async function ghRequest(path, opts) {
         opts = opts || {};
-        const token = gh.token.value.trim();
-        if (!token) throw new Error("Falta el token de GitHub (en Conexión y carga).");
+        const token = envToken;
+        if (!token) throw new Error('Falta el token: agrega GITHUB_TOKEN a tu archivo .env y abre el panel desde localhost.');
         const res = await fetch("https://api.github.com/" + path, {
           ...opts,
           headers: {
@@ -2406,7 +2457,7 @@
         } catch (err) {
           let msg = "No se pudo crear el Pull Request: " + err.message;
           if (/40[13]/.test(err.message))
-            msg += ' — revisa que el token sea válido y tenga "Contents" y "Pull requests" en Read and write.';
+            msg += ' — revisa que el GITHUB_TOKEN de tu .env sea válido y tenga "Contents" y "Pull requests" en Read and write.';
           setStatus(msg, "err");
         } finally {
           btn.disabled = false;
